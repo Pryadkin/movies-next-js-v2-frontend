@@ -1,0 +1,42 @@
+{
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.startupEditor": "none",
+
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  "emmet.triggerExpansionOnTab": false,
+  "emmet.showAbbreviationSuggestions": false,
+
+  "workbench.editor.enablePreview": false,
+
+  "workbench.tree.indent": 20,
+
+  "editor.tabSize": 2,
+
+  "[css]": {
+      "editor.tabSize": 2
+  },
+
+  "editor.insertSpaces": true,
+
+  "editor.snippetSuggestions": "top",
+
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+      "source.fixAll.all": true
+  },
+
+  "editor.formatOnPaste": false,
+
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 100,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}
