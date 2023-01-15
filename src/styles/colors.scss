@@ -1,0 +1,4 @@
+@use 'sass:color';
+
+$main-color: #18bcb2;
+$main-color-hover: color.scale($main-color, $lightness: 10%);
