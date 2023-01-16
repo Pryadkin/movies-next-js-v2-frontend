@@ -1,1 +1,1 @@
-export {getMovies} from './getMovies'
+export {requestMovies} from './requestMovies'

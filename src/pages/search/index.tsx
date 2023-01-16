@@ -1,21 +1,17 @@
-import {useEffect} from 'react'
+import {useDispatch} from 'react-redux'
 
-import {Card} from 'antd'
-import Search from 'antd/es/input/Search'
+import {Input} from 'antd'
 
-import {API} from '../api'
+const {Search} = Input
 
-import styles from './searchMovies.module.scss'
+import {getMovies} from '@/modules/reducers'
 
-const {Meta} = Card
+import styles from './Search.module.scss'
 
 const SearchMovies = () => {
-    console.log('Search')
-    // useEffect(() => {
-    //     API.getMovies('one', true, '1')
-    // }, [])
+    const dispatch = useDispatch()
     const handleMoviesSearch = (value: string) => {
-        API.getMovies(value, true, '1')
+        dispatch<any>(getMovies(value, true, '1'))
     }
     return (
         <div className={styles.searchWrapper}>
@@ -27,7 +23,7 @@ const SearchMovies = () => {
                 size="large"
                 onSearch={handleMoviesSearch}
             />
-            <div className={styles.cardWrapper}>
+            {/* <div className={styles.cardWrapper}>
                 <Card
                     hoverable
                     style={{width: 240}}
@@ -35,7 +31,7 @@ const SearchMovies = () => {
                 >
                     <Meta title="Europe Street beat" description="www.instagram.com" />
                 </Card>
-            </div>
+            </div> */}
         </div>
 
     )

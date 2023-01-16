@@ -1,7 +1,7 @@
 import {
-    getMovies
+    requestMovies
 } from './requests.ts'
 
 export const API = {
-    getMovies
+    requestMovies
 }

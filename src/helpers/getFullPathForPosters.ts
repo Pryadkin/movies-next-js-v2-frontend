@@ -1,6 +1,6 @@
-import {IFoundMoviesResults} from "@/pages/api/requests.ts/getMovies"
+import {ISearchMoviesResults} from "@/pages/api/apiTypes/requestMovies"
 
-function getFullPathForPosters(data: Array<IFoundMoviesResults> | IFoundMoviesResults, quality: string = 'w300') {
+function getFullPathForPosters(data: Array<ISearchMoviesResults> | ISearchMoviesResults, quality: string = 'w300') {
     if (Array.isArray(data)) {
         return data.map(item => {
             item.poster_path = getPoster(item.poster_path)

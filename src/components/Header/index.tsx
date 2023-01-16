@@ -4,7 +4,7 @@ import styles from './Header.module.scss'
 
 const navigation = [
     {id: 1, title: 'Profile', path: '/profile'},
-    {id: 2, title: 'Search', path: '/searchMovies'},
+    {id: 2, title: 'Search', path: '/search'},
 ]
 
 const Header = () => {
