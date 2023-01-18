@@ -1,15 +1,18 @@
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 import {Input} from 'antd'
 
-const {Search} = Input
-
+import {CardItems} from '@/components/CardItems'
 import {getMovies} from '@/modules/reducers'
+import {RootState} from '@/modules/store/rootReducer'
 
 import styles from './Search.module.scss'
 
+const {Search} = Input
+
 const SearchMovies = () => {
     const dispatch = useDispatch()
+    const movies = useSelector((state: RootState) => state.searchReducer.movies)
     const handleMoviesSearch = (value: string) => {
         dispatch<any>(getMovies(value, true, '1'))
     }
@@ -23,15 +26,7 @@ const SearchMovies = () => {
                 size="large"
                 onSearch={handleMoviesSearch}
             />
-            {/* <div className={styles.cardWrapper}>
-                <Card
-                    hoverable
-                    style={{width: 240}}
-                    cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                >
-                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                </Card>
-            </div> */}
+            <CardItems movies={movies} />
         </div>
 
     )
