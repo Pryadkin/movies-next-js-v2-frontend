@@ -1,20 +1,33 @@
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 
 import {Input} from 'antd'
+import {Pagination} from 'antd'
 
 import {CardItems} from '@/components/CardItems'
-import {getMovies} from '@/modules/reducers'
-import {RootState} from '@/modules/store/rootReducer'
+import {
+    getMovies,
+    setMovieName,
+} from '@/modules/reducers'
+import {RootState, useAppDispatch} from '@/modules/store/rootReducer'
 
 import styles from './Search.module.scss'
 
 const {Search} = Input
 
 const SearchMovies = () => {
-    const dispatch = useDispatch()
-    const movies = useSelector((state: RootState) => state.searchReducer.movies)
+    const dispatch = useAppDispatch()
+    const {
+        movies,
+        totalPages,
+        movieName,
+    } = useSelector((state: RootState) => state.searchReducer)
+
     const handleMoviesSearch = (value: string) => {
-        dispatch<any>(getMovies(value, true, '1'))
+        dispatch(setMovieName(value))
+        dispatch(getMovies(value, true, '1'))
+    }
+    const handlePaginationChange = (value: number) => {
+        dispatch(getMovies(movieName, true, String(value)))
     }
     return (
         <div className={styles.searchWrapper}>
@@ -26,6 +39,17 @@ const SearchMovies = () => {
                 size="large"
                 onSearch={handleMoviesSearch}
             />
+
+            {totalPages && (
+                <Pagination
+                    className={styles.pagination}
+                    defaultCurrent={6}
+                    total={totalPages}
+                    onChange={handlePaginationChange}
+                />
+            )}
+
+
             <CardItems movies={movies} />
         </div>
 

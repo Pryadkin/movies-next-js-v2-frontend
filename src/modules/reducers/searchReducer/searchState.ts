@@ -1,15 +1,17 @@
 import {ISearchMoviesResults} from "@/pages/api/apiTypes/requestMovies"
 
 export interface State {
+    movieName: string,
     movies: ISearchMoviesResults[],
     page: number | null,
-    total_pages: number | null,
-    total_results: number | null,
+    totalPages: number | null,
+    totalResults: number | null,
 }
 
 export const initialState: State = {
+    movieName: '',
     movies: [],
     page: null,
-    total_pages: null,
-    total_results: null,
+    totalPages: null,
+    totalResults: null,
 }

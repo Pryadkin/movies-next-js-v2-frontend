@@ -1,1 +1,6 @@
-export {searchReducer, setMovies, getMovies} from './searchReducer'
+export {
+    searchReducer,
+    setMovies,
+    setMovieName,
+    getMovies
+} from './searchReducer'
