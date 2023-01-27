@@ -40,17 +40,19 @@ const SearchMovies = () => {
                 onSearch={handleMoviesSearch}
             />
 
-            {totalPages && (
+            {totalPages && movieName && (
                 <Pagination
                     className={styles.pagination}
-                    defaultCurrent={6}
+                    defaultCurrent={1}
                     total={totalPages}
+                    showSizeChanger={false}
                     onChange={handlePaginationChange}
                 />
             )}
 
-
-            <CardItems movies={movies} />
+            {movieName && (
+                <CardItems movies={movies} />
+            )}
         </div>
 
     )

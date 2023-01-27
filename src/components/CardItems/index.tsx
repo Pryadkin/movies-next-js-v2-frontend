@@ -28,8 +28,6 @@ export const CardItems = ({movies}: {movies: ISearchMoviesResults[]}) => {
                                 <img
                                     alt={movie.title}
                                     src={(movie.poster_path as string)}
-                                    width={200}
-                                    height={300}
                                 />
                             }
                         >

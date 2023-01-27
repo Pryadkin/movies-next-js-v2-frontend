@@ -6,7 +6,6 @@ import {store} from '@/modules/store'
 
 import Layout from '../components/Layout'
 
-
 import '../styles/globals.scss'
 
 const MyApp = ({Component, pageProps}: AppProps) => (
