@@ -3,8 +3,39 @@
   flex-wrap: wrap;
 }
 
+.cardWrapper {
+  position: relative;
+
+  &:hover .background {
+    opacity: .2;
+    transition: visibility 0.1s, opacity 0.1s linear;
+  }
+  &:hover .btn {
+    opacity: 1;
+    transition: visibility 0.1s, opacity 0.1s linear;
+  }
+}
+
 .card {
   margin: 20px;
-  // width: 100px;
-  // height: 150px;
+}
+
+.background {
+  opacity: 0;
+  transition: visibility 0.1s, opacity 0.1s linear;
+  position: absolute;
+  background-color: black;
+  margin: 20px;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.btn {
+  position: absolute;
+  width: 100px;
+  top: 19px;
+  left: 90px;
+  opacity: 0;
+  transition: visibility 0.1s, opacity 0.1s linear;
+  z-index: 10;
 }

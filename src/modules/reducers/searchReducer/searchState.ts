@@ -1,8 +1,8 @@
-import {ISearchMoviesResults} from "@/pages/api/apiTypes/requestMovies"
+import {IMovie} from "@/pages/api/apiTypes/requestMovies"
 
 export interface State {
     movieName: string,
-    movies: ISearchMoviesResults[],
+    movies: IMovie[],
     page: number | null,
     totalPages: number | null,
     totalResults: number | null,

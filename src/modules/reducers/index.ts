@@ -4,3 +4,7 @@ export {
     setMovieName,
     getMovies
 } from './searchReducer'
+export {
+    profileReducer,
+    addMovie
+} from './profileReducer'

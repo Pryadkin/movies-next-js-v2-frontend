@@ -1,6 +1,6 @@
 export interface IResponseMovies {
     page: number,
-    results: ISearchMoviesResults[],
+    results: IMovie[],
     total_pages: number,
     total_results: number,
 }
@@ -16,7 +16,7 @@ export interface IRequestMovies {
     primary_release_year?: number
 }
 
-export interface ISearchMoviesResults {
+export interface IMovie {
     id: number
     popularity: number
     vote_count: number

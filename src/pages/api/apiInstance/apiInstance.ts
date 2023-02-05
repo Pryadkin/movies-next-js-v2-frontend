@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export const APIInstance = axios.create({
-    baseURL: 'https://api.themoviedb.org/3',
     responseType: 'json',
     headers: {
         'Content-Type': 'application/json',

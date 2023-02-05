@@ -4,12 +4,14 @@ import {combineReducers} from '@reduxjs/toolkit'
 
 import {
     searchReducer,
+    profileReducer,
 } from '../reducers'
 
 import {store} from './store'
 
 const rootReducer = combineReducers({
-    searchReducer
+    searchReducer,
+    profileReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

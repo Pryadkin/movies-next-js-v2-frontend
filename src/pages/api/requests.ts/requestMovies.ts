@@ -2,6 +2,7 @@ import {AxiosResponse} from 'axios'
 
 import {APIInstance, api_key} from '../apiInstance'
 import {IRequestMovies, IResponseMovies} from '../apiTypes/requestMovies'
+import {RequestUrl} from '../requestUrlList'
 
 export const requestMovies = async (name: string, page: string): Promise<AxiosResponse<IResponseMovies> | undefined> => {
     const params: IRequestMovies = {
@@ -14,7 +15,7 @@ export const requestMovies = async (name: string, page: string): Promise<AxiosRe
 
     try {
         const response = await APIInstance.get(
-            '/search/movie',
+            `${RequestUrl.BASE_URL}${RequestUrl.GET_MOVIES}`,
             {params}
         )
 
