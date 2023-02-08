@@ -1,15 +1,19 @@
+import {useSelector} from 'react-redux'
+
 import Link from 'next/link'
+
+import {RootState} from '@/modules/store/rootReducer'
 
 import styles from './Header.module.scss'
 
-const navigation = [
-    {id: 1, title: 'Profile', path: '/profile'},
-    {id: 2, title: 'Search', path: '/search'},
-]
-
 const Header = () => {
+    const userName = useSelector((state: RootState) => state.profileReducer.userName)
     const a = 'hey'
-    console.log(a)
+    const navigation = [
+        {id: 1, title: 'Profile', path: userName},
+        {id: 2, title: 'Search', path: '/search'},
+    ]
+
     return (
         <div className={styles.container}>
             <div className={styles.logo}>Movies</div>

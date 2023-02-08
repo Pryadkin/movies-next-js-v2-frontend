@@ -6,6 +6,6 @@ export interface State {
 }
 
 export const initialState: State = {
-    userName: '',
+    userName: 'Anton',
     myMovies: [],
 }

@@ -6,5 +6,7 @@ export {
 } from './searchReducer'
 export {
     profileReducer,
-    addMovie
+    addMovie,
+    setProfileMovies,
+    getProfileMovies,
 } from './profileReducer'

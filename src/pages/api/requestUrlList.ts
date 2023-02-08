@@ -3,7 +3,10 @@ export const enum RequestUrl {
     BASE_URL = 'https://api.themoviedb.org/3',
     GET_MOVIES = '/search/movie',
 
+    // profile movies
+    GET_PROFILE_MOVIES = '/profile/get_movies',
+
     // localBackend
-    BASE_URL_LOCAL = 'http://localhost:3001',
+    BASE_URL_LOCAL = 'http://localhost:4001',
     ADD_MOVIE = 'add_movie',
 }
