@@ -1,1 +1,1 @@
-export {APIInstance, api_key} from './apiInstance'
+export {APIInstance} from './apiInstance'

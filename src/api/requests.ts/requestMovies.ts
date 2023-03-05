@@ -1,12 +1,12 @@
 import {AxiosResponse} from 'axios'
 
-import {APIInstance, api_key} from '../apiInstance'
+import {APIInstance} from '../apiInstance'
 import {IRequestMovies, IResponseMovies} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
 export const requestMovies = async (name: string, page: string): Promise<AxiosResponse<IResponseMovies> | undefined> => {
     const params: IRequestMovies = {
-        api_key,
+        api_key: process.env.API_MOVIE_KEY || '',
         query: name,
         page: page,
         language: 'en-US',

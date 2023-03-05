@@ -6,5 +6,3 @@ export const APIInstance = axios.create({
         'Content-Type': 'application/json',
     },
 })
-
-export const api_key = 'b72f01423c617f99db15bb46a8285ccb'
