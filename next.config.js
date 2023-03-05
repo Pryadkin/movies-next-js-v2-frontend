@@ -1,10 +1,11 @@
 /**
  * @type {import('next').NextConfig}
  */
+require('dotenv').config()
 
 module.exports = {
   reactStrictMode: true,
   env: {
-    API_MOVIE_KEY: 'b72f01423c617f99db15bb46a8285ccb'
+    API_MOVIE_KEY: process.env.API_MOVIE_KEY
   }
 }
