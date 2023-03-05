@@ -1,4 +1,4 @@
-import {IMovie} from "@/pages/api/apiTypes/requestMovies"
+import {IMovie} from "@/api/apiTypes/requestMovies"
 
 export interface State {
     movieName: string,

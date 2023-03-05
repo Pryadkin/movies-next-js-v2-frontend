@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
-import {IResponseMovies} from '@/pages/api/apiTypes/requestMovies'
+import {IResponseMovies} from '@/api/apiTypes/requestMovies'
 
 import {initialState} from './searchState'
 

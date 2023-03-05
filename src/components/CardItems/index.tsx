@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import {addMovie} from '@/modules/reducers'
 import {useAppDispatch} from '@/modules/store/rootReducer'
-import {IMovie} from '@/pages/api/apiTypes/requestMovies'
+import {IMovie} from '@/api/apiTypes/requestMovies'
 
 import styles from './CardItems.module.scss'
 

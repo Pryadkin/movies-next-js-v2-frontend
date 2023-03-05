@@ -1,8 +1,8 @@
 import {Dispatch} from '@reduxjs/toolkit'
 
 import getFullPathForPosters from '@/helpers/getFullPathForPosters'
-import {API} from '@/pages/api'
-import {IMovie} from '@/pages/api/apiTypes/requestMovies'
+import {API} from '@/api'
+import {IMovie} from '@/api/apiTypes/requestMovies'
 
 import {AppThunk} from '../../../store/store'
 import {setMovies} from '../searchSlice'

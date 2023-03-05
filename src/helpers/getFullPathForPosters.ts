@@ -1,4 +1,4 @@
-import {IMovie} from "@/pages/api/apiTypes/requestMovies"
+import {IMovie} from "@/api/apiTypes/requestMovies"
 
 function getFullPathForPosters(data: Array<IMovie> | IMovie, quality: string = 'w300') {
     if (Array.isArray(data)) {

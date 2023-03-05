@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
-import {IMovie} from '@/pages/api/apiTypes/requestMovies'
+import {IMovie} from '@/api/apiTypes/requestMovies'
 
 import {initialState} from './proflieState'
 
