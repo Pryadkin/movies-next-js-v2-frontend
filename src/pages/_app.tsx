@@ -2,7 +2,7 @@ import {Provider} from 'react-redux'
 
 import type {AppProps} from 'next/app'
 
-import {store} from '@/modules/store'
+import {store} from '@/redux/store'
 
 import Layout from '../components/Layout'
 
@@ -14,7 +14,6 @@ const MyApp = ({Component, pageProps}: AppProps) => (
             <Component {...pageProps} />
         </Layout>
     </Provider>
-
 )
 
 export default MyApp

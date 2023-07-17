@@ -1,5 +1,7 @@
 {
-  "workbench.colorTheme": "Default Dark+",
+  // "workbench.colorTheme": "Default Dark+",
+  "workbench.colorTheme": "Noctis Minimus",
+	// "workbench.colorTheme": "Default Light Modern",
   "workbench.startupEditor": "none",
 
   "files.trimFinalNewlines": true,
@@ -35,7 +37,7 @@
   "editor.formatOnPaste": false,
 
   "editor.wordWrap": "bounded",
-  "editor.wordWrapColumn": 100,
+  // "editor.wordWrapColumn": 100,
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   }

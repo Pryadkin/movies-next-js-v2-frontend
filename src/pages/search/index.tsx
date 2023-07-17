@@ -7,8 +7,9 @@ import {CardItems} from '@/components/CardItems'
 import {
     getMovies,
     setMovieName,
-} from '@/modules/reducers'
-import {RootState, useAppDispatch} from '@/modules/store/rootReducer'
+} from '@/redux/reducers'
+import {getSelectMovies, getSelectMoviesName, getSelectTotalPages} from '@/redux/selectors/searchSelectors'
+import {useAppDispatch} from '@/redux/store/rootReducer'
 
 import styles from './Search.module.scss'
 
@@ -16,11 +17,9 @@ const {Search} = Input
 
 const SearchMovies = () => {
     const dispatch = useAppDispatch()
-    const {
-        movies,
-        totalPages,
-        movieName,
-    } = useSelector((state: RootState) => state.searchReducer)
+    const movies = useSelector(getSelectMovies)
+    const totalPages = useSelector(getSelectTotalPages)
+    const movieName = useSelector(getSelectMoviesName)
 
     const handleMoviesSearch = (value: string) => {
         dispatch(setMovieName(value))

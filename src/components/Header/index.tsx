@@ -2,7 +2,7 @@ import {useSelector} from 'react-redux'
 
 import Link from 'next/link'
 
-import {RootState} from '@/modules/store/rootReducer'
+import {RootState} from '@/redux/store/rootReducer'
 
 import styles from './Header.module.scss'
 
