@@ -37,3 +37,9 @@ export interface IMovie {
         path: string
     }[] | null
 }
+
+export interface IErrorResponse {
+    error: string,
+    message: string,
+    statusCode: number,
+}

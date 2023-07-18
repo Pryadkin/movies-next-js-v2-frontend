@@ -1,1 +1,5 @@
-export type {IRequestMovies} from './requestMovies'
+export type {
+    IRequestMovies,
+    IErrorResponse,
+    IMovie
+} from './requestMovies'
