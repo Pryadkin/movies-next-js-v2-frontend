@@ -53,7 +53,6 @@ const SearchMovies = () => {
                 <CardItems movies={movies} />
             )}
         </div>
-
     )
 }
 

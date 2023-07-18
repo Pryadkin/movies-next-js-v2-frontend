@@ -1,18 +1,17 @@
 import {AxiosResponse} from 'axios'
 
 import {APIInstance} from '../apiInstance'
-import {IMovie} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
 
-export const requestSaveMovie = async (movie: IMovie): Promise<AxiosResponse<IMovie> | undefined> => {
+export const requestDeleteMovie = async (id: string | number): Promise<AxiosResponse<any> | undefined> => {
     try {
-        const response = await APIInstance.post(
-            `${RequestUrl.BASE_URL_LOCAL}/profile/${RequestUrl.ADD_MOVIE}`,
-            movie
+        const response = await APIInstance.delete(
+            `${RequestUrl.BASE_URL_LOCAL}/profile/`,
+            {data: {id}}
         )
 
-        return (response as AxiosResponse<IMovie>)
+        return (response as AxiosResponse<any>)
 
     } catch (error) {
         if (error instanceof Error) {

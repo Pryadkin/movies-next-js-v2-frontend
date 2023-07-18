@@ -1,2 +1,11 @@
-export {profileReducer, setMovie, setProfileMovies} from './profileSlice'
-export {addMovie, getProfileMovies} from './profileThunks'
+export {
+    profileReducer,
+    setMovie,
+    deleteMovie,
+    setProfileMovies
+} from './profileSlice'
+export {
+    addMovieThunk,
+    deleteMovieThunk,
+    getProfileMoviesThunk
+} from './profileThunks'

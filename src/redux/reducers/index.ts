@@ -6,7 +6,7 @@ export {
 } from './searchReducer'
 export {
     profileReducer,
-    addMovie,
+    addMovieThunk,
     setProfileMovies,
-    getProfileMovies,
+    getProfileMoviesThunk,
 } from './profileReducer'
