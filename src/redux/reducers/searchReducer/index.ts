@@ -1,2 +1,9 @@
-export {searchReducer, setMovies, setMovieName} from './searchSlice'
+export {
+    searchReducer,
+    setMovies,
+    setMovieName,
+    setPage,
+    setTotalPages,
+    setTotalResults,
+} from './searchSlice'
 export {getMovies} from './searchThunks'

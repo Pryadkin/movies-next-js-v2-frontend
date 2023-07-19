@@ -11,9 +11,15 @@ const searchSlice = createSlice({
     reducers: {
         setMovies(state, action: PayloadAction<IResponseMovies>) {
             state.movies = action.payload.results
-            state.page = action.payload.page
-            state.totalPages = action.payload.total_pages
-            state.totalResults = action.payload.total_results
+        },
+        setPage(state, action: PayloadAction<number>) {
+            state.page = action.payload
+        },
+        setTotalPages(state, action: PayloadAction<number>) {
+            state.totalPages = action.payload
+        },
+        setTotalResults(state, action: PayloadAction<number>) {
+            state.totalResults = action.payload
         },
         setMovieName(state, action: PayloadAction<string>) {
             state.movieName = action.payload
@@ -26,4 +32,7 @@ export const searchReducer = searchSlice.reducer
 export const {
     setMovies,
     setMovieName,
+    setPage,
+    setTotalPages,
+    setTotalResults,
 } = searchSlice.actions

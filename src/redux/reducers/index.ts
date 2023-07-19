@@ -2,7 +2,10 @@ export {
     searchReducer,
     setMovies,
     setMovieName,
-    getMovies
+    getMovies,
+    setPage,
+    setTotalPages,
+    setTotalResults,
 } from './searchReducer'
 export {
     profileReducer,

@@ -13,7 +13,13 @@ import '../styles/globals.scss'
 
 import Layout from '../components/Layout'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        }
+    }
+})
 
 const MyApp = ({Component, pageProps}: AppProps) => (
     <QueryClientProvider client={queryClient}>
