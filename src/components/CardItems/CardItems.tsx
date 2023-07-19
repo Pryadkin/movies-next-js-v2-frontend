@@ -6,22 +6,20 @@ import {Spin} from '../Spin'
 
 import styles from './CardItems.module.scss'
 
+
+
 interface Props {
     data: IMovie[] | undefined,
     isFetching: boolean,
-    isError: boolean,
     isProfileCard?: boolean,
 }
 
 export const CardItems: React.FC<Props> = ({
     data,
     isFetching,
-    isError,
-    isProfileCard
+    isProfileCard,
 }) => {
     if (isFetching) return <Spin />
-
-    if (isError) return <div>{'error'}</div>
 
     return (
         <div className={styles.wrapper}>

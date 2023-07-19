@@ -1,24 +1,30 @@
-import {useDispatch, useSelector} from "react-redux"
+import {useSelector} from "react-redux"
 
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {IResponseMovies} from "@/api/apiTypes/requestMovies"
 import {getPictureUrl} from "@/helpers/getPictureUrl"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {getSelectMovieName, getSelectPage} from "@/redux/selectors"
+import {useAppDispatch} from "@/redux/store"
 
 export const useFetchMovies = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const movieName = useSelector(getSelectMovieName)
     const page = useSelector(getSelectPage)
+
+    const setValueToRedux = (data: IResponseMovies) => {
+        data.page && dispatch(setPage(data.page))
+        data.total_pages && dispatch(setTotalPages(data.total_pages))
+        data.total_results && dispatch(setTotalResults(data.total_results))
+    }
 
     const fetchMovies = async (value: string, page: string) => {
         const res = value ? await API.requestMovies(value, page) : null
         const updateRes = getPictureUrl(res?.data.results, true)
 
-        res?.data.page && dispatch(setPage(res?.data.page))
-        res?.data.total_pages && dispatch(setTotalPages(res?.data.total_pages))
-        res?.data.total_results && dispatch(setTotalResults(res?.data.total_results))
+        if (res) setValueToRedux(res.data)
 
         return updateRes
     }
@@ -31,10 +37,9 @@ export const useFetchMovies = () => {
     } = useQuery({
         queryKey: ['projects', movieName, page],
         queryFn: () => fetchMovies(movieName, String(page)),
-        // select: data => getPictureUrl(data?.data.results, true),
         keepPreviousData : true,
         enabled: !!movieName
     })
 
-    return {data, isFetching, isError}
+    return {data, isFetching, isError, error}
 }

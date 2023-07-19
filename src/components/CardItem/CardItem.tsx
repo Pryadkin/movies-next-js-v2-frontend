@@ -4,9 +4,8 @@ import {Button, Card} from 'antd'
 import Image from 'next/image'
 
 import {IMovie} from '@/api/apiTypes'
-import {addMovieThunk} from '@/redux/reducers'
-import {deleteMovieThunk} from '@/redux/reducers/profileReducer'
-import {useAppDispatch} from '@/redux/store'
+import {useDeleteMovie} from '@/hooks/useDeleteMovie'
+import {useSaveMovie} from '@/hooks/useSaveMovie'
 
 import styles from './CardItem.module.scss'
 
@@ -25,21 +24,23 @@ export const CardItem: FC<Props> = ({
     height,
     isProfileCard,
 }) => {
-    const dispatch = useAppDispatch()
+    const {mutationSave} = useSaveMovie()
+    const {mutationDelete} = useDeleteMovie()
+
     const handleAddBtnClick = (movie: IMovie) => () => {
-        dispatch(addMovieThunk(movie))
+        mutationSave.mutate(movie)
     }
-    const handleRemoveBtnClick = (movie: IMovie) => () => {
-        dispatch(deleteMovieThunk(movie.id))
+    const handleRemoveBtnClick = (movieId: number) => () => {
+        mutationDelete.mutate(movieId)
     }
 
-    const button = (mov: IMovie) => {
+    const button = () => {
         if (isProfileCard) {
             return (
                 <Button
                     type="default"
                     className={styles.btn}
-                    onClick={handleRemoveBtnClick(mov)}
+                    onClick={handleRemoveBtnClick(movie.id)}
                 >
                 remove
                 </Button>
@@ -49,7 +50,7 @@ export const CardItem: FC<Props> = ({
             <Button
                 type="default"
                 className={styles.btn}
-                onClick={handleAddBtnClick(mov)}
+                onClick={handleAddBtnClick(movie)}
             >
             add
             </Button>
@@ -65,7 +66,7 @@ export const CardItem: FC<Props> = ({
                 className={styles.background}
             />
 
-            {button(movie)}
+            {button()}
 
             <Card
                 className={styles.card}

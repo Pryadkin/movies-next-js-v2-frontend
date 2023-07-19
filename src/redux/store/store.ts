@@ -13,7 +13,7 @@ export const store = configureStore({
 
 export type ReduxStore = typeof store
 
-export type AppDispatch = typeof store.dispatch
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>
+export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch: () => AppDispatch = useDispatch

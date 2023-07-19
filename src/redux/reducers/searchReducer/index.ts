@@ -6,4 +6,3 @@ export {
     setTotalPages,
     setTotalResults,
 } from './searchSlice'
-export {getMovies} from './searchThunks'

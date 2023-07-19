@@ -24,7 +24,7 @@ const SearchMovies = () => {
     const dispatch = useAppDispatch()
     const totalPages = useSelector(getSelectTotalPages)
     const movieName = useSelector(getSelectMoviesName)
-    const {data, isFetching, isError} = useFetchMovies()
+    const {data, isFetching} = useFetchMovies()
 
     const handleMoviesSearch = (value: string) => {
         dispatch(setMovieName(value))
@@ -57,7 +57,6 @@ const SearchMovies = () => {
             <CardItems
                 data={data}
                 isFetching={isFetching}
-                isError={isError}
             />
         </div>
     )

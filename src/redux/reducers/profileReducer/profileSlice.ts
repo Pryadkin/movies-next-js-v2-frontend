@@ -12,8 +12,8 @@ const profileSlice = createSlice({
         setMovie(state, action: PayloadAction<IMovie>) {
             state.myMovies.push(action.payload)
         },
-        deleteMovie(state, action: PayloadAction<IMovie>) {
-            const removeMovie = state.myMovies.filter(movie => movie.id !== action.payload.id)
+        deleteMovie(state, action: PayloadAction<number>) {
+            const removeMovie = state.myMovies.filter(movie => movie.id !== action.payload)
             state.myMovies = removeMovie
         },
         setProfileMovies(state, action: PayloadAction<IMovie[]>) {
