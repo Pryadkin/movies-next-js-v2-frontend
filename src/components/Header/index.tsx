@@ -8,7 +8,6 @@ import styles from './Header.module.scss'
 
 const Header = () => {
     const userName = useSelector((state: RootState) => state.profileReducer.userName)
-    const a = 'hey'
     const navigation = [
         {id: 1, title: 'Profile', path: userName},
         {id: 2, title: 'Search', path: '/search'},

@@ -6,3 +6,7 @@ export {
     setTotalPages,
     setTotalResults,
 } from './searchReducer'
+export {
+    profileReducer,
+    setProfileMovies,
+} from './profileReducer'
