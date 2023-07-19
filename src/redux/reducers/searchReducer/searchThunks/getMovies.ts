@@ -23,7 +23,7 @@ export const getMovies = (value: string, isWithPicture: boolean, page: string): 
 
             (data as any).results = getFullPathForPosters(results)
 
-            dispatch(setMovies(data))
+            // dispatch(setMovies(data))
         }
 
     }

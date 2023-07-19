@@ -1,20 +1,28 @@
 import {IMovie} from "@/api/apiTypes/requestMovies"
 
-function getFullPathForPosters(data: Array<IMovie> | IMovie, quality: string = 'w300') {
+function getPoster(poster: string | null, quality: string) {
+    return poster ? `https://image.tmdb.org/t/p/${quality}${poster}` : null
+};
+
+function getFullPathForPosters(
+    data: Array<IMovie> | IMovie,
+    quality = 'w300'
+) {
     if (Array.isArray(data)) {
         return data.map(item => {
-            item.poster_path = getPoster(item.poster_path)
+            item.poster_path = getPoster(item.poster_path, quality)
             return item
         })
     }
 
-    data.poster_path = getPoster(data.poster_path)
+    const updatePosterPath = getPoster(data.poster_path, quality)
 
-    function getPoster(poster: string | null) {
-        return poster ? `https://image.tmdb.org/t/p/${quality}${poster}` : null
-    };
+    const updateData = {
+        ...data,
+        poster_path: updatePosterPath
+    }
 
-    return data
+    return updateData
 };
 
 export default getFullPathForPosters
