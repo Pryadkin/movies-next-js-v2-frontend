@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 20px;
+}
+
+.btnWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    height: 75px;
+    justify-content: space-between;
+}
+
+.tree {
+    background-color: var(--tree-color);
+    border: 1px solid lightgray;
+    overflow-y: scroll;
+    margin: 10px;
+    height: 300px;
+}

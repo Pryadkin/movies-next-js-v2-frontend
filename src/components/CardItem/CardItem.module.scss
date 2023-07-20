@@ -29,8 +29,16 @@
   position: absolute;
   width: 100px;
   top: 19px;
-  left: 90px;
+
   opacity: 0;
   transition: visibility 0.1s, opacity 0.1s linear;
   z-index: 10;
+}
+
+.btnRemove {
+  left: 30px;
+}
+
+.btnFilter {
+  left: 150px;
 }

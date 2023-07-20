@@ -7,11 +7,12 @@ import {
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import type {AppProps} from 'next/app'
 
+import {Layout} from '@/components/Layout'
 import {store} from '@/redux/store'
 
 import '../styles/globals.scss'
 
-import Layout from '../components/Layout'
+
 
 const queryClient = new QueryClient({
     defaultOptions: {

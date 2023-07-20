@@ -8,6 +8,7 @@ const Profile = () => {
     const {data, isFetching} = useFetchProfileMovies()
     const myMovies = useSelector(getSelectMyMovies)
 
+
     return (
         <>
             {data && (

@@ -1,6 +1,7 @@
 import {FC} from 'react'
 
 import {Button, Card} from 'antd'
+import clsx from 'clsx'
 import Image from 'next/image'
 
 import {IMovie} from '@/api/apiTypes'
@@ -30,20 +31,34 @@ export const CardItem: FC<Props> = ({
     const handleAddBtnClick = (movie: IMovie) => () => {
         mutationSave.mutate(movie)
     }
+
     const handleRemoveBtnClick = (movieId: number) => () => {
         mutationDelete.mutate(movieId)
+    }
+
+    const handleFilterBtnClick = (movieId: number) => () => {
+
     }
 
     const button = () => {
         if (isProfileCard) {
             return (
-                <Button
-                    type="default"
-                    className={styles.btn}
-                    onClick={handleRemoveBtnClick(movie.id)}
-                >
-                remove
-                </Button>
+                <>
+                    <Button
+                        type="default"
+                        className={clsx(styles.btn, styles.btnRemove)}
+                        onClick={handleRemoveBtnClick(movie.id)}
+                    >
+                        remove
+                    </Button>
+                    <Button
+                        type="default"
+                        className={clsx(styles.btn, styles.btnFilter)}
+                        onClick={handleFilterBtnClick(movie.id)}
+                    >
+                        filter
+                    </Button>
+                </>
             )
         }
         return (

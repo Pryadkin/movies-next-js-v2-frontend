@@ -3,6 +3,7 @@ import {
     requestSaveMovie,
     requestDeleteMovie,
     requestProfileMovies,
+    requestFilterData,
 } from './requests.ts'
 
 export const API = {
@@ -10,4 +11,5 @@ export const API = {
     requestSaveMovie,
     requestDeleteMovie,
     requestProfileMovies,
+    requestFilterData
 }
