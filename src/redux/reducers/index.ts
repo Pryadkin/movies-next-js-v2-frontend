@@ -9,4 +9,5 @@ export {
 export {
     profileReducer,
     setProfileMovies,
+    getIsDrawerMovieTagsOpen,
 } from './profileReducer'

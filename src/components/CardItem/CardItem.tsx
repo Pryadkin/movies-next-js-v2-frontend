@@ -10,6 +10,9 @@ import {useSaveMovie} from '@/hooks/useSaveMovie'
 
 import styles from './CardItem.module.scss'
 
+import {getIsDrawerMovieTagsOpen} from '@/redux/reducers'
+import {useAppDispatch} from '@/redux/store'
+
 const {Meta} = Card
 
 interface Props {
@@ -25,6 +28,7 @@ export const CardItem: FC<Props> = ({
     height,
     isProfileCard,
 }) => {
+    const dispatch = useAppDispatch()
     const {mutationSave} = useSaveMovie()
     const {mutationDelete} = useDeleteMovie()
 
@@ -37,7 +41,7 @@ export const CardItem: FC<Props> = ({
     }
 
     const handleFilterBtnClick = (movieId: number) => () => {
-
+        dispatch(getIsDrawerMovieTagsOpen(true))
     }
 
     const button = () => {

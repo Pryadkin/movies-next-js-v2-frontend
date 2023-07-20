@@ -2,5 +2,6 @@ export {
     profileReducer,
     setMovie,
     deleteMovie,
-    setProfileMovies
+    setProfileMovies,
+    getIsDrawerMovieTagsOpen,
 } from './profileSlice'

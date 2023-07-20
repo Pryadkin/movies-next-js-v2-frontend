@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
+import {DrawerProps} from 'antd'
 
 import {IMovie} from '@/api/apiTypes/requestMovies'
 
@@ -18,6 +19,9 @@ const profileSlice = createSlice({
         },
         setProfileMovies(state, action: PayloadAction<IMovie[]>) {
             state.myMovies = action.payload
+        },
+        getIsDrawerMovieTagsOpen(state, action: PayloadAction<DrawerProps['open']>) {
+            state.isDrawerMovieTagsOpen = action.payload
         }
     },
 })
@@ -28,4 +32,5 @@ export const {
     setMovie,
     deleteMovie,
     setProfileMovies,
+    getIsDrawerMovieTagsOpen,
 } = profileSlice.actions
