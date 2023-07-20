@@ -23,7 +23,7 @@ export const useFetchProfileMovies = () => {
         data,
         isFetching,
     } = useQuery({
-        queryKey: ['profile'],
+        queryKey: ['profile-movies'],
         queryFn: () => fetchMovies(),
         keepPreviousData : true,
     })

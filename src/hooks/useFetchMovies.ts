@@ -35,7 +35,7 @@ export const useFetchMovies = () => {
         data,
         isFetching,
     } = useQuery({
-        queryKey: ['projects', movieName, page],
+        queryKey: ['search-movies', movieName, page],
         queryFn: () => fetchMovies(movieName, String(page)),
         keepPreviousData : true,
         enabled: !!movieName

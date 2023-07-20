@@ -2,15 +2,14 @@ import React, {useEffect, useState} from 'react'
 
 import {DrawerProps} from 'antd'
 
-import {API} from '@/api'
 import {Header} from '@/components/Header'
-
-import {Drawer} from '../Drawer'
+import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
+import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 
 import styles from './Layout.module.scss'
 
+import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
-import {updateObjForTree} from '../ListTree/helpers/updateObjToTree'
 
 interface Props {
     children: React.ReactNode
@@ -19,23 +18,16 @@ interface Props {
 export const Layout: React.FC<Props> = ({
     children
 }) => {
-    const [valObj, setValObj] = useState<any>()
+    const {
+        data: moviesTree,
+        isFetching: isMovieTreeFetching
+    } = useFetchMovieTree()
+    const {
+        data: moviesTags,
+        isFetching: isMovieTagsFetching
+    } = useFetchMovieTags()
     const [drawerTitle] = useState<string>('Filters')
     const [drawerOpen, setDrawerOpen] = useState<DrawerProps['open']>(false)
-
-    const fetchFilter = async () => {
-        const res = await API.requestFilterData()
-
-        if (res) {
-            const objForTree = updateObjForTree(res.data)
-
-            setValObj(objForTree)
-        }
-    }
-
-    useEffect(() => {
-        fetchFilter()
-    }, [])
 
     return (
         <div className={styles.wrapper}>
@@ -48,8 +40,8 @@ export const Layout: React.FC<Props> = ({
                 open={drawerOpen}
                 onOpen={setDrawerOpen}
             >
-                {valObj && (
-                    <ListTree nestedObj={valObj} />
+                {!isMovieTreeFetching && (
+                    <ListTree nestedObj={moviesTree} />
                 )}
             </Drawer>
         </div>

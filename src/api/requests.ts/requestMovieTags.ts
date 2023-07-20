@@ -5,10 +5,10 @@ import {errorMessage} from '@/notification'
 import {APIInstance} from '../apiInstance'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestFilterData = async (): Promise<AxiosResponse<any> | undefined> => {
+export const requestMovieTags = async (): Promise<AxiosResponse<any> | undefined> => {
     try {
         const response = await APIInstance.get(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_FILTER}`,
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_MOVIE_TAGS}`,
         )
 
         return (response as AxiosResponse<any>)

@@ -6,8 +6,11 @@ export const enum RequestUrl {
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',
 
-    // filter data
-    GET_FILTER = '/movie_filter/get_filter',
+    // movie tags
+    GET_MOVIE_TAGS = '/movie_tags/get_movie_tags',
+
+    // movies tree
+    GET_MOVIES_TREE = '/movie_tree/get_movie_tree',
 
     // localBackend
     BASE_URL_LOCAL = 'http://localhost:4001',
