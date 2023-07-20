@@ -65,7 +65,9 @@ export const Layout: React.FC<Props> = ({
                 open={isDrawerMovieTagsOpen}
                 onOpen={handlesetDrawerMovieTagsOpen}
             >
-                <AddTags />
+                <AddTags
+                    tags={moviesTags?.data.tags}
+                />
             </Drawer>
         </div>
     )
