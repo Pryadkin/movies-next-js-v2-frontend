@@ -22,6 +22,18 @@ const profileSlice = createSlice({
         },
         getIsDrawerMovieTagsOpen(state, action: PayloadAction<DrawerProps['open']>) {
             state.isDrawerMovieTagsOpen = action.payload
+        },
+        setSelectMovie(state, action: PayloadAction<number>) {
+            const selectMovie = state.myMovies.find(movie => movie.id === action.payload)
+            state.selectMovie = selectMovie
+        },
+        setTagToMovie(state, action: PayloadAction<string>) {
+            state.selectMovie?.settings?.tags.push(action.payload)
+        },
+        updateMovie(state, action: PayloadAction<IMovie>) {
+            const updateMovie = state.myMovies.filter(movie => movie.id !== action.payload.id)
+            updateMovie.push(action.payload)
+            state.myMovies = updateMovie
         }
     },
 })
@@ -33,4 +45,7 @@ export const {
     deleteMovie,
     setProfileMovies,
     getIsDrawerMovieTagsOpen,
+    setSelectMovie,
+    setTagToMovie,
+    updateMovie,
 } = profileSlice.actions

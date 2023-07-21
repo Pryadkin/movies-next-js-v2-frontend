@@ -31,11 +31,9 @@ export interface IMovie {
     vote_average: number
     overview: string
     release_date: string
-    filters: {
-        id: number,
-        name: string,
-        path: string
-    }[] | null
+    settings?: {
+        tags: string[]
+    }
 }
 
 export interface IErrorResponse {

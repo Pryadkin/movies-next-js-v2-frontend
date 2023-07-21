@@ -3,3 +3,9 @@ export {
     getSelectMovieName,
     getSelectPage,
 } from './searchSelectors'
+
+export {
+    getSelectIsDrawerMovieTagsOpen,
+    getSelectMovie,
+    getSelectMyMovies,
+} from './profileSelectors'

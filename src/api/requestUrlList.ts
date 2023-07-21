@@ -5,6 +5,8 @@ export const enum RequestUrl {
 
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',
+    ADD_PROFILE_MOVIE = '/profile/add_movie',
+    UPDATE_PROFILE_MOVIE = '/profile/update_movie',
 
     // movie tags
     GET_MOVIE_TAGS = '/movie_tags/get_movie_tags',
@@ -14,5 +16,4 @@ export const enum RequestUrl {
 
     // localBackend
     BASE_URL_LOCAL = 'http://localhost:4001',
-    ADD_MOVIE = 'add_movie',
 }

@@ -3,10 +3,13 @@ import {FC, useState} from 'react'
 import type {DrawerProps} from 'antd'
 import {Drawer as DrawerAntd} from 'antd'
 
+import {Spin} from '../Spin'
+
 interface Props {
     children: React.ReactNode,
-    title: string,
+    title: string | undefined,
     open: DrawerProps['open'],
+    isLoading: boolean,
     onOpen: (val: boolean) => void
 }
 
@@ -14,15 +17,12 @@ export const Drawer: FC<Props> = ({
     children,
     title,
     open,
-    onOpen
+    isLoading,
+    onOpen,
 }) => {
 
     const [placement] = useState<DrawerProps['placement']>('top')
     const [size] = useState<DrawerProps['height']>(500)
-
-    const onClose = () => {
-        onOpen(false)
-    }
 
     return (
         <DrawerAntd
@@ -30,11 +30,11 @@ export const Drawer: FC<Props> = ({
             placement={placement}
             height={size}
             closable={false}
-            onClose={onClose}
+            onClose={() => onOpen(false)}
             open={open}
             key={placement}
         >
-            {children}
+            {!isLoading ? children : <Spin />}
         </DrawerAntd>
     )
 }

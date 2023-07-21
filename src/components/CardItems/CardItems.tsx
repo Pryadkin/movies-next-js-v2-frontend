@@ -6,8 +6,6 @@ import {Spin} from '../Spin'
 
 import styles from './CardItems.module.scss'
 
-
-
 interface Props {
     data: IMovie[] | undefined,
     isFetching: boolean,

@@ -6,14 +6,14 @@ import {APIInstance} from '../apiInstance'
 import {IErrorResponse, IMovie} from '../apiTypes'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestSaveMovie = async (movie: IMovie):Promise<AxiosResponse<IMovie> | undefined> => {
+export const requestUpdateProfileMovies = async (movie: IMovie):Promise<AxiosResponse<IMovie> | undefined> => {
     try {
-        const response = await APIInstance.post(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.ADD_PROFILE_MOVIE}`,
+        const response = await APIInstance.put(
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.UPDATE_PROFILE_MOVIE}`,
             movie
         )
 
-        successMessage('movie added successfully')
+        successMessage('movie update successfully')
         return (response as AxiosResponse<IMovie>)
 
     } catch (error) {

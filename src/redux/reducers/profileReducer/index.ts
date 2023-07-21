@@ -4,4 +4,7 @@ export {
     deleteMovie,
     setProfileMovies,
     getIsDrawerMovieTagsOpen,
+    setSelectMovie,
+    setTagToMovie,
+    updateMovie,
 } from './profileSlice'

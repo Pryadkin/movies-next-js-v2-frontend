@@ -6,11 +6,11 @@ import Image from 'next/image'
 
 import {IMovie} from '@/api/apiTypes'
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
-import {useSaveMovie} from '@/hooks/useSaveMovie'
+import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 
 import styles from './CardItem.module.scss'
 
-import {getIsDrawerMovieTagsOpen} from '@/redux/reducers'
+import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
 import {useAppDispatch} from '@/redux/store'
 
 const {Meta} = Card
@@ -29,7 +29,7 @@ export const CardItem: FC<Props> = ({
     isProfileCard,
 }) => {
     const dispatch = useAppDispatch()
-    const {mutationSave} = useSaveMovie()
+    const {mutationSave} = useSaveProfileMovie()
     const {mutationDelete} = useDeleteMovie()
 
     const handleAddBtnClick = (movie: IMovie) => () => {
@@ -42,6 +42,7 @@ export const CardItem: FC<Props> = ({
 
     const handleFilterBtnClick = (movieId: number) => () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
+        dispatch(setSelectMovie(movieId))
     }
 
     const button = () => {

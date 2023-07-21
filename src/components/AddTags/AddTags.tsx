@@ -2,52 +2,92 @@ import {FC, useState} from "react"
 
 import {Space, Tag} from "antd"
 
+import {IMovie} from "@/api/apiTypes"
+import {useUpdateProfileMovie} from "@/hooks/useUpdateProfileMovie"
+import {errorMessage} from "@/notification"
+import {setTagToMovie} from "@/redux/reducers"
+
+import styles from './AddTags.module.scss'
+
+import {useAppDispatch} from "@/redux/store"
+
+import {useColorToTag} from "./useColorToTag"
+
+
 interface Props {
+    movie: IMovie | undefined | null,
     tags: string[]
 }
 
 export const AddTags: FC<Props> = ({
+    movie,
     tags,
 }) => {
-    const [tagColors] = useState(['magenta','red', 'purple', 'blue', 'orange',
-        'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'volcano'
-    ])
-    const [title] = useState('All tags')
+    const dispatch = useAppDispatch()
+    const getColorTag = useColorToTag()
+    const [allTagsTitle] = useState('All tags')
+    const [movieTagstitle] = useState('Movie tags')
 
     const handleTagClick = (value: string) => () => {
-        console.log(value)
+        const check = movie?.settings?.tags.find(tag => tag === value)
+
+        if (check) {
+            errorMessage(new Error, 'tag already exist')
+        } else if (movie && movie.settings){
+            dispatch(setTagToMovie(value))
+            // const updateMovie = {
+            //     ...movie,
+            //     settings: {
+            //         ...movie.settings,
+            //         tags: [
+            //             ...movie.settings.tags,
+            //             value,
+            //         ]
+            //     }
+            // }
+
+
+        }
     }
 
-    const setColorToTag = () => {
-        let firstLetter = null
-        let count = 0
-        return tags.map(tag => {
-            firstLetter = tag.slice(1)
+    const getTags = (t: string[]) => t.map(tag => {
+        return (
+            <Tag
+                className={styles.tag}
+                key={tag}
+                color={getColorTag(tag)}
+                onClick={handleTagClick(tag)}
+            >
+                {tag}
+            </Tag>
+        )
+    })
 
-            if (firstLetter !== tag.slice(0)) {
-                count++
-            }
-
-            return (
-                <Tag
-                    style={{cursor: 'pointer'}}
-                    key={tag}
-                    color={tagColors[count]}
-                    onClick={handleTagClick(tag)}
-                >
-                    {tag}
-                </Tag>
-            )
-        })
-    }
     return (
         <Space
-            direction="vertical"
+            align="start"
             size={[0, 8]}
             wrap
         >
-            <h2>{title}</h2>
-            {setColorToTag()}
+            <Space.Compact
+                prefixCls={styles.subSpace}
+                direction="vertical"
+                className={styles.space}
+            >
+                <h3>{allTagsTitle}</h3>
+                <div className={styles.tagsWrapper}>
+                    {getTags(tags)}
+                </div>
+            </Space.Compact>
+            <Space.Compact
+                direction="vertical"
+                prefixCls={styles.subSpace}
+            >
+                <h3>{movieTagstitle}</h3>
+                <div className={styles.tagsWrapper}>
+                    {movie?.settings && getTags(movie?.settings.tags)}
+                </div>
+            </Space.Compact>
         </Space>
     )
 }
