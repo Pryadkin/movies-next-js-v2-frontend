@@ -4,7 +4,10 @@ import {Space, Tag} from "antd"
 
 import {IMovie} from "@/api/apiTypes"
 import {errorMessage} from "@/notification"
-import {setTagToMovie} from "@/redux/reducers"
+import {
+    deleteTagToMovie,
+    setTagToMovie
+} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
 import styles from './AddTags.module.scss'
@@ -23,7 +26,7 @@ export const AddTags: FC<Props> = ({
     const dispatch = useAppDispatch()
     const getColorTag = useColorToTag()
     const [allTagsTitle] = useState('All tags')
-    const [movieTagstitle] = useState('Movie tags')
+    const [movieTagsTitle] = useState('Movie tags')
 
     const handleTagClick = (value: string) => () => {
         const check = movie?.settings?.tags.find(tag => tag === value)
@@ -35,13 +38,20 @@ export const AddTags: FC<Props> = ({
         }
     }
 
-    const getTags = (t: string[]) => t.map(tag => {
+    const handleMovieTagClick = (value: string) => () => {
+        dispatch(deleteTagToMovie(value))
+    }
+
+    const getTags = (t: string[], isMovieTag?: boolean) => t.map(tag => {
         return (
             <Tag
                 className={styles.tag}
                 key={tag}
                 color={getColorTag(tag)}
-                onClick={handleTagClick(tag)}
+                onClick={isMovieTag
+                    ? handleMovieTagClick(tag)
+                    : handleTagClick(tag)
+                }
             >
                 {tag}
             </Tag>
@@ -68,9 +78,9 @@ export const AddTags: FC<Props> = ({
                 direction="vertical"
                 prefixCls={styles.subSpace}
             >
-                <h3>{movieTagstitle}</h3>
+                <h3>{movieTagsTitle}</h3>
                 <div className={styles.tagsWrapper}>
-                    {movie?.settings && getTags(movie?.settings.tags)}
+                    {movie && getTags(movie?.settings.tags, true)}
                 </div>
             </Space.Compact>
         </Space>

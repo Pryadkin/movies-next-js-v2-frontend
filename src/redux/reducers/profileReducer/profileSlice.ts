@@ -30,6 +30,13 @@ const profileSlice = createSlice({
         setTagToMovie(state, action: PayloadAction<string>) {
             state.selectMovie?.settings?.tags.push(action.payload)
         },
+        deleteTagToMovie(state, action: PayloadAction<string>) {
+            const updateTags = state.selectMovie?.settings.tags.filter(tag => tag !== action.payload)
+
+            if (state.selectMovie && updateTags) {
+                state.selectMovie.settings.tags = updateTags
+            }
+        },
         updateMovie(state, action: PayloadAction<IMovie>) {
             const updateMovie = state.myMovies.map(movie => {
                 if (movie.id === action.payload.id) return action.payload
@@ -50,4 +57,5 @@ export const {
     setSelectMovie,
     setTagToMovie,
     updateMovie,
+    deleteTagToMovie,
 } = profileSlice.actions

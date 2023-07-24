@@ -7,4 +7,5 @@ export {
     setSelectMovie,
     setTagToMovie,
     updateMovie,
+    deleteTagToMovie,
 } from './profileSlice'

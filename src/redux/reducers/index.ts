@@ -15,4 +15,5 @@ export {
     setSelectMovie,
     setTagToMovie,
     updateMovie,
+    deleteTagToMovie,
 } from './profileReducer'
