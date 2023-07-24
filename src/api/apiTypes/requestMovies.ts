@@ -31,8 +31,9 @@ export interface IMovie {
     vote_average: number
     overview: string
     release_date: string
-    settings?: {
-        tags: string[]
+    settings: {
+        tags: string[],
+        dateAdd: string,
     }
 }
 

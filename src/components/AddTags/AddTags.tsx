@@ -3,16 +3,13 @@ import {FC, useState} from "react"
 import {Space, Tag} from "antd"
 
 import {IMovie} from "@/api/apiTypes"
-import {useUpdateProfileMovie} from "@/hooks/useUpdateProfileMovie"
 import {errorMessage} from "@/notification"
 import {setTagToMovie} from "@/redux/reducers"
+import {useAppDispatch} from "@/redux/store"
 
 import styles from './AddTags.module.scss'
 
-import {useAppDispatch} from "@/redux/store"
-
 import {useColorToTag} from "./useColorToTag"
-
 
 interface Props {
     movie: IMovie | undefined | null,
@@ -35,18 +32,6 @@ export const AddTags: FC<Props> = ({
             errorMessage(new Error, 'tag already exist')
         } else if (movie && movie.settings){
             dispatch(setTagToMovie(value))
-            // const updateMovie = {
-            //     ...movie,
-            //     settings: {
-            //         ...movie.settings,
-            //         tags: [
-            //             ...movie.settings.tags,
-            //             value,
-            //         ]
-            //     }
-            // }
-
-
         }
     }
 

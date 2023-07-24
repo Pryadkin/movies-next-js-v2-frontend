@@ -1,17 +1,17 @@
+import dayjs from 'dayjs'
+
 import {IMovie} from "@/api/apiTypes"
 
-export const addSettingsToMovie = (movies: IMovie[]) => {
-    const updateMovies = movies.map(movie => {
-        if (movie.settings) {
-            return movie
-        }
-        return {
-            ...movie,
-            settings: {
-                tags: []
-            }
-        }
-    })
+const dateFormat = 'YYYY-MM-DD:hh-mm-ss A'
 
-    return updateMovies
+export const addSettingsToMovie = (movie: IMovie) => {
+    const dateAdd = dayjs()
+        .format(dateFormat)
+    return {
+        ...movie,
+        settings: {
+            tags: [],
+            dateAdd,
+        }
+    }
 }

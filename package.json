@@ -19,6 +19,7 @@
     "antd": "^5.1.5",
     "axios": "^1.2.2",
     "clsx": "^2.0.0",
+    "dayjs": "^1.11.9",
     "dotenv": "^16.0.3",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.2",

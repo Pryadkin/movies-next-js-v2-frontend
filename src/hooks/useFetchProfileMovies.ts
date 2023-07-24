@@ -1,7 +1,6 @@
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {addSettingsToMovie} from "@/helpers/addSettingsToMovie"
 import {setProfileMovies} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
@@ -12,8 +11,7 @@ export const useFetchProfileMovies = () => {
         const res = await API.requestProfileMovies()
 
         if (res) {
-            const movieWithSettings = addSettingsToMovie(res.data)
-            dispatch(setProfileMovies(movieWithSettings))
+            dispatch(setProfileMovies(res.data))
 
             return res.data
         }
