@@ -8,6 +8,7 @@ import {
     Layout as LayoutAntd,
 } from 'antd'
 import dynamic from 'next/dynamic'
+import {useRouter} from 'next/router'
 
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
@@ -30,9 +31,10 @@ interface Props {
     children: React.ReactNode
 }
 
-export const Layout: React.FC<Props> = ({
+const Layout: React.FC<Props> = ({
     children
 }) => {
+    const {asPath} = useRouter()
     const dispatch = useAppDispatch()
     const {mutationUpdate} = useUpdateProfileMovie()
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
@@ -60,7 +62,6 @@ export const Layout: React.FC<Props> = ({
             mutationUpdate.mutate(selectMovie)
         }
     }
-
     return (
         <LayoutAntd>
             <Header
@@ -68,13 +69,16 @@ export const Layout: React.FC<Props> = ({
             />
 
             <LayoutAntd>
-                <Sider
-                    trigger={null}
-                    collapsible
-                    style={{background: 'white'}}
-                >
-                    <Sidebare />
-                </Sider>
+                {asPath !== '/search' && (
+                    <Sider
+                        trigger={null}
+                        collapsible
+                        style={{background: 'white'}}
+                    >
+                        <Sidebare />
+                    </Sider>
+                )}
+
                 <Content className={styles.contant}>
                     <div>{children}</div>
                 </Content>
@@ -107,3 +111,5 @@ export const Layout: React.FC<Props> = ({
         </LayoutAntd>
     )
 }
+
+export default Layout

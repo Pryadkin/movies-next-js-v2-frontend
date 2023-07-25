@@ -6,13 +6,12 @@ import {
 } from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import type {AppProps} from 'next/app'
+import dynamic from 'next/dynamic'
 
-import {Layout} from '@/components/Layout'
+const Layout = dynamic(import('@/components/Layout/Layout'), {ssr: false})
 import {store} from '@/redux/store'
 
 import '../styles/globals.scss'
-
-
 
 const queryClient = new QueryClient({
     defaultOptions: {

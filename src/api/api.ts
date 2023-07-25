@@ -6,6 +6,8 @@ import {
     requestMovieTags,
     requestMovieTree,
     requestUpdateProfileMovies,
+    requestSaveTag,
+    requestDeleteTag,
 } from './requests.ts'
 
 export const API = {
@@ -16,4 +18,6 @@ export const API = {
     requestMovieTags,
     requestMovieTree,
     requestUpdateProfileMovies,
+    requestSaveTag,
+    requestDeleteTag,
 }

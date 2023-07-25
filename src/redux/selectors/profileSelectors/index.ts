@@ -27,3 +27,20 @@ export const getFilteredMovies = createSelector(
         return filters.length ? filteredMovies : movies
     }
 )
+
+export const getSelectTagsForAntSelect = createSelector(
+    getSelectTags,
+    tags => {
+        const updateTags = tags.map(tag => {
+            return ({
+                value: tag,
+                label: tag
+            })
+        })
+
+        return [
+            {value: '', label: ''},
+            ...updateTags
+        ]
+    }
+)
