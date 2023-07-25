@@ -8,4 +8,7 @@ export {
     getSelectIsDrawerMovieTagsOpen,
     getSelectMovie,
     getSelectMyMovies,
+    getSelectTags,
+    getSelectEnableFilters,
+    getFilteredMovies,
 } from './profileSelectors'

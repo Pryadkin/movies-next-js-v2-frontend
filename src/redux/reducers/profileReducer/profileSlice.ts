@@ -43,7 +43,18 @@ const profileSlice = createSlice({
                 return movie
             })
             state.myMovies = updateMovie
-        }
+        },
+        updateTags(state, action: PayloadAction<string[]>) {
+            state.tags = action.payload
+        },
+        addEnableFilters(state, action: PayloadAction<string>) {
+            state.enableFilters.push(action.payload)
+        },
+        removeEnableFilters(state, action: PayloadAction<string>) {
+            const updateFilters = state.enableFilters.filter(filt => filt !== action.payload)
+
+            state.enableFilters = updateFilters
+        },
     },
 })
 
@@ -58,4 +69,7 @@ export const {
     setTagToMovie,
     updateMovie,
     deleteTagToMovie,
+    updateTags,
+    addEnableFilters,
+    removeEnableFilters,
 } = profileSlice.actions

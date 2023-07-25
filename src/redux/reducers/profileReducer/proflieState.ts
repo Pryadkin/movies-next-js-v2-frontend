@@ -7,6 +7,8 @@ export interface State {
     myMovies: IMovie[],
     isDrawerMovieTagsOpen: DrawerProps['open'],
     selectMovie: IMovie | undefined | null,
+    tags: string[],
+    enableFilters: string[],
 }
 
 export const initialState: State = {
@@ -14,4 +16,6 @@ export const initialState: State = {
     myMovies: [],
     isDrawerMovieTagsOpen: false,
     selectMovie: null,
+    tags: ['Horror, Action, Camedy'],
+    enableFilters: [],
 }

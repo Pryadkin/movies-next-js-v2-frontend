@@ -1,27 +1,23 @@
 @use '../../styles/colors';
 
-.container {
+.header {
   display: flex;
   padding: 0 20px;
-  height: 100%;
-  justify-content: space-between;
-  background-color: colors.$main-color;
+  background-color: colors.$main-color !important;
+  align-items: center;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  height: 100%;
   color: white;
   font-size: 20px;
   text-transform: uppercase;
 }
 
-.navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+.menu {
+  background-color: colors.$main-color;
+  padding-left: 50px;
+  color: white;
+  width: 300px;
 }
 
 .link {
@@ -29,6 +25,7 @@
   color: white;
 
   &:hover {
+    color: white;
     background-color: colors.$main-color-hover;
   }
 }

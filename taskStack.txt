@@ -1,0 +1,2 @@
+- сделать предупреждение, когда удалеям фильм из профайла
+(create alert by delete movie from profile)

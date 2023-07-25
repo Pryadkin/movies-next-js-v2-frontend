@@ -1,12 +1,19 @@
+
+
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {updateTags} from "@/redux/reducers"
+import {useAppDispatch} from "@/redux/store"
 
 export const useFetchMovieTags = () => {
+    const dispatch = useAppDispatch()
     const fetchMovieTags = async () => {
         const res = await API.requestMovieTags()
 
         if (res) {
+            dispatch(updateTags(res.data.tags))
+
             return res
         }
     }

@@ -2,17 +2,17 @@ import {useSelector} from "react-redux"
 
 import {CardItems} from "@/components/CardItems"
 import {useFetchProfileMovies} from "@/hooks/useFetchProfileMovies"
-import {getSelectMyMovies} from "@/redux/selectors/profileSelectors"
+import {getFilteredMovies} from "@/redux/selectors"
 
 const Profile = () => {
     const {data, isFetching} = useFetchProfileMovies()
-    const myMovies = useSelector(getSelectMyMovies)
+    const filteredMovies = useSelector(getFilteredMovies)
 
     return (
         <>
             {data && (
                 <CardItems
-                    data={myMovies}
+                    data={filteredMovies}
                     isFetching={isFetching}
                     isProfileCard
                 />

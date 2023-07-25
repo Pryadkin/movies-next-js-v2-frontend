@@ -2,6 +2,7 @@ import {FC} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Button} from 'antd'
+import {Header as HeaderAntd} from 'antd/es/layout/layout'
 import Link from 'next/link'
 
 import {RootState} from '@/redux/store/rootReducer'
@@ -12,7 +13,7 @@ interface Props {
     onDrawerMovieListOpen: () => void
 }
 
-export const Header: FC<Props> = ({
+const Header: FC<Props> = ({
     onDrawerMovieListOpen
 }) => {
     const userName = useSelector((state: RootState) => state.profileReducer.userName)
@@ -22,15 +23,11 @@ export const Header: FC<Props> = ({
     ]
 
     return (
-        <div className={styles.container}>
-            <div className={styles.logo}>Movies</div>
-            <div className={styles.navbar}>
-                <Button
-                    size="small"
-                    onClick={onDrawerMovieListOpen}
-                >
-                    MovieList
-                </Button>
+        <HeaderAntd
+            className={styles.header}
+        >
+            <span className={styles.logo}>Movies</span>
+            <div className={styles.menu}>
                 {navigation.map(({id, path, title}) => (
                     <Link
                         key={id}
@@ -41,6 +38,15 @@ export const Header: FC<Props> = ({
                     </Link>
                 ))}
             </div>
-        </div>
+
+            <Button
+                size="small"
+                onClick={onDrawerMovieListOpen}
+            >
+                    MovieList
+            </Button>
+        </HeaderAntd>
     )
 }
+
+export default Header

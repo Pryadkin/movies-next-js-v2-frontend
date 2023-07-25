@@ -1,7 +1,7 @@
 {
   // "workbench.colorTheme": "Default Dark+",
-  "workbench.colorTheme": "Noctis Minimus",
-	// "workbench.colorTheme": "Default Light Modern",
+  // "workbench.colorTheme": "Noctis Minimus",
+	"workbench.colorTheme": "Default Light Modern",
   "workbench.startupEditor": "none",
 
   "files.trimFinalNewlines": true,

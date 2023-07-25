@@ -1,22 +1,30 @@
 import React, {useState} from 'react'
 import {useSelector} from 'react-redux'
 
-import {Button, DrawerProps} from 'antd'
+const Header = dynamic(import('@/components/Header/Header'), {ssr: false})
+import {
+    Button,
+    DrawerProps,
+    Layout as LayoutAntd,
+} from 'antd'
+import dynamic from 'next/dynamic'
 
-import {Header} from '@/components/Header'
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
-import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
 
 import styles from './Layout.module.scss'
 
+import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
 import {getSelectIsDrawerMovieTagsOpen, getSelectMovie} from '@/redux/selectors/profileSelectors'
 import {useAppDispatch} from '@/redux/store'
 
 import {AddTags} from '../AddTags'
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
+import {Sidebare} from '../Sidebare'
+
+const {Sider, Content} = LayoutAntd
 
 interface Props {
     children: React.ReactNode
@@ -54,12 +62,24 @@ export const Layout: React.FC<Props> = ({
     }
 
     return (
-        <div className={styles.wrapper}>
+        <LayoutAntd>
             <Header
                 onDrawerMovieListOpen={() => setIsDrawerMovieTreeOpen(!isDrawerMovieTreeOpen)}
             />
 
-            <div>{children}</div>
+            <LayoutAntd>
+                <Sider
+                    trigger={null}
+                    collapsible
+                    style={{background: 'white'}}
+                >
+                    <Sidebare />
+                </Sider>
+                <Content className={styles.contant}>
+                    <div>{children}</div>
+                </Content>
+            </LayoutAntd>
+
 
             <Drawer
                 title={drawerMovieTreeTitle}
@@ -84,6 +104,6 @@ export const Layout: React.FC<Props> = ({
                     Update movie
                 </Button>
             </Drawer>
-        </div>
+        </LayoutAntd>
     )
 }

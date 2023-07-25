@@ -16,4 +16,7 @@ export {
     setTagToMovie,
     updateMovie,
     deleteTagToMovie,
+    updateTags,
+    addEnableFilters,
+    removeEnableFilters,
 } from './profileReducer'
