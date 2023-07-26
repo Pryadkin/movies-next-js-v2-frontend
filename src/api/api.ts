@@ -8,6 +8,8 @@ import {
     requestUpdateProfileMovies,
     requestSaveTag,
     requestDeleteTag,
+    requestUpdateTags,
+    requestUpdateMovieTags,
 } from './requests.ts'
 
 export const API = {
@@ -20,4 +22,6 @@ export const API = {
     requestUpdateProfileMovies,
     requestSaveTag,
     requestDeleteTag,
+    requestUpdateTags,
+    requestUpdateMovieTags,
 }

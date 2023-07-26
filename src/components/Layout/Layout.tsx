@@ -10,23 +10,29 @@ import {
 import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
-import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 
 import styles from './Layout.module.scss'
 
-import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
-import {getSelectIsDrawerMovieTagsOpen, getSelectMovie} from '@/redux/selectors/profileSelectors'
+import {
+    getIsDrawerMovieTagsOpen,
+    setSelectMovie
+} from '@/redux/reducers'
+import {
+    getSelectIsDrawerMovieTagsOpen,
+    getSelectMovie,
+    getSelectTags,
+} from '@/redux/selectors'
 import {useAppDispatch} from '@/redux/store'
 
 import {AddTags} from '../AddTags'
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
+import {ModelSettings} from '../ModelSettings'
 import {Sidebare} from '../Sidebare'
 
 const {Sider, Content} = LayoutAntd
-
 interface Props {
     children: React.ReactNode
 }
@@ -39,16 +45,16 @@ const Layout: React.FC<Props> = ({
     const {mutationUpdate} = useUpdateProfileMovie()
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
     const selectMovie = useSelector(getSelectMovie)
+    const selectTegs = useSelector(getSelectTags)
+    const [drawerMovieTreeTitle] = useState<string>('Movie tree')
+    const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+
+    // useFetch
     const {
         data: moviesTree,
         isFetching: isMovieTreeFetching
     } = useFetchMovieTree()
-    const {
-        data: moviesTags,
-        isFetching: isMovieTagsFetching
-    } = useFetchMovieTags()
-    const [drawerMovieTreeTitle] = useState<string>('Movie tree')
-    const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
 
     const handlesetDrawerMovieTagsOpen = (val: boolean) => {
         dispatch(getIsDrawerMovieTagsOpen(val))
@@ -62,6 +68,7 @@ const Layout: React.FC<Props> = ({
             mutationUpdate.mutate(selectMovie)
         }
     }
+
     return (
         <LayoutAntd>
             <Header
@@ -75,7 +82,7 @@ const Layout: React.FC<Props> = ({
                         collapsible
                         style={{background: 'white'}}
                     >
-                        <Sidebare />
+                        <Sidebare onModalOpen={setIsSettingsModalOpen}/>
                     </Sider>
                 )}
 
@@ -98,16 +105,20 @@ const Layout: React.FC<Props> = ({
                 title={selectMovie?.title}
                 open={isDrawerMovieTagsOpen}
                 onOpen={handlesetDrawerMovieTagsOpen}
-                isLoading={isMovieTagsFetching}
             >
                 <AddTags
                     movie={selectMovie}
-                    tags={moviesTags?.data.tags}
+                    tags={selectTegs}
                 />
                 <Button onClick={handleUpdateMovieClick}>
                     Update movie
                 </Button>
             </Drawer>
+
+            <ModelSettings
+                isModalOpen={isSettingsModalOpen}
+                onModalCancel={() => setIsSettingsModalOpen(false)}
+            />
         </LayoutAntd>
     )
 }

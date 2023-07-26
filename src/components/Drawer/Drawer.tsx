@@ -9,7 +9,7 @@ interface Props {
     children: React.ReactNode,
     title: string | undefined,
     open: DrawerProps['open'],
-    isLoading: boolean,
+    isLoading?: boolean,
     onOpen: (val: boolean) => void
 }
 

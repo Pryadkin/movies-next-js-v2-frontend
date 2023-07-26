@@ -38,9 +38,6 @@ export const getSelectTagsForAntSelect = createSelector(
             })
         })
 
-        return [
-            {value: '', label: ''},
-            ...updateTags
-        ]
+        return updateTags
     }
 )
