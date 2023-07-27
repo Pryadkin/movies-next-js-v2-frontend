@@ -12,7 +12,7 @@ export const useFetchMovieTags = () => {
         const res = await API.requestMovieTags()
 
         if (res) {
-            dispatch(updateTags(res.data.tags))
+            dispatch(updateTags(res.data))
 
             return res
         }

@@ -7,10 +7,10 @@ export const useColorToTag = () => {
         'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'volcano'
     ])
 
-    return function (tag: string) {
-        if (tag.slice(0, 1) !== firstLetter) {
+    return function (tagName: string) {
+        if (tagName?.slice(0, 1) !== firstLetter) {
             count += 1
-            firstLetter = tag.slice(0, 1)
+            firstLetter = tagName?.slice(0, 1)
         }
 
         return tagColors[count]

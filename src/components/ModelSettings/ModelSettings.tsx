@@ -35,8 +35,8 @@ export const ModelSettings = ({
     isModalOpen,
     onModalCancel,
 }: Props) => {
-    const [inputAddTagValue, setInputAddTagValue] = useState('')
-    const [inputRenameTagValue, setInputRenameTagValue] = useState('')
+    const [inputAddTagValue, setInputAddTagValue] = useState<string>('')
+    const [inputRenameTagValue, setInputRenameTagValue] = useState<string>('')
     const [selectRemoveTagValue, setSelectRemoveTagValue] = useState('')
     const [selectRenameTagValue, setSelectRenameTagValue] = useState('')
     const antSelectTags = useSelector(getSelectTagsForAntSelect)
@@ -46,11 +46,17 @@ export const ModelSettings = ({
     const {mutationMovieTagsUpdate} = useUpdateMovieTags()
 
     const handleAddNewTagBtnClick = () => {
-        mutationSave.mutate(inputAddTagValue)
+        mutationSave.mutate({
+            tagName: inputAddTagValue,
+            color: ''
+        })
         setInputAddTagValue('')
     }
     const handleRemoveTagBtnClick = () => {
-        mutationDelete.mutate(selectRemoveTagValue)
+        mutationDelete.mutate({
+            tagName: selectRemoveTagValue,
+            color: ''
+        })
         setSelectRemoveTagValue('')
     }
     const handleRenameTagBtnClick = () => {
@@ -79,15 +85,7 @@ export const ModelSettings = ({
             }
             open={isModalOpen}
             onCancel={onModalCancel}
-            footer={[
-                <Button
-                    key="submit"
-                    type="primary"
-                    onClick={onModalCancel}
-                >
-                    Ok
-                </Button>,
-            ]}
+            footer={[]}
         >
             <Space
                 direction="vertical"

@@ -12,11 +12,13 @@ import {useAppDispatch} from "@/redux/store"
 
 import styles from './AddTags.module.scss'
 
+import {ITag} from "@/types"
+
 import {useColorToTag} from "./useColorToTag"
 
 interface Props {
     movie: IMovie | undefined | null,
-    tags: string[]
+    tags: ITag[]
 }
 
 export const AddTags: FC<Props> = ({
@@ -28,8 +30,8 @@ export const AddTags: FC<Props> = ({
     const [allTagsTitle] = useState('All tags')
     const [movieTagsTitle] = useState('Movie tags')
 
-    const handleTagClick = (value: string) => () => {
-        const check = movie?.settings?.tags.find(tag => tag === value)
+    const handleTagClick = (value: ITag) => () => {
+        const check = movie?.settings?.tags.find(tag => tag.tagName === value.tagName)
 
         if (check) {
             errorMessage(new Error, 'tag already exist')
@@ -38,22 +40,24 @@ export const AddTags: FC<Props> = ({
         }
     }
 
-    const handleMovieTagClick = (value: string) => () => {
+    const handleMovieTagClick = (value: ITag) => () => {
         dispatch(deleteTagToMovie(value))
     }
 
-    const getTags = (t: string[], isMovieTag?: boolean) => t.map(tag => {
+    const getTags = (t: ITag[], isMovieTag?: boolean) => t?.map(tag => {
+        if (!tag.tagName) return null
+
         return (
             <Tag
                 className={styles.tag}
-                key={tag}
-                color={getColorTag(tag)}
+                key={tag.tagName}
+                color={getColorTag(tag.tagName)}
                 onClick={isMovieTag
                     ? handleMovieTagClick(tag)
                     : handleTagClick(tag)
                 }
             >
-                {tag}
+                {tag.tagName}
             </Tag>
         )
     })

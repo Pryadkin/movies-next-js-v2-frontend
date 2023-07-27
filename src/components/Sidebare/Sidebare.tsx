@@ -6,6 +6,7 @@ import {Button, Tag} from "antd"
 import {addEnableFilters, removeEnableFilters} from "@/redux/reducers"
 import {getSelectEnableFilters, getSelectTags} from "@/redux/selectors"
 import {useAppDispatch} from "@/redux/store"
+import {ITag} from "@/types"
 
 import styles from './Sidebare.module.scss'
 
@@ -20,39 +21,39 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
 
     const enableFilters = useSelector(getSelectEnableFilters)
     const tagsWithoutEnable = useMemo(() => {
-        return tags.filter(tag => !enableFilters.includes(tag))
+        return tags ? tags.filter(tag => !enableFilters.includes(tag)) : []
     }, [tags, enableFilters])
     const getColorTag = useColorToTag()
 
-    const handleTagClick = (tagName: string) => () => {
-        dispatch(addEnableFilters(tagName))
+    const handleTagClick = (tag: ITag) => () => {
+        dispatch(addEnableFilters(tag))
     }
 
-    const handleEnableFilterClick = (tagName: string) => () => {
-        dispatch(removeEnableFilters(tagName))
+    const handleEnableFilterClick = (tag: ITag) => () => {
+        dispatch(removeEnableFilters(tag))
     }
 
-    const getTags = (t: string[], isEnable?: boolean) => t.map(tag => {
+    const getTags = (t: ITag[], isEnable?: boolean) => t.map(tag => {
         if (isEnable) {
             return (
                 <Tag
                     className={styles.tag}
-                    key={tag}
-                    color={getColorTag(tag)}
+                    key={tag.tagName}
+                    color={getColorTag(tag.tagName)}
                     onClick={handleEnableFilterClick(tag)}
                 >
-                    {tag}
+                    {tag.tagName}
                 </Tag>
             )
         }
         return (
             <Tag
                 className={styles.tag}
-                key={tag}
-                color={getColorTag(tag)}
+                key={tag.tagName}
+                color={getColorTag(tag.tagName)}
                 onClick={handleTagClick(tag)}
             >
-                {tag}
+                {tag.tagName}
             </Tag>
         )
     })
@@ -74,7 +75,10 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
 
             <h3>all tags</h3>
 
-            {tagsWithoutEnable && getTags(tagsWithoutEnable)}
+            <div className="tagsWrapper">
+                {tagsWithoutEnable && getTags(tagsWithoutEnable)}
+            </div>
+
         </div>
     )
 }

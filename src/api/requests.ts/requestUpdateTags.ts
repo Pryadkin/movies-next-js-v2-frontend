@@ -1,6 +1,7 @@
 import axios, {AxiosResponse} from 'axios'
 
 import {errorMessage, successMessage} from '@/notification'
+import {ITag} from '@/types'
 
 import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
@@ -9,7 +10,7 @@ import {RequestUrl} from '../requestUrlList'
 export const requestUpdateTags = async (
     oldTag: string,
     newTag: string
-):Promise<AxiosResponse<{tags: string[]}> | undefined> => {
+):Promise<AxiosResponse<ITag[]> | undefined> => {
     try {
         const response = await APIInstance.put(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.UPDATE_TAGS}`,
@@ -20,7 +21,7 @@ export const requestUpdateTags = async (
         )
 
         successMessage('tags updated successfully')
-        return (response as AxiosResponse<{tags: string[]}>)
+        return (response as AxiosResponse<ITag[]>)
 
     } catch (error) {
         if (axios.isAxiosError(error))  {

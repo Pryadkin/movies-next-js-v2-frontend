@@ -10,6 +10,7 @@ import {
 import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
+import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 
@@ -55,6 +56,10 @@ const Layout: React.FC<Props> = ({
         data: moviesTree,
         isFetching: isMovieTreeFetching
     } = useFetchMovieTree()
+    const {
+        data: moviesTags,
+        isFetching: isMovieTagsFetching
+    } = useFetchMovieTags()
 
     const handlesetDrawerMovieTagsOpen = (val: boolean) => {
         dispatch(getIsDrawerMovieTagsOpen(val))

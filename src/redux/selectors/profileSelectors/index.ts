@@ -20,7 +20,7 @@ export const getFilteredMovies = createSelector(
 
         for (let i = 0; i < filters.length; i++) {
             filteredMovies = filteredMovies.filter(movie => {
-                return movie.settings.tags.includes(filters[i])
+                return movie.settings.tags.find(tag => tag.tagName === filters[i].tagName)
             })
         }
 
@@ -31,10 +31,10 @@ export const getFilteredMovies = createSelector(
 export const getSelectTagsForAntSelect = createSelector(
     getSelectTags,
     tags => {
-        const updateTags = tags.map(tag => {
+        const updateTags = tags?.map(tag => {
             return ({
-                value: tag,
-                label: tag
+                value: tag.tagName,
+                label: tag.tagName
             })
         })
 

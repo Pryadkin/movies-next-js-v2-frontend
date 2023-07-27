@@ -10,7 +10,7 @@ export const useUpdateTags = () => {
         const res = await API.requestUpdateTags(oldTag, newTag)
 
         if (res) {
-            dispatch(updateTags(res.data.tags))
+            dispatch(updateTags(res.data))
 
             return res
         }

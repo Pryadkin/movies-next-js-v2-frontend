@@ -3,6 +3,7 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 import {DrawerProps} from 'antd'
 
 import {IMovie} from '@/api/apiTypes/requestMovies'
+import {ITag} from '@/types'
 
 import {initialState} from './proflieState'
 
@@ -27,11 +28,11 @@ const profileSlice = createSlice({
             const selectMovie = state.myMovies.find(movie => movie.id === action.payload)
             state.selectMovie = selectMovie
         },
-        setTagToMovie(state, action: PayloadAction<string>) {
+        setTagToMovie(state, action: PayloadAction<ITag>) {
             state.selectMovie?.settings?.tags.push(action.payload)
         },
-        deleteTagToMovie(state, action: PayloadAction<string>) {
-            const updateTags = state.selectMovie?.settings.tags.filter(tag => tag !== action.payload)
+        deleteTagToMovie(state, action: PayloadAction<ITag>) {
+            const updateTags = state.selectMovie?.settings.tags.filter(tag => tag.tagName !== action.payload.tagName)
 
             if (state.selectMovie && updateTags) {
                 state.selectMovie.settings.tags = updateTags
@@ -44,14 +45,14 @@ const profileSlice = createSlice({
             })
             state.myMovies = updateMovie
         },
-        updateTags(state, action: PayloadAction<string[]>) {
+        updateTags(state, action: PayloadAction<ITag[]>) {
             state.tags = action.payload
         },
-        addEnableFilters(state, action: PayloadAction<string>) {
+        addEnableFilters(state, action: PayloadAction<ITag>) {
             state.enableFilters.push(action.payload)
         },
-        removeEnableFilters(state, action: PayloadAction<string>) {
-            const updateFilters = state.enableFilters.filter(filt => filt !== action.payload)
+        removeEnableFilters(state, action: PayloadAction<ITag>) {
+            const updateFilters = state.enableFilters.filter(filt => filt.tagName !== action.payload.tagName)
 
             state.enableFilters = updateFilters
         },

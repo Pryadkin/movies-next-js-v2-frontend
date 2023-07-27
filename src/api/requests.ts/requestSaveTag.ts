@@ -1,20 +1,20 @@
 import axios, {AxiosResponse} from 'axios'
 
 import {errorMessage, successMessage} from '@/notification'
+import {ITag} from '@/types'
 
 import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestSaveTag = async (tag: string):Promise<AxiosResponse<{tags: string[]}> | undefined> => {
+export const requestSaveTag = async (tag: ITag):Promise<AxiosResponse<ITag[]> | undefined> => {
     try {
         const response = await APIInstance.post(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.ADD_MOVIE_TAG}`,
-            {name: tag}
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.ADD_MOVIE_TAG}`, tag
         )
 
         successMessage('tag added successfully')
-        return (response as AxiosResponse<{tags: string[]}>)
+        return (response as AxiosResponse<ITag[]>)
 
     } catch (error) {
         if (axios.isAxiosError(error))  {

@@ -15,13 +15,16 @@ export const useUpdateMovieTags = () => {
 
         if (res) {
             const updateMovieTags = movies.map(movie => {
-                if (movie.settings.tags.includes(oldTag)) {
+                if (movie.settings.tags.find(tag => tag.tagName === oldTag)) {
                     return {
                         ...movie,
                         settings: {
                             ...movie.settings,
                             tags: movie.settings.tags.map(tag => {
-                                if (tag === oldTag) return newTag
+                                if (tag.tagName === oldTag) return {
+                                    ...tag,
+                                    tagName: newTag,
+                                }
                                 return tag
                             })
                         }

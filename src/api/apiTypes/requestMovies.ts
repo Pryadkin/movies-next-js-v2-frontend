@@ -32,7 +32,10 @@ export interface IMovie {
     overview: string
     release_date: string
     settings: {
-        tags: string[],
+        tags: {
+            tagName: string,
+            color: string,
+        }[],
         dateAdd: string,
     }
 }

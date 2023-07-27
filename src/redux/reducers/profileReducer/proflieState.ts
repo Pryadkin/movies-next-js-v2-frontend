@@ -1,14 +1,15 @@
 import {DrawerProps} from 'antd'
 
 import {IMovie} from "@/api/apiTypes/requestMovies"
+import {ITag} from '@/types'
 
 export interface State {
     userName: string,
     myMovies: IMovie[],
     isDrawerMovieTagsOpen: DrawerProps['open'],
     selectMovie: IMovie | undefined | null,
-    tags: string[],
-    enableFilters: string[],
+    tags: ITag[],
+    enableFilters: ITag[],
 }
 
 export const initialState: State = {
@@ -16,6 +17,6 @@ export const initialState: State = {
     myMovies: [],
     isDrawerMovieTagsOpen: false,
     selectMovie: null,
-    tags: ['Horror, Action, Camedy'],
+    tags: [],
     enableFilters: [],
 }
