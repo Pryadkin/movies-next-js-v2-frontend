@@ -20,4 +20,6 @@ export {
     updateTags,
     addEnableFilters,
     removeEnableFilters,
+    getGenres,
+    setSelectGenres,
 } from './profileReducer'

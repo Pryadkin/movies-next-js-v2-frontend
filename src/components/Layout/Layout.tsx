@@ -12,10 +12,10 @@ import {useRouter} from 'next/router'
 
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
-import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 
 import styles from './Layout.module.scss'
 
+import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 import {
     getIsDrawerMovieTagsOpen,
     setSelectMovie
@@ -85,6 +85,7 @@ const Layout: React.FC<Props> = ({
                     <Sider
                         trigger={null}
                         collapsible
+                        width={250}
                         style={{background: 'white'}}
                     >
                         <Sidebare onModalOpen={setIsSettingsModalOpen}/>

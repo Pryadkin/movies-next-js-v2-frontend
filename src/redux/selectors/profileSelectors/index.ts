@@ -12,10 +12,13 @@ export const getSelectMovie = (state: RootState) => state.profileReducer.selectM
 export const getSelectTags = (state: RootState) => state.profileReducer.tags
 export const getSelectEnableFilters = (state: RootState) => state.profileReducer.enableFilters
 
+export const getSelectGenres = (state: RootState) => state.profileReducer.selectGenres
+
 export const getFilteredMovies = createSelector(
     (state: RootState) => state.profileReducer.enableFilters,
+    (state: RootState) => state.profileReducer.selectGenres,
     (state: RootState) => state.profileReducer.myMovies,
-    (filters, movies) => {
+    (filters, selectGenres, movies) => {
         let filteredMovies = movies
 
         for (let i = 0; i < filters.length; i++) {
@@ -24,7 +27,13 @@ export const getFilteredMovies = createSelector(
             })
         }
 
-        return filters.length ? filteredMovies : movies
+        for (let i = 0; i < selectGenres.length; i++) {
+            filteredMovies = filteredMovies.filter(movie => {
+                return movie.genre_ids.find(genreId => genreId === selectGenres[i].id)
+            })
+        }
+
+        return filters.length || selectGenres.length ? filteredMovies : movies
     }
 )
 

@@ -1,9 +1,9 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, current} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {DrawerProps} from 'antd'
 
 import {IMovie} from '@/api/apiTypes/requestMovies'
-import {ITag} from '@/types'
+import {IGenre, ITag} from '@/types'
 
 import {initialState} from './proflieState'
 
@@ -69,6 +69,21 @@ const profileSlice = createSlice({
 
             state.enableFilters = updateFilters
         },
+        getGenres(state, action: PayloadAction<IGenre[]>) {
+            state.genres = action.payload
+        },
+        setSelectGenres(state, action: PayloadAction<IGenre>) {
+            const isGenreExist = state.selectGenres.find(genre => genre.id === action.payload.id)
+
+            if (isGenreExist) {
+                const updateGenres = state.selectGenres.filter(genre => genre.id !== action.payload.id)
+
+                state.selectGenres = updateGenres
+            } else {
+                state.selectGenres.push(action.payload)
+            }
+
+        }
     },
 })
 
@@ -87,4 +102,6 @@ export const {
     updateTags,
     addEnableFilters,
     removeEnableFilters,
+    getGenres,
+    setSelectGenres,
 } = profileSlice.actions

@@ -1,17 +1,18 @@
 import {AxiosResponse} from 'axios'
 
 import {errorMessage} from '@/notification'
+import {IGenre} from '@/types'
 
 import {APIInstance} from '../apiInstance'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestGenres = async (): Promise<AxiosResponse<any> | undefined> => {
+export const requestGenres = async (): Promise<AxiosResponse<IGenre[]> | undefined> => {
     try {
         const response = await APIInstance.get(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_GENRES}`,
         )
 
-        return (response as AxiosResponse<any>)
+        return (response as AxiosResponse<IGenre[]>)
 
     } catch (error) {
         if (error instanceof Error) {

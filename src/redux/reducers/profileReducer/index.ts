@@ -12,4 +12,6 @@ export {
     updateTags,
     addEnableFilters,
     removeEnableFilters,
+    getGenres,
+    setSelectGenres,
 } from './profileSlice'

@@ -1,14 +1,29 @@
 import {FC, useMemo} from "react"
 import {useSelector} from "react-redux"
 
-import {Button, Tag} from "antd"
+import type {CollapseProps} from 'antd'
+import {
+    Button,
+    Collapse,
+    Tag
+} from "antd"
 
-import {addEnableFilters, removeEnableFilters} from "@/redux/reducers"
-import {getSelectEnableFilters, getSelectTags} from "@/redux/selectors"
+import {useFetchGenres} from "@/hooks/useFetchGenres"
+import {
+    addEnableFilters,
+    removeEnableFilters,
+    setSelectGenres
+} from "@/redux/reducers"
+import {
+    getSelectEnableFilters,
+    getSelectGenres,
+    getSelectTags
+} from "@/redux/selectors"
 import {useAppDispatch} from "@/redux/store"
-import {ITag} from "@/types"
 
 import styles from './Sidebare.module.scss'
+
+import {IGenre, ITag} from "@/types"
 
 import {useColorToTag} from "../AddTags/useColorToTag"
 interface Props {
@@ -18,12 +33,17 @@ interface Props {
 export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const dispatch = useAppDispatch()
     const tags = useSelector(getSelectTags)
-
     const enableFilters = useSelector(getSelectEnableFilters)
+    const selectGenres = useSelector(getSelectGenres)
     const tagsWithoutEnable = useMemo(() => {
         return tags ? tags.filter(tag => !enableFilters.includes(tag)) : []
     }, [tags, enableFilters])
     const getColorTag = useColorToTag()
+
+    const {
+        genresData,
+        isGenresFetching
+    } = useFetchGenres()
 
     const handleTagClick = (tag: ITag) => () => {
         dispatch(addEnableFilters(tag))
@@ -31,6 +51,10 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
 
     const handleEnableFilterClick = (tag: ITag) => () => {
         dispatch(removeEnableFilters(tag))
+    }
+
+    const handleGenreTagClick = (genre: IGenre) => () => {
+        dispatch(setSelectGenres(genre))
     }
 
     const getTags = (t: ITag[], isEnable?: boolean) => t.map(tag => {
@@ -58,27 +82,58 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         )
     })
 
+    const items: CollapseProps['items'] = [
+        {
+            key: '1',
+            label: 'All tags',
+            children: <div className="tagsWrapper">
+                <>
+                    <h3>Selected tags</h3>
+                    {enableFilters && getTags(enableFilters, true)}
+
+                    <h3>Tags</h3>
+                    {tagsWithoutEnable && getTags(tagsWithoutEnable)}
+                </>
+            </div>,
+        },
+        {
+            key: '2',
+            label: 'Genres',
+            children: !isGenresFetching
+                ? genresData?.map(genre => {
+                    return (
+                        <Tag
+                            key={genre.id}
+                            className={styles.tag}
+                            color={selectGenres.find(item => item.id === genre.id) ? 'cyan' : 'default'}
+                            onClick={handleGenreTagClick(genre)}
+                        >
+                            {genre.name}
+                        </Tag>
+                    )
+                })
+                : (
+                    <div>Loading..</div>
+                ),
+        },
+    ]
+
     return (
         <div className={styles.wrapper}>
-            <h2>Filtration</h2>
-
             <Button
+                className={styles.btn}
                 size="small"
                 onClick={() => onModalOpen(true)}
             >
                 SETTINGS
             </Button>
 
-            <h3>enable filters</h3>
-
-            {enableFilters && getTags(enableFilters, true)}
-
-            <h3>all tags</h3>
-
-            <div className="tagsWrapper">
-                {tagsWithoutEnable && getTags(tagsWithoutEnable)}
-            </div>
-
+            <Collapse
+                className={styles.collapse}
+                items={items}
+                defaultActiveKey={['1']}
+                size="small"
+            />
         </div>
     )
 }
