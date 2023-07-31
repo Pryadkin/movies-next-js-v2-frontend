@@ -1,14 +1,14 @@
 import {AxiosResponse} from 'axios'
 
+import {errorMessage} from '@/notification'
+
 import {APIInstance} from '../apiInstance'
 import {RequestUrl} from '../requestUrlList'
 
-
-export const requestDeleteMovie = async (id: string | number): Promise<AxiosResponse<any> | undefined> => {
+export const requestGenres = async (): Promise<AxiosResponse<any> | undefined> => {
     try {
-        const response = await APIInstance.delete(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.DELETE_PROFILE_MOVIE}`,
-            {data: {id}}
+        const response = await APIInstance.get(
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_GENRES}`,
         )
 
         return (response as AxiosResponse<any>)
@@ -16,7 +16,7 @@ export const requestDeleteMovie = async (id: string | number): Promise<AxiosResp
     } catch (error) {
         if (error instanceof Error) {
             console.error(`😱 Axios request failed: ${error}`)
-            // errorMessage(error, t('error'), t('error.playAudio'))
+            errorMessage(error, 'Axios request failed')
         } else {
             console.error('Unexpected error', error)
         }

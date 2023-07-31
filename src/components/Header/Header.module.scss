@@ -1,10 +1,11 @@
-@use '../../styles/colors';
+@use '@/styles/colors';
 
 .header {
   display: flex;
   padding: 0 20px;
   background-color: colors.$main-color !important;
   align-items: center;
+  height: var(--header-height) !important;
 }
 
 .logo {

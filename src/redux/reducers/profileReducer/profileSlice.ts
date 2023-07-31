@@ -31,12 +31,25 @@ const profileSlice = createSlice({
         setTagToMovie(state, action: PayloadAction<ITag>) {
             state.selectMovie?.settings?.tags.push(action.payload)
         },
-        deleteTagToMovie(state, action: PayloadAction<ITag>) {
+        deleteTagFromMovie(state, action: PayloadAction<ITag>) {
             const updateTags = state.selectMovie?.settings.tags.filter(tag => tag.tagName !== action.payload.tagName)
 
             if (state.selectMovie && updateTags) {
                 state.selectMovie.settings.tags = updateTags
             }
+        },
+        deleteTagFromMovies(state, action: PayloadAction<string>) {
+            const updateMovies = state.myMovies.map(movie => {
+                return {
+                    ...movie,
+                    settings: {
+                        ...movie.settings,
+                        tags: movie.settings.tags.filter(tag => tag.tagName !== action.payload),
+                    }
+                }
+            })
+
+            state.myMovies = updateMovies
         },
         updateMovie(state, action: PayloadAction<IMovie>) {
             const updateMovie = state.myMovies.map(movie => {
@@ -69,7 +82,8 @@ export const {
     setSelectMovie,
     setTagToMovie,
     updateMovie,
-    deleteTagToMovie,
+    deleteTagFromMovie,
+    deleteTagFromMovies,
     updateTags,
     addEnableFilters,
     removeEnableFilters,

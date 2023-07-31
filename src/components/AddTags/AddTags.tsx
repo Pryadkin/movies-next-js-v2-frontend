@@ -5,7 +5,7 @@ import {Space, Tag} from "antd"
 import {IMovie} from "@/api/apiTypes"
 import {errorMessage} from "@/notification"
 import {
-    deleteTagToMovie,
+    deleteTagFromMovie,
     setTagToMovie
 } from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
@@ -41,7 +41,7 @@ export const AddTags: FC<Props> = ({
     }
 
     const handleMovieTagClick = (value: ITag) => () => {
-        dispatch(deleteTagToMovie(value))
+        dispatch(deleteTagFromMovie(value))
     }
 
     const getTags = (t: ITag[], isMovieTag?: boolean) => t?.map(tag => {

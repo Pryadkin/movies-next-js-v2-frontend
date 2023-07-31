@@ -10,13 +10,17 @@ const Profile = () => {
 
     return (
         <>
-            {data && (
-                <CardItems
-                    data={filteredMovies}
-                    isFetching={isFetching}
-                    isProfileCard
-                />
-            )}
+            {data
+                ? (
+                    <CardItems
+                        data={filteredMovies}
+                        isFetching={isFetching}
+                        isProfileCard
+                    />
+                )
+                : (
+                    <h2>The movies is not found</h2>
+                )}
         </>
     )
 }

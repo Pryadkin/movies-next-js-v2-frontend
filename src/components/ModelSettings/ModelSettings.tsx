@@ -10,13 +10,15 @@ import {
     Typography,
 } from 'antd'
 
+import {useDeleteMovieTags} from '@/hooks/useDeleteMovieTags'
 import {useDeleteTag} from '@/hooks/useDeleteTag'
 import {useSaveNewTag} from '@/hooks/useSaveNewTag'
 import {useUpdateMovieTags} from '@/hooks/useUpdateMovieTags'
 import {useUpdateTags} from '@/hooks/useUpdateTags'
-import {getSelectTagsForAntSelect} from '@/redux/selectors'
 
 import styles from './ModelSettings.module.scss'
+
+import {getSelectTagsForAntSelect} from '@/redux/selectors'
 
 enum Text {
     SETTINGS = 'SETTINGS',
@@ -42,6 +44,7 @@ export const ModelSettings = ({
     const antSelectTags = useSelector(getSelectTagsForAntSelect)
     const {mutationSave} = useSaveNewTag()
     const {mutationDelete} = useDeleteTag()
+    const {mutationDeleteMovieTags} = useDeleteMovieTags()
     const {mutationTagsUpdate} = useUpdateTags()
     const {mutationMovieTagsUpdate} = useUpdateMovieTags()
 
@@ -57,6 +60,8 @@ export const ModelSettings = ({
             tagName: selectRemoveTagValue,
             color: ''
         })
+        mutationDeleteMovieTags.mutate(selectRemoveTagValue)
+
         setSelectRemoveTagValue('')
     }
     const handleRenameTagBtnClick = () => {

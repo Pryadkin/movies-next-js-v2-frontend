@@ -96,7 +96,6 @@ const Layout: React.FC<Props> = ({
                 </Content>
             </LayoutAntd>
 
-
             <Drawer
                 title={drawerMovieTreeTitle}
                 open={isDrawerMovieTreeOpen}

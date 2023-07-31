@@ -7,11 +7,11 @@ import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestDeleteTag = async (tag: ITag):Promise<AxiosResponse<ITag[]> | undefined> => {
+export const requestDeleteMovieTags = async (tagName: string):Promise<AxiosResponse<ITag[]> | undefined> => {
     try {
         const response = await APIInstance.delete(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.DELETE_TAG}`, {
-                data: tag
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.DELETE_MOVIE_TAGS}`, {
+                data: {tagName}
             }
         )
 

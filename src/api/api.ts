@@ -10,6 +10,7 @@ import {
     requestDeleteTag,
     requestUpdateTags,
     requestUpdateMovieTags,
+    requestDeleteMovieTags,
 } from './requests.ts'
 
 export const API = {
@@ -24,4 +25,5 @@ export const API = {
     requestDeleteTag,
     requestUpdateTags,
     requestUpdateMovieTags,
+    requestDeleteMovieTags,
 }
