@@ -1,7 +1,9 @@
 /* eslint-disable init-declarations */
 import {createSelector} from "@reduxjs/toolkit"
+import dayjs from "dayjs"
 
 import {RootState} from "@/redux/store/rootReducer"
+import {TSortItem} from "@/types"
 
 export const getSelectMyMovies = (state: RootState) => state.profileReducer.myMovies
 
@@ -14,13 +16,36 @@ export const getSelectEnableFilters = (state: RootState) => state.profileReducer
 
 export const getSelectGenres = (state: RootState) => state.profileReducer.selectGenres
 export const getSelectDateViewing = (state: RootState) => state.profileReducer.selectMovie?.settings.dateViewing
+export const getSelectSortItem = (state: RootState) => state.profileReducer.sortItem
+
+export const getSortedMovies = createSelector(
+    getSelectMyMovies,
+    getSelectSortItem,
+    (movies, sortItem) => {
+        const getSort = (sortType: TSortItem) => {
+            return [...movies].sort((a, b) => {
+                const lastDateA = a.settings.dateViewing.slice(-1)[0]
+                const lastDateB = b.settings.dateViewing.slice(-1)[0]
+
+                const updateLastA = dayjs(lastDateA)
+                    .valueOf()
+                const updateLastB = dayjs(lastDateB)
+                    .valueOf()
+
+                return sortType === 'descDate' ? updateLastA - updateLastB : updateLastB - updateLastA
+            })
+        }
+
+        return getSort(sortItem)
+    }
+)
 
 export const getFilteredMovies = createSelector(
-    (state: RootState) => state.profileReducer.enableFilters,
-    (state: RootState) => state.profileReducer.selectGenres,
-    (state: RootState) => state.profileReducer.myMovies,
-    (filters, selectGenres, movies) => {
-        let filteredMovies = movies
+    getSelectEnableFilters,
+    getSelectGenres,
+    getSortedMovies,
+    (filters, selectGenres, sortedMovies) => {
+        let filteredMovies = sortedMovies
 
         for (let i = 0; i < filters.length; i++) {
             filteredMovies = filteredMovies.filter(movie => {
@@ -34,7 +59,7 @@ export const getFilteredMovies = createSelector(
             })
         }
 
-        return filters.length || selectGenres.length ? filteredMovies : movies
+        return filters.length || selectGenres.length ? filteredMovies : sortedMovies
     }
 )
 

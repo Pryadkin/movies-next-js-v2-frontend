@@ -12,6 +12,7 @@ export {
     updateTags,
     addEnableFilters,
     removeEnableFilters,
+    setSortMovies,
     getGenres,
     setSelectGenres,
     updateMovieDateViewing,

@@ -1,31 +1,33 @@
-import {FC, useMemo} from "react"
+import {FC, useMemo, useState} from "react"
 import {useSelector} from "react-redux"
 
 import type {CollapseProps} from 'antd'
 import {
     Button,
     Collapse,
-    Tag
+    Tag,
 } from "antd"
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
 import {
     addEnableFilters,
     removeEnableFilters,
-    setSelectGenres
+    setSelectGenres,
+    setSortMovies
 } from "@/redux/reducers"
 import {
     getSelectEnableFilters,
     getSelectGenres,
     getSelectTags
 } from "@/redux/selectors"
-import {useAppDispatch} from "@/redux/store"
 
 import styles from './Sidebare.module.scss'
 
-import {IGenre, ITag} from "@/types"
+import {useAppDispatch} from "@/redux/store"
+import {IGenre, ITag, TSortItem} from "@/types"
 
 import {useColorToTag} from "../AddTags/useColorToTag"
+
 interface Props {
     onModalOpen: (value: boolean) => void
 }
@@ -82,6 +84,13 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         )
     })
 
+    const [isAscSorted, setIsAscSorted] = useState(false)
+
+    const handleSortedMovieBtnClick = (value: TSortItem) => () => {
+        dispatch(setSortMovies(value))
+        setIsAscSorted(value === 'ascDate')
+    }
+
     const items: CollapseProps['items'] = [
         {
             key: '1',
@@ -106,14 +115,32 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         {
             key: '2',
             label: 'All tags',
-            children: <div className="tagsWrapper">
-                <>
-                    <h3>Selected tags</h3>
-                    {enableFilters && getTags(enableFilters, true)}
+            children: <div>
+                <h3>Selected tags</h3>
+                {enableFilters && getTags(enableFilters, true)}
 
-                    <h3>Tags</h3>
-                    {tagsWithoutEnable && getTags(tagsWithoutEnable)}
-                </>
+                <h3>Tags</h3>
+                {tagsWithoutEnable && getTags(tagsWithoutEnable)}
+            </div>,
+        },
+        {
+            key: '3',
+            label: 'Sort',
+            children: <div className={styles.dateWrapper}>
+                <Button
+                    size="small"
+                    type={isAscSorted ? 'primary' : 'default'}
+                    onClick={handleSortedMovieBtnClick('ascDate')}
+                >
+                    Viewing date asc
+                </Button>
+                <Button
+                    size="small"
+                    type={!isAscSorted ? 'primary' : 'default'}
+                    onClick={handleSortedMovieBtnClick('descDate')}
+                >
+                    Viewing date desc
+                </Button>
             </div>,
         },
     ]
@@ -131,7 +158,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
             <Collapse
                 className={styles.collapse}
                 items={items}
-                defaultActiveKey={['1', '2']}
+                defaultActiveKey={['1', '2', '3']}
                 size="small"
             />
         </div>

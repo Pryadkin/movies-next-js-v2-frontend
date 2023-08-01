@@ -7,3 +7,5 @@ export interface IGenre {
     id: number,
     name: string
 }
+
+export type TSortItem = 'ascDate' | 'descDate' | ''

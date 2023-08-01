@@ -3,7 +3,7 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 import {DrawerProps} from 'antd'
 
 import {IMovie} from '@/api/apiTypes/requestMovies'
-import {IGenre, ITag} from '@/types'
+import {IGenre, ITag, TSortItem} from '@/types'
 
 import {initialState} from './proflieState'
 
@@ -63,6 +63,9 @@ const profileSlice = createSlice({
         },
         addEnableFilters(state, action: PayloadAction<ITag>) {
             state.enableFilters.push(action.payload)
+        },
+        setSortMovies(state, action: PayloadAction<TSortItem>) {
+            state.sortItem = action.payload
         },
         removeEnableFilters(state, action: PayloadAction<ITag>) {
             const updateFilters = state.enableFilters.filter(filt => filt.tagName !== action.payload.tagName)
@@ -125,6 +128,7 @@ export const {
     updateTags,
     addEnableFilters,
     removeEnableFilters,
+    setSortMovies,
     getGenres,
     setSelectGenres,
     updateMovieDateViewing,
