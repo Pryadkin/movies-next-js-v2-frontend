@@ -1,34 +1,38 @@
+'client'
 import {useSelector} from 'react-redux'
 
 import {Input} from 'antd'
 import {Pagination} from 'antd'
 
 import {CardItems} from '@/components/CardItems'
+import {useFetchMovies} from '@/hooks/useFetchMovies'
 import {
-    getMovies,
-    setMovieName,
-} from '@/modules/reducers'
-import {RootState, useAppDispatch} from '@/modules/store/rootReducer'
+    setMovieName, setPage,
+} from '@/redux/reducers'
+import {
+    getSelectMoviesName,
+    getSelectTotalPages
+} from '@/redux/selectors/searchSelectors'
 
 import styles from './Search.module.scss'
+
+import {useAppDispatch} from '@/redux/store/rootReducer'
 
 const {Search} = Input
 
 const SearchMovies = () => {
     const dispatch = useAppDispatch()
-    const {
-        movies,
-        totalPages,
-        movieName,
-    } = useSelector((state: RootState) => state.searchReducer)
+    const totalPages = useSelector(getSelectTotalPages)
+    const movieName = useSelector(getSelectMoviesName)
+    const {data, isFetching} = useFetchMovies()
 
     const handleMoviesSearch = (value: string) => {
         dispatch(setMovieName(value))
-        dispatch(getMovies(value, true, '1'))
     }
     const handlePaginationChange = (value: number) => {
-        dispatch(getMovies(movieName, true, String(value)))
+        dispatch(setPage(value))
     }
+
     return (
         <div className={styles.searchWrapper}>
             <Search
@@ -50,11 +54,11 @@ const SearchMovies = () => {
                 />
             )}
 
-            {movieName && (
-                <CardItems movies={movies} />
-            )}
+            <CardItems
+                data={data}
+                isFetching={isFetching}
+            />
         </div>
-
     )
 }
 

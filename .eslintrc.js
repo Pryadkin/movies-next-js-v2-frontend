@@ -151,6 +151,7 @@ module.exports = {
     }],
   },
   ignorePatterns: [
+    'next.config.js',
     '.eslintrc.js',
     '.babelrc.js',
     'dev-backend',

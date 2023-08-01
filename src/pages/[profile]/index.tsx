@@ -1,25 +1,26 @@
-import {useEffect} from "react"
 import {useSelector} from "react-redux"
 
-import {useRouter} from 'next/router'
-
 import {CardItems} from "@/components/CardItems"
-import {getProfileMovies} from "@/modules/reducers"
-import {RootState, useAppDispatch} from "@/modules/store/rootReducer"
+import {useFetchProfileMovies} from "@/hooks/useFetchProfileMovies"
+import {getFilteredMovies} from "@/redux/selectors"
 
 const Profile = () => {
-    const dispatch = useAppDispatch()
-    const {asPath} = useRouter()
-    const {myMovies} = useSelector((state: RootState) => state.profileReducer)
+    const {data, isFetching} = useFetchProfileMovies()
+    const filteredMovies = useSelector(getFilteredMovies)
 
-    useEffect(() => {
-        dispatch(getProfileMovies())
-    }, [dispatch, asPath])
     return (
         <>
-            {myMovies && (
-                <CardItems movies={myMovies} />
-            )}
+            {data
+                ? (
+                    <CardItems
+                        data={filteredMovies}
+                        isFetching={isFetching}
+                        isProfileCard
+                    />
+                )
+                : (
+                    <h2>The movies is not found</h2>
+                )}
         </>
     )
 }

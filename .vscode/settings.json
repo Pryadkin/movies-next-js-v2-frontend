@@ -1,5 +1,7 @@
 {
-  "workbench.colorTheme": "Default Dark+",
+  // "workbench.colorTheme": "Default Dark+",
+  // "workbench.colorTheme": "Noctis Minimus",
+	"workbench.colorTheme": "Default Light Modern",
   "workbench.startupEditor": "none",
 
   "files.trimFinalNewlines": true,
@@ -11,7 +13,7 @@
   "emmet.triggerExpansionOnTab": false,
   "emmet.showAbbreviationSuggestions": false,
 
-  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreview": true,
 
   "workbench.tree.indent": 20,
 
@@ -35,7 +37,7 @@
   "editor.formatOnPaste": false,
 
   "editor.wordWrap": "bounded",
-  "editor.wordWrapColumn": 100,
+  // "editor.wordWrapColumn": 100,
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   }
