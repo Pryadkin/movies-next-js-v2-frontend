@@ -85,19 +85,6 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const items: CollapseProps['items'] = [
         {
             key: '1',
-            label: 'All tags',
-            children: <div className="tagsWrapper">
-                <>
-                    <h3>Selected tags</h3>
-                    {enableFilters && getTags(enableFilters, true)}
-
-                    <h3>Tags</h3>
-                    {tagsWithoutEnable && getTags(tagsWithoutEnable)}
-                </>
-            </div>,
-        },
-        {
-            key: '2',
             label: 'Genres',
             children: !isGenresFetching
                 ? genresData?.map(genre => {
@@ -116,6 +103,19 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                     <div>Loading..</div>
                 ),
         },
+        {
+            key: '2',
+            label: 'All tags',
+            children: <div className="tagsWrapper">
+                <>
+                    <h3>Selected tags</h3>
+                    {enableFilters && getTags(enableFilters, true)}
+
+                    <h3>Tags</h3>
+                    {tagsWithoutEnable && getTags(tagsWithoutEnable)}
+                </>
+            </div>,
+        },
     ]
 
     return (
@@ -131,7 +131,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
             <Collapse
                 className={styles.collapse}
                 items={items}
-                defaultActiveKey={['1']}
+                defaultActiveKey={['1', '2']}
                 size="small"
             />
         </div>

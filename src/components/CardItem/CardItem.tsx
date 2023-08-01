@@ -61,7 +61,7 @@ export const CardItem: FC<Props> = ({
                         className={clsx(styles.btn, styles.btnFilter)}
                         onClick={handleFilterBtnClick(movie.id)}
                     >
-                        filter
+                        SETTINGS
                     </Button>
                 </>
             )

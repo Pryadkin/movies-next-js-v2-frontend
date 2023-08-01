@@ -1,0 +1,1 @@
+export {MovieSettings} from './MovieSettings'

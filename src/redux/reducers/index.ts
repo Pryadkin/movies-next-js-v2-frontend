@@ -22,4 +22,7 @@ export {
     removeEnableFilters,
     getGenres,
     setSelectGenres,
+    updateMovieDateViewing,
+    addMovieDateViewing,
+    deleteMovieDateViewing,
 } from './profileReducer'

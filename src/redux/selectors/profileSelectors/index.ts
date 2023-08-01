@@ -13,6 +13,7 @@ export const getSelectTags = (state: RootState) => state.profileReducer.tags
 export const getSelectEnableFilters = (state: RootState) => state.profileReducer.enableFilters
 
 export const getSelectGenres = (state: RootState) => state.profileReducer.selectGenres
+export const getSelectDateViewing = (state: RootState) => state.profileReducer.selectMovie?.settings.dateViewing
 
 export const getFilteredMovies = createSelector(
     (state: RootState) => state.profileReducer.enableFilters,

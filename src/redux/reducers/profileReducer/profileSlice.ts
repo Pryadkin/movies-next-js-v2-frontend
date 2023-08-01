@@ -82,6 +82,29 @@ const profileSlice = createSlice({
             } else {
                 state.selectGenres.push(action.payload)
             }
+        },
+        updateMovieDateViewing(state, action: PayloadAction<string[]>) {
+            if (state.selectMovie) {
+                state.selectMovie.settings.dateViewing = action.payload
+            }
+        },
+        addMovieDateViewing(state, action: PayloadAction<string>) {
+            state.selectMovie?.settings.dateViewing.push(action.payload)
+        },
+        deleteMovieDateViewing(state, action: PayloadAction<string>) {
+            const filteredDate = state.selectMovie?.settings.dateViewing.filter(date => date !== action.payload)
+
+            if (state.selectMovie) {
+                const updateMovie = {
+                    ...state.selectMovie,
+                    settings: {
+                        ...state.selectMovie.settings,
+                        dateViewing: filteredDate || []
+                    }
+                }
+
+                state.selectMovie = updateMovie
+            }
 
         }
     },
@@ -104,4 +127,7 @@ export const {
     removeEnableFilters,
     getGenres,
     setSelectGenres,
+    updateMovieDateViewing,
+    addMovieDateViewing,
+    deleteMovieDateViewing,
 } = profileSlice.actions

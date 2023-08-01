@@ -3,7 +3,6 @@ import {useSelector} from 'react-redux'
 
 const Header = dynamic(import('@/components/Header/Header'), {ssr: false})
 import {
-    Button,
     DrawerProps,
     Layout as LayoutAntd,
 } from 'antd'
@@ -15,7 +14,6 @@ import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 
 import styles from './Layout.module.scss'
 
-import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 import {
     getIsDrawerMovieTagsOpen,
     setSelectMovie
@@ -23,14 +21,13 @@ import {
 import {
     getSelectIsDrawerMovieTagsOpen,
     getSelectMovie,
-    getSelectTags,
 } from '@/redux/selectors'
 import {useAppDispatch} from '@/redux/store'
 
-import {AddTags} from '../AddTags'
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
 import {ModelSettings} from '../ModelSettings'
+import {MovieSettings} from '../MovieSettings'
 import {Sidebare} from '../Sidebare'
 
 const {Sider, Content} = LayoutAntd
@@ -43,10 +40,9 @@ const Layout: React.FC<Props> = ({
 }) => {
     const {asPath} = useRouter()
     const dispatch = useAppDispatch()
-    const {mutationUpdate} = useUpdateProfileMovie()
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
     const selectMovie = useSelector(getSelectMovie)
-    const selectTegs = useSelector(getSelectTags)
+
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
@@ -66,12 +62,6 @@ const Layout: React.FC<Props> = ({
 
         // delete select movie by close drawer
         dispatch(setSelectMovie(0))
-    }
-
-    const handleUpdateMovieClick = () => {
-        if (selectMovie) {
-            mutationUpdate.mutate(selectMovie)
-        }
     }
 
     return (
@@ -107,17 +97,11 @@ const Layout: React.FC<Props> = ({
             </Drawer>
 
             <Drawer
-                title={selectMovie?.title}
+                title={`SETTINGS: ${selectMovie?.title}`}
                 open={isDrawerMovieTagsOpen}
                 onOpen={handlesetDrawerMovieTagsOpen}
             >
-                <AddTags
-                    movie={selectMovie}
-                    tags={selectTegs}
-                />
-                <Button onClick={handleUpdateMovieClick}>
-                    Update movie
-                </Button>
+                <MovieSettings />
             </Drawer>
 
             <ModelSettings

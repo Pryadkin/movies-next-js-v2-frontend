@@ -37,6 +37,7 @@ export interface IMovie {
             color: string,
         }[],
         dateAdd: string,
+        dateViewing: string[]
     }
 }
 

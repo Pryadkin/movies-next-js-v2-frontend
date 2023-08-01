@@ -64,6 +64,7 @@ export const AddTags: FC<Props> = ({
 
     return (
         <Space
+            className={styles.wrapper}
             align="start"
             size={[0, 8]}
             wrap
