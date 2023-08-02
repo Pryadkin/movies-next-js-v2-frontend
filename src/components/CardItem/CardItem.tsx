@@ -1,7 +1,7 @@
 import {FC, useState} from 'react'
 import {useSelector} from 'react-redux'
 
-import {Button, Card} from 'antd'
+import {Button, Card, Popconfirm} from 'antd'
 import clsx from 'clsx'
 import Image from 'next/image'
 
@@ -86,7 +86,7 @@ export const CardItem: FC<Props> = ({
                 <Card
                     className={styles.card}
                     hoverable
-                    style={{width, height, border: '1px solid black'}}
+                    style={{width, height}}
                     cover={
                         <Image
                             alt={title || ''}
@@ -108,17 +108,37 @@ export const CardItem: FC<Props> = ({
         }
     }
 
+    const addLangButton = (mov: IMovie | IMovieLang) => {
+        if (isIMovieLang(mov)) {
+            return <Button
+                type="default"
+                className={clsx(styles.btn, styles.btnLang)}
+                onClick={() => setIsAddMovieModalOpen(true)}
+            >
+                ADD LAND
+            </Button>
+        }
+    }
+
     const button = () => {
         if (isProfileCard) {
             return (
                 <>
-                    <Button
-                        type="default"
-                        className={clsx(styles.btn, styles.btnRemove)}
-                        onClick={handleRemoveBtnClick(movie.id)}
+                    <Popconfirm
+                        title="Delete the movie"
+                        description="Are you sure to delete this movie?"
+                        onConfirm={handleRemoveBtnClick(movie.id)}
+                        okText="Yes"
+                        cancelText="No"
                     >
-                        remove
-                    </Button>
+                        <Button
+                            type="default"
+                            className={clsx(styles.btn, styles.btnRemove)}
+                        >
+                            remove
+                        </Button>
+                    </Popconfirm>
+
                     <Button
                         type="default"
                         className={clsx(styles.btn, styles.btnFilter)}
@@ -150,6 +170,8 @@ export const CardItem: FC<Props> = ({
             />
 
             {button()}
+
+            {addLangButton(movie)}
 
             {getCard(movie)}
 

@@ -44,3 +44,12 @@
         border-radius: 5px;
     }
 }
+
+.titleList {
+    display: flex;
+    flex-direction: column;
+
+    p {
+        margin: 0 !important;
+    }
+}
