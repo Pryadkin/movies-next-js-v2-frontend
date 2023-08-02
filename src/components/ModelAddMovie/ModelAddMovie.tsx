@@ -111,6 +111,11 @@ export const ModelAddMovie = ({
                         <div className={styles.titleList}>
                             <p>{movie.title}</p>
                             <p>{`Original: ${movie.original_title}`}</p>
+                            <p style={{
+                                background: 'lightgray',
+                                borderRadius: 5,
+                                textAlign: 'center'
+                            }}>{movie.release_date}</p>
                         </div>
                     </li>
                 )
@@ -129,6 +134,8 @@ export const ModelAddMovie = ({
         } else {
             request(movieWithLang)
         }
+
+        onModalCancel()
     }
 
     return (
@@ -150,6 +157,7 @@ export const ModelAddMovie = ({
                 direction="vertical"
             >
                 {movieWithLang.title_en || movieWithLang.title_ru}
+                {movieWithLang.release_date}
 
                 <Button onClick={handleUploadAnotherLangMovieBtnClick}>
                     добавить фильм на {correctLang}

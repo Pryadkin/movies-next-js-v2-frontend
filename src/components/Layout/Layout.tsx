@@ -107,7 +107,7 @@ const Layout: React.FC<Props> = ({
             </Drawer>
 
             <Drawer
-                title={`SETTINGS: ${selectMovie?.title}`}
+                title={`SETTINGS: ${lang === 'en-EN' ? selectMovie?.title_en : selectMovie?.title_ru}`}
                 open={isDrawerMovieTagsOpen}
                 onOpen={handlesetDrawerMovieTagsOpen}
             >
