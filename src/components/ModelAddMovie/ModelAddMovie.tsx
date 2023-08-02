@@ -159,11 +159,14 @@ export const ModelAddMovie = ({
                     {getAnotherLangMovie()}
                 </ol>
 
-                <SetMovieDate
-                    movie={newMovie}
-                    onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
-                    onAddMovieDateViewing={handleAddMovieDateViewing}
-                />
+                {!isProfilePath && (
+                    <SetMovieDate
+                        movie={newMovie}
+                        onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
+                        onAddMovieDateViewing={handleAddMovieDateViewing}
+                    />
+                )}
+
                 <Button onClick={handleAddMovieBtnClick}>
                     Add MOVIE
                 </Button>

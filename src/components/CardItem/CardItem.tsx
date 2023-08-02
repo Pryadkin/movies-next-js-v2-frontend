@@ -112,6 +112,7 @@ export const CardItem: FC<Props> = ({
         if (isIMovieLang(mov)) {
             return <Button
                 type="default"
+                size='small'
                 className={clsx(styles.btn, styles.btnLang)}
                 onClick={() => setIsAddMovieModalOpen(true)}
             >
