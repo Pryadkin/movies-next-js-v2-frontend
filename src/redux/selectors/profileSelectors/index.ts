@@ -12,7 +12,8 @@ export const getSelectIsDrawerMovieTagsOpen = (state: RootState) => state.profil
 export const getSelectMovie = (state: RootState) => state.profileReducer.selectMovie
 
 export const getSelectTags = (state: RootState) => state.profileReducer.tags
-export const getSelectEnableFilters = (state: RootState) => state.profileReducer.enableFilters
+export const getSelectSelTags = (state: RootState) => state.profileReducer.selectTags
+export const getSelectSelIgnoreTags = (state: RootState) => state.profileReducer.selectIgnoreTags
 
 export const getSelectGenres = (state: RootState) => state.profileReducer.selectGenres
 export const getSelectIgnoreGenres = (state: RootState) => state.profileReducer.selectIgnoreGenres
@@ -43,21 +44,29 @@ export const getSortedMovies = createSelector(
 )
 
 export const getFilteredMovies = createSelector(
-    getSelectEnableFilters,
+    getSelectSelTags,
+    getSelectSelIgnoreTags,
     getSelectGenres,
     getSelectIgnoreGenres,
     getSortedMovies,
     (
-        filters,
+        tags,
+        ignoreTags,
         selectGenres,
         selectIgnoreGenres,
         sortedMovies
     ) => {
         let filteredMovies = sortedMovies
 
-        for (let i = 0; i < filters.length; i++) {
+        for (let i = 0; i < tags.length; i++) {
             filteredMovies = filteredMovies.filter(movie => {
-                return movie.settings.tags.find(tag => tag.tagName === filters[i].tagName)
+                return movie.settings.tags.find(tag => tag.tagName === tags[i].tagName)
+            })
+        }
+
+        for (let i = 0; i < ignoreTags.length; i++) {
+            filteredMovies = filteredMovies.filter(movie => {
+                return !movie.settings.tags.find(tag => tag.tagName === ignoreTags[i].tagName)
             })
         }
 
@@ -73,7 +82,12 @@ export const getFilteredMovies = createSelector(
             })
         }
 
-        return filters.length || selectGenres.length || selectIgnoreGenres.length ? filteredMovies : sortedMovies
+        return tags.length ||
+        ignoreTags.length ||
+        selectGenres.length ||
+        selectIgnoreGenres.length
+            ? filteredMovies
+            : sortedMovies
     }
 )
 

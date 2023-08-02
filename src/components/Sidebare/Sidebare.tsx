@@ -1,4 +1,4 @@
-import {FC, useMemo, useState} from "react"
+import {FC, useState} from "react"
 import {useSelector} from "react-redux"
 
 import {CheckOutlined, CloseOutlined} from '@ant-design/icons'
@@ -13,17 +13,18 @@ import {
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
 import {
-    addEnableFilters,
-    removeEnableFilters,
+    addSelectGenres,
+    addSelectIgnoreGenres,
+    addSelectIgnoreTags,
+    addSelectTags,
     removeSelectGenres,
     removeSelectIgnoreGenres,
+    removeSelectIgnoreTags,
+    removeSelectTags,
     setGenreFlagStatus,
-    setSelectGenres,
-    setSelectIgnoreGenres,
     setSortMovies
 } from "@/redux/reducers"
 import {
-    getSelectEnableFilters,
     getSelectGenreFlagStatus,
     getSelectGenres,
     getSelectTags
@@ -31,11 +32,9 @@ import {
 
 import styles from './Sidebare.module.scss'
 
-import {getSelectIgnoreGenres} from "@/redux/selectors/profileSelectors"
+import {getSelectIgnoreGenres, getSelectSelIgnoreTags, getSelectSelTags} from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
 import {IGenre, ITag, TSortItem} from "@/types"
-
-import {useColorToTag} from "../AddTags/useColorToTag"
 
 interface Props {
     onModalOpen: (value: boolean) => void
@@ -44,26 +43,42 @@ interface Props {
 export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const dispatch = useAppDispatch()
     const tags = useSelector(getSelectTags)
-    const enableFilters = useSelector(getSelectEnableFilters)
+    const selectTags = useSelector(getSelectSelTags)
+    const selectIgnoreTags = useSelector(getSelectSelIgnoreTags)
     const selectGenres = useSelector(getSelectGenres)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
-    const tagsWithoutEnable = useMemo(() => {
-        return tags ? tags.filter(tag => !enableFilters.includes(tag)) : []
-    }, [tags, enableFilters])
-    const getColorTag = useColorToTag()
+    const [tagFlagStatus, setTagFlagStatus] = useState(true)
 
     const {
         genresData,
         isGenresFetching
     } = useFetchGenres()
 
-    const handleTagClick = (tag: ITag) => () => {
-        dispatch(addEnableFilters(tag))
+    const handleCustomTagClick = (value: ITag) => () => {
+        const isTagExist = selectTags.find(tag => tag.tagName === value.tagName)
+        const isTagIgnoreExist = selectIgnoreTags.find(tag => tag.tagName === value.tagName)
+
+        if (isTagExist) {
+            dispatch(removeSelectTags(value))
+        } else {
+            dispatch(addSelectTags(value))
+
+            isTagIgnoreExist && dispatch(removeSelectIgnoreTags(value))
+        }
     }
 
-    const handleEnableFilterClick = (tag: ITag) => () => {
-        dispatch(removeEnableFilters(tag))
+    const handleCustomTagIgnoreClick = (value: ITag) => () => {
+        const isTagExist = selectTags.find(tag => tag.tagName === value.tagName)
+        const isTagIgnoreExist = selectIgnoreTags.find(tag => tag.tagName === value.tagName)
+
+        if (isTagIgnoreExist) {
+            dispatch(removeSelectIgnoreTags(value))
+        } else {
+            dispatch(addSelectIgnoreTags(value))
+
+            isTagExist && dispatch(removeSelectTags(value))
+        }
     }
 
     const handleGenreTagClick = (value: IGenre) => () => {
@@ -73,7 +88,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         if (isGenreExist) {
             dispatch(removeSelectGenres(value))
         } else {
-            dispatch(setSelectGenres(value))
+            dispatch(addSelectGenres(value))
 
             isGenreIgnoreExist && dispatch(removeSelectIgnoreGenres(value))
         }
@@ -86,36 +101,11 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         if (isGenreIgnoreExist) {
             dispatch(removeSelectIgnoreGenres(value))
         } else {
-            dispatch(setSelectIgnoreGenres(value))
+            dispatch(addSelectIgnoreGenres(value))
 
             isGenreExist && dispatch(removeSelectGenres(value))
         }
     }
-
-    const getTags = (t: ITag[], isEnable?: boolean) => t.map(tag => {
-        if (isEnable) {
-            return (
-                <Tag
-                    className={styles.tag}
-                    key={tag.tagName}
-                    color={getColorTag(tag.tagName)}
-                    onClick={handleEnableFilterClick(tag)}
-                >
-                    {tag.tagName}
-                </Tag>
-            )
-        }
-        return (
-            <Tag
-                className={styles.tag}
-                key={tag.tagName}
-                color={getColorTag(tag.tagName)}
-                onClick={handleTagClick(tag)}
-            >
-                {tag.tagName}
-            </Tag>
-        )
-    })
 
     const [isAscSorted, setIsAscSorted] = useState(false)
 
@@ -128,7 +118,45 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         dispatch(setGenreFlagStatus(val))
     }
 
-    const genresTags = () => {
+    const customTags = () => {
+        if (tagFlagStatus) {
+            return (
+                <div>
+                    {tags?.map(tag => {
+                        return (
+                            <Tag
+                                key={tag.tagName}
+                                className={styles.tag}
+                                color={selectTags.find(item => item.tagName === tag.tagName) ? 'cyan' : 'default'}
+                                onClick={handleCustomTagClick(tag)}
+                            >
+                                {tag.tagName}
+                            </Tag>
+                        )
+                    })}
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                {tags?.map(tag => {
+                    return (
+                        <Tag
+                            key={tag.tagName}
+                            className={styles.tag}
+                            color={selectIgnoreTags.find(item => item.tagName === tag.tagName) ? 'volcano' : 'blue'}
+                            onClick={handleCustomTagIgnoreClick(tag)}
+                        >
+                            {tag.tagName}
+                        </Tag>
+                    )
+                })}
+            </div>
+        )
+    }
+
+    const genreTags = () => {
         if (genreFlagStatus) {
             return (
                 <div>
@@ -186,18 +214,21 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                     onChange={handleGenreSwitchChange}
                     defaultChecked
                 />
-                {genresTags()}
+                {genreTags()}
             </div>
         },
         {
             key: '2',
             label: 'All tags',
-            children: <div>
-                <h3>Selected tags</h3>
-                {enableFilters && getTags(enableFilters, true)}
-
-                <h3>Tags</h3>
-                {tagsWithoutEnable && getTags(tagsWithoutEnable)}
+            children: <div className={styles.genreWrapper}>
+                <Switch
+                    className={styles.switch}
+                    checkedChildren={<CheckOutlined rev={undefined} />}
+                    unCheckedChildren={<CloseOutlined rev={undefined} />}
+                    onChange={() => setTagFlagStatus(!tagFlagStatus)}
+                    defaultChecked
+                />
+                {customTags()}
             </div>,
         },
         {

@@ -61,30 +61,38 @@ const profileSlice = createSlice({
         updateTags(state, action: PayloadAction<ITag[]>) {
             state.tags = action.payload
         },
-        addEnableFilters(state, action: PayloadAction<ITag>) {
-            state.enableFilters.push(action.payload)
+        addSelectTags(state, action: PayloadAction<ITag>) {
+            state.selectTags.push(action.payload)
+        },
+        addSelectIgnoreTags(state, action: PayloadAction<ITag>) {
+            state.selectIgnoreTags.push(action.payload)
+        },
+        removeSelectTags(state, action: PayloadAction<ITag>) {
+            const updateGenres = state.selectTags.filter(genre => genre.tagName !== action.payload.tagName)
+
+            state.selectTags = updateGenres
+        },
+        removeSelectIgnoreTags(state, action: PayloadAction<ITag>) {
+            const updateFilters = state.selectIgnoreTags.filter(filt => filt.tagName !== action.payload.tagName)
+
+            state.selectIgnoreTags = updateFilters
         },
         setSortMovies(state, action: PayloadAction<TSortItem>) {
             state.sortItem = action.payload
         },
-        removeEnableFilters(state, action: PayloadAction<ITag>) {
-            const updateFilters = state.enableFilters.filter(filt => filt.tagName !== action.payload.tagName)
-
-            state.enableFilters = updateFilters
-        },
         getGenres(state, action: PayloadAction<IGenre[]>) {
             state.genres = action.payload
         },
-        setSelectGenres(state, action: PayloadAction<IGenre>) {
+        addSelectGenres(state, action: PayloadAction<IGenre>) {
             state.selectGenres.push(action.payload)
-        },
-        setSelectIgnoreGenres(state, action: PayloadAction<IGenre>) {
-            state.selectIgnoreGenres.push(action.payload)
         },
         removeSelectGenres(state, action: PayloadAction<IGenre>) {
             const updateGenres = state.selectGenres.filter(genre => genre.id !== action.payload.id)
 
             state.selectGenres = updateGenres
+        },
+        addSelectIgnoreGenres(state, action: PayloadAction<IGenre>) {
+            state.selectIgnoreGenres.push(action.payload)
         },
         removeSelectIgnoreGenres(state, action: PayloadAction<IGenre>) {
             const updateGenres = state.selectIgnoreGenres.filter(genre => genre.id !== action.payload.id)
@@ -133,13 +141,15 @@ export const {
     deleteTagFromMovie,
     deleteTagFromMovies,
     updateTags,
-    addEnableFilters,
-    removeEnableFilters,
+    addSelectTags,
+    removeSelectTags,
+    addSelectIgnoreTags,
+    removeSelectIgnoreTags,
     setSortMovies,
     getGenres,
     setGenreFlagStatus,
-    setSelectGenres,
-    setSelectIgnoreGenres,
+    addSelectGenres,
+    addSelectIgnoreGenres,
     removeSelectGenres,
     removeSelectIgnoreGenres,
     updateMovieDateViewing,
