@@ -6,21 +6,31 @@ import {Header as HeaderAntd} from 'antd/es/layout/layout'
 import Link from 'next/link'
 
 import {RootState} from '@/redux/store/rootReducer'
+import {TLanguage} from '@/types'
 
 import styles from './Header.module.scss'
 
 interface Props {
-    onDrawerMovieListOpen: () => void
+    lang: TLanguage,
+    onDrawerMovieListOpen: () => void,
+    onLangChange: (val: TLanguage) => void,
 }
 
 const Header: FC<Props> = ({
-    onDrawerMovieListOpen
+    lang,
+    onDrawerMovieListOpen,
+    onLangChange,
 }) => {
     const userName = useSelector((state: RootState) => state.profileReducer.userName)
     const navigation = [
         {id: 1, title: 'Profile', path: userName},
         {id: 2, title: 'Search', path: '/search'},
     ]
+
+    const handleLangClick = () => {
+        const correctLang = lang === 'ru-RU' ? 'en-EN' : 'ru-RU'
+        onLangChange(correctLang)
+    }
 
     return (
         <HeaderAntd
@@ -38,6 +48,13 @@ const Header: FC<Props> = ({
                     </Link>
                 ))}
             </div>
+
+            <Button
+                size="small"
+                onClick={handleLangClick}
+            >
+                {lang}
+            </Button>
 
             <Button
                 size="small"

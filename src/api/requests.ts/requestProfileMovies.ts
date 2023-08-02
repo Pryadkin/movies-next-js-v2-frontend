@@ -1,16 +1,16 @@
 import {AxiosResponse} from 'axios'
 
 import {APIInstance} from '../apiInstance'
-import {IMovie} from '../apiTypes/requestMovies'
+import {IMovieLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestProfileMovies = async (): Promise<AxiosResponse<IMovie[]> | undefined> => {
+export const requestProfileMovies = async (): Promise<AxiosResponse<IMovieLang[]> | undefined> => {
     try {
         const response = await APIInstance.get(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_PROFILE_MOVIES}`,
         )
 
-        return (response as AxiosResponse<IMovie[]>)
+        return (response as AxiosResponse<IMovieLang[]>)
 
     } catch (error) {
         if (error instanceof Error) {

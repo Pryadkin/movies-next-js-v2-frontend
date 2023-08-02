@@ -21,10 +21,10 @@ import styles from './ModelSettings.module.scss'
 import {getSelectTagsForAntSelect} from '@/redux/selectors'
 
 enum Text {
-    SETTINGS = 'SETTINGS',
+    TITLE = 'SETTINGS',
     TEGS = 'Tags',
     ENTER_TAG_NAME = 'Enter the tag name',
-    SELECT_TAG_NAME = 'Select the tag name',
+    SELECT_TAG_NAME = 'Select the tag name to delete',
     SELECT_TAG_NAME_TO_REMANE = 'Select the tag name to rename',
 }
 
@@ -85,7 +85,7 @@ export const ModelSettings = ({
                     level={3}
                     style={{margin: 0}}
                 >
-                    {Text.SETTINGS}
+                    {Text.TITLE}
                 </Typography.Title>
             }
             open={isModalOpen}

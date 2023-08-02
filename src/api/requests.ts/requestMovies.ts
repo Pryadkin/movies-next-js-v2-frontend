@@ -1,18 +1,21 @@
 import {AxiosResponse} from 'axios'
 
+import {TLanguage} from '@/types'
+
 import {APIInstance} from '../apiInstance'
 import {IRequestMovies, IResponseMovies} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-const langEN = 'en-US'
-const langRu = 'ru-RU'
-
-export const requestMovies = async (name: string, page: string): Promise<AxiosResponse<IResponseMovies> | undefined> => {
+export const requestMovies = async (
+    name: string,
+    page: string,
+    lang: TLanguage
+): Promise<AxiosResponse<IResponseMovies> | undefined> => {
     const params: IRequestMovies = {
         api_key: process.env.API_MOVIE_KEY || '',
         query: name,
         page: page,
-        language: langEN,
+        language: lang,
         include_adult: false,
     }
 

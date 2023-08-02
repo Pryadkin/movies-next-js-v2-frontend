@@ -1,5 +1,6 @@
 export type {
     IRequestMovies,
     IErrorResponse,
-    IMovie
+    IMovie,
+    IMovieLang,
 } from './requestMovies'

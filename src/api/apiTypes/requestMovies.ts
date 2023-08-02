@@ -41,6 +41,51 @@ export interface IMovie {
     }
 }
 
+export interface IMovieLang {
+    id: number
+    popularity: number
+    vote_count: number
+    video: false
+    poster_path_en: string | null
+    poster_path_ru: string | null
+    adult: boolean
+    backdrop_path_en: string | null
+    backdrop_path_ru: string | null
+    original_language: string
+    original_title: string
+    genre_ids: Array<number>
+    title_en: string | null
+    title_ru: string | null
+    vote_average: number
+    overview_en: string | null
+    overview_ru: string | null
+    release_date: string
+    settings: {
+        tags: {
+            tagName: string,
+            color: string,
+        }[],
+        dateAdd: string,
+        dateViewing: string[]
+    }
+}
+
+export type TMovieEn = Omit<
+IMovieLang,
+'poster_path_ru' |
+'backdrop_path_ru' |
+'title_ru' |
+'overview_ru'
+>
+
+export type TMovieRu = Omit<
+IMovieLang,
+'poster_path_en' |
+'backdrop_path_en' |
+'title_en' |
+'overview_en'
+>
+
 export interface IErrorResponse {
     error: string,
     message: string,

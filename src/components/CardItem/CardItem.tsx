@@ -1,22 +1,26 @@
-import {FC} from 'react'
+import {FC, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 import {Button, Card} from 'antd'
 import clsx from 'clsx'
 import Image from 'next/image'
 
-import {IMovie} from '@/api/apiTypes'
+import {IMovie, IMovieLang} from '@/api/apiTypes'
+import {isIMovie, isIMovieLang} from "@/helpers"
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
-import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 
 import styles from './CardItem.module.scss'
 
 import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
+
+import {ModelAddMovie} from '../ModelAddMovie'
 
 const {Meta} = Card
 
 interface Props {
-    movie: IMovie,
+    movie: IMovieLang | IMovie,
     width: number,
     height: number,
     isProfileCard?: boolean,
@@ -29,11 +33,12 @@ export const CardItem: FC<Props> = ({
     isProfileCard,
 }) => {
     const dispatch = useAppDispatch()
-    const {mutationSave} = useSaveProfileMovie()
+    const lang = useSelector(getSelectLanguage)
     const {mutationDelete} = useDeleteMovie()
+    const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
 
-    const handleAddBtnClick = (movie: IMovie) => () => {
-        mutationSave.mutate(movie)
+    const handleAddBtnClick = () => {
+        setIsAddMovieModalOpen(true)
     }
 
     const handleRemoveBtnClick = (movieId: number) => () => {
@@ -43,6 +48,64 @@ export const CardItem: FC<Props> = ({
     const handleFilterBtnClick = (movieId: number) => () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
         dispatch(setSelectMovie(movieId))
+    }
+
+    const getCard = (mov: IMovie | IMovieLang) => {
+        if (isIMovie(mov)) {
+            return (
+                <Card
+                    className={styles.card}
+                    hoverable
+                    style={{width, height}}
+                    cover={
+                        <Image
+                            alt={mov.title}
+                            src={mov.poster_path || ''}
+                            width={240}
+                            height={360}
+                            blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
+                            placeholder="blur"
+                        />
+
+                    }
+                >
+                    <Meta
+                        title={mov.title}
+                        // description={getMinText(movie.overview)}
+                        description={movie.release_date}
+                    />
+                </Card>
+            )
+        }
+
+        if (isIMovieLang(mov)) {
+            const title = lang === 'en-EN' ? mov.title_en : mov.title_ru
+            const poster_path = lang === 'en-EN' ? mov.poster_path_en : mov.poster_path_ru
+
+            return (
+                <Card
+                    className={styles.card}
+                    hoverable
+                    style={{width, height, border: '1px solid black'}}
+                    cover={
+                        <Image
+                            alt={title || ''}
+                            src={poster_path || ''}
+                            width={240}
+                            height={360}
+                            blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
+                            placeholder="blur"
+                        />
+                    }
+                >
+                    <Meta
+                        title={title}
+                        // description={getMinText(movie.overview)}
+                        description={mov.release_date}
+                    />
+                </Card>
+            )
+        }
     }
 
     const button = () => {
@@ -70,9 +133,9 @@ export const CardItem: FC<Props> = ({
             <Button
                 type="default"
                 className={styles.btn}
-                onClick={handleAddBtnClick(movie)}
+                onClick={handleAddBtnClick}
             >
-            add
+                add
             </Button>
         )
     }
@@ -88,29 +151,13 @@ export const CardItem: FC<Props> = ({
 
             {button()}
 
-            <Card
-                className={styles.card}
-                hoverable
-                style={{width, height}}
-                cover={
-                    movie?.poster_path && (
-                        <Image
-                            alt={movie.title}
-                            src={movie.poster_path}
-                            width={240}
-                            height={360}
-                            blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
-                            placeholder="blur"
-                        />
-                    )
-                }
-            >
-                <Meta
-                    title={movie.title}
-                    // description={getMinText(movie.overview)}
-                    description={movie.release_date}
-                />
-            </Card>
+            {getCard(movie)}
+
+            <ModelAddMovie
+                movie={movie as IMovie}
+                isModalOpen={isAddMovieModalOpen}
+                onModalCancel={() => setIsAddMovieModalOpen(false)}
+            />
         </div>
     )
 }

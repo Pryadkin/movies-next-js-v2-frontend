@@ -5,13 +5,15 @@ import {combineReducers} from '@reduxjs/toolkit'
 import {
     searchReducer,
     profileReducer,
+    layoutReducer,
 } from '../reducers'
 
 import {store} from './store'
 
 const rootReducer = combineReducers({
     searchReducer,
-    profileReducer
+    profileReducer,
+    layoutReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

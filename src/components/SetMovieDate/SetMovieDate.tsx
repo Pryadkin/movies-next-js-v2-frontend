@@ -1,5 +1,4 @@
-import {useEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
+import {FC, useEffect, useState} from 'react'
 
 import {Button, DatePicker, DatePickerProps} from 'antd'
 import dayjs from 'dayjs'
@@ -12,9 +11,7 @@ import weekday from 'dayjs/plugin/weekday'
 
 import styles from './SetMovieDate.module.scss'
 
-import {addMovieDateViewing, updateMovieDateViewing} from '@/redux/reducers'
-import {getSelectDateViewing} from '@/redux/selectors/profileSelectors'
-import {useAppDispatch} from '@/redux/store'
+import {IMovieLang} from '@/api/apiTypes'
 
 import {DateListItem} from './DateListItem'
 
@@ -27,9 +24,17 @@ dayjs.extend(weekYear)
 
 const dateFormat = 'YYYY.MM.DD'
 
-export const SetMovieDate = () => {
-    const dispatch = useAppDispatch()
-    const movieDateViewing = useSelector(getSelectDateViewing)
+interface Props {
+    movie: IMovieLang | null | undefined,
+    onUpdateMovieDateViewing: (val: string[]) => void,
+    onAddMovieDateViewing: (val: string) => void
+}
+export const SetMovieDate: FC<Props> = ({
+    movie,
+    onUpdateMovieDateViewing,
+    onAddMovieDateViewing
+}) => {
+    const movieDateViewing = movie?.settings.dateViewing
     const [datePickerValue, setDatePickerValue] = useState('')
     const [addDatePickerValue, setAddDatePickerValue] = useState('')
     const [dateViewing, setDateViewing] = useState([''])
@@ -49,7 +54,7 @@ export const SetMovieDate = () => {
 
         setDatePickerValue(dateString)
         setDateViewing(updateDate)
-        updateDate && dispatch(updateMovieDateViewing(updateDate))
+        onUpdateMovieDateViewing(updateDate)
     }
 
     const handleDateListItemClick = (value: string) => () => {
@@ -57,7 +62,7 @@ export const SetMovieDate = () => {
 
         setDatePickerValue('')
         setDateViewing(updateDate)
-        updateDate && dispatch(updateMovieDateViewing(updateDate))
+        onUpdateMovieDateViewing(updateDate)
     }
 
     const handleAddDatePickerChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -70,7 +75,7 @@ export const SetMovieDate = () => {
 
     const handleAddDateClick = () => {
         if (addDatePickerValue) {
-            dispatch(addMovieDateViewing(addDatePickerValue))
+            onAddMovieDateViewing(addDatePickerValue)
             setAddDatePickerValue('')
         }
     }

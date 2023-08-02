@@ -2,7 +2,7 @@ import {createSlice, current} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {DrawerProps} from 'antd'
 
-import {IMovie} from '@/api/apiTypes/requestMovies'
+import {IMovieLang} from '@/api/apiTypes/requestMovies'
 import {IGenre, ITag, TSortItem} from '@/types'
 
 import {initialState} from './proflieState'
@@ -11,14 +11,14 @@ const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        setMovie(state, action: PayloadAction<IMovie>) {
+        setMovie(state, action: PayloadAction<IMovieLang>) {
             state.myMovies.push(action.payload)
         },
         deleteMovie(state, action: PayloadAction<number>) {
             const removeMovie = state.myMovies.filter(movie => movie.id !== action.payload)
             state.myMovies = removeMovie
         },
-        setProfileMovies(state, action: PayloadAction<IMovie[]>) {
+        setProfileMovies(state, action: PayloadAction<IMovieLang[]>) {
             state.myMovies = action.payload
         },
         getIsDrawerMovieTagsOpen(state, action: PayloadAction<DrawerProps['open']>) {
@@ -51,7 +51,7 @@ const profileSlice = createSlice({
 
             state.myMovies = updateMovies
         },
-        updateMovie(state, action: PayloadAction<IMovie>) {
+        updateMovie(state, action: PayloadAction<IMovieLang>) {
             const updateMovie = state.myMovies.map(movie => {
                 if (movie.id === action.payload.id) return action.payload
                 return movie

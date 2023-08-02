@@ -9,3 +9,5 @@ export interface IGenre {
 }
 
 export type TSortItem = 'ascDate' | 'descDate' | ''
+
+export type TLanguage = 'ru-RU' | 'en-EN'

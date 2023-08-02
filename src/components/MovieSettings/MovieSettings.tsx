@@ -4,13 +4,17 @@ import {Button} from "antd"
 
 import {SetMovieDate} from "@/components/SetMovieDate"
 import {useUpdateProfileMovie} from "@/hooks/useUpdateProfileMovie"
+import {addMovieDateViewing, updateMovieDateViewing} from "@/redux/reducers"
 import {getSelectMovie, getSelectTags} from "@/redux/selectors"
 
 import styles from './MovieSettings.module.scss'
 
+import {useAppDispatch} from "@/redux/store"
+
 import {AddTags} from "../AddTags"
 
 export const MovieSettings = () => {
+    const dispatch = useAppDispatch()
     const {mutationUpdate} = useUpdateProfileMovie()
     const selectTegs = useSelector(getSelectTags)
     const selectMovie = useSelector(getSelectMovie)
@@ -20,13 +24,24 @@ export const MovieSettings = () => {
             mutationUpdate.mutate(selectMovie)
         }
     }
+    const handleUpdateMovieDateViewing = (val: string[]) => {
+        val && dispatch(updateMovieDateViewing(val))
+    }
+
+    const handleAddMovieDateViewing = (val: string) => {
+        dispatch(addMovieDateViewing(val))
+    }
     return (
         <div className={styles.wrapper}>
             <AddTags
                 movie={selectMovie}
                 tags={selectTegs}
             />
-            <SetMovieDate />
+            <SetMovieDate
+                movie={selectMovie}
+                onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
+                onAddMovieDateViewing={handleAddMovieDateViewing}
+            />
             <Button onClick={handleUpdateMovieClick}>
                     Update movie
             </Button>

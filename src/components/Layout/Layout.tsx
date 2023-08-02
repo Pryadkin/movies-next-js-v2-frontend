@@ -16,13 +16,16 @@ import styles from './Layout.module.scss'
 
 import {
     getIsDrawerMovieTagsOpen,
+    setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
 import {
     getSelectIsDrawerMovieTagsOpen,
     getSelectMovie,
 } from '@/redux/selectors'
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
+import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
@@ -40,6 +43,7 @@ const Layout: React.FC<Props> = ({
 }) => {
     const {asPath} = useRouter()
     const dispatch = useAppDispatch()
+    const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
     const selectMovie = useSelector(getSelectMovie)
 
@@ -64,9 +68,15 @@ const Layout: React.FC<Props> = ({
         dispatch(setSelectMovie(0))
     }
 
+    const handleLangChange = (lang: TLanguage) => {
+        dispatch(setLanguage(lang))
+    }
+
     return (
         <LayoutAntd>
             <Header
+                lang={lang}
+                onLangChange={handleLangChange}
                 onDrawerMovieListOpen={() => setIsDrawerMovieTreeOpen(!isDrawerMovieTreeOpen)}
             />
 

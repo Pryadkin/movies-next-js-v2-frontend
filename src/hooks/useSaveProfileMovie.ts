@@ -1,18 +1,16 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {IMovie} from "@/api/apiTypes/requestMovies"
-import {addSettingsToMovie} from "@/helpers/addSettingsToMovie"
+import {IMovieLang} from "@/api/apiTypes/requestMovies"
 
 export const useSaveProfileMovie = () => {
-    const saveMovies = async (value: IMovie) => {
-        const movieWithSettings = addSettingsToMovie(value)
+    const saveMovies = async (value: IMovieLang) => {
 
-        await API.requestSaveMovie(movieWithSettings)
+        await API.requestSaveMovie(value)
     }
 
     const mutationSave = useMutation({
-        mutationFn: (value: IMovie) => saveMovies(value),
+        mutationFn: (value: IMovieLang) => saveMovies(value),
     })
 
     return {mutationSave}

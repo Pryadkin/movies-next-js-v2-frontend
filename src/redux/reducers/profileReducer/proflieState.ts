@@ -1,13 +1,13 @@
 import {DrawerProps} from 'antd'
 
-import {IMovie} from "@/api/apiTypes/requestMovies"
+import {IMovieLang} from "@/api/apiTypes/requestMovies"
 import {IGenre, TSortItem, ITag} from '@/types'
 
 export interface State {
     userName: string,
-    myMovies: IMovie[],
+    myMovies: IMovieLang[],
     isDrawerMovieTagsOpen: DrawerProps['open'],
-    selectMovie: IMovie | undefined | null,
+    selectMovie: IMovieLang | undefined | null,
     tags: ITag[],
     enableFilters: ITag[],
     sortItem: TSortItem,

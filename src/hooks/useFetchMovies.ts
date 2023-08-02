@@ -8,8 +8,9 @@ import {getPictureUrl} from "@/helpers/getPictureUrl"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {getSelectMovieName, getSelectPage} from "@/redux/selectors"
 import {useAppDispatch} from "@/redux/store"
+import {TLanguage} from "@/types"
 
-export const useFetchMovies = () => {
+export const useFetchMovies = (lang: TLanguage) => {
     const dispatch = useAppDispatch()
     const movieName = useSelector(getSelectMovieName)
     const page = useSelector(getSelectPage)
@@ -20,8 +21,12 @@ export const useFetchMovies = () => {
         data.total_results && dispatch(setTotalResults(data.total_results))
     }
 
-    const fetchMovies = async (value: string, page: string) => {
-        const res = value ? await API.requestMovies(value, page) : null
+    const fetchMovies = async (
+        value: string,
+        page: string,
+        lang: TLanguage,
+    ) => {
+        const res = value ? await API.requestMovies(value, page, lang) : null
         const updateRes = getPictureUrl(res?.data.results, true)
 
         if (res) setValueToRedux(res.data)
@@ -35,8 +40,8 @@ export const useFetchMovies = () => {
         data,
         isFetching,
     } = useQuery({
-        queryKey: ['search-movies', movieName, page],
-        queryFn: () => fetchMovies(movieName, String(page)),
+        queryKey: ['search-movies', movieName, page, lang],
+        queryFn: () => fetchMovies(movieName, String(page), lang),
         keepPreviousData : true,
         enabled: !!movieName
     })

@@ -27,3 +27,7 @@ export {
     addMovieDateViewing,
     deleteMovieDateViewing,
 } from './profileReducer'
+export {
+    layoutReducer,
+    setLanguage
+} from './layoutReducer'

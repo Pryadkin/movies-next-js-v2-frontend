@@ -9,13 +9,14 @@ import {useFetchMovies} from '@/hooks/useFetchMovies'
 import {
     setMovieName, setPage,
 } from '@/redux/reducers'
+
+import styles from './Search.module.scss'
+
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {
     getSelectMoviesName,
     getSelectTotalPages
 } from '@/redux/selectors/searchSelectors'
-
-import styles from './Search.module.scss'
-
 import {useAppDispatch} from '@/redux/store/rootReducer'
 
 const {Search} = Input
@@ -24,7 +25,8 @@ const SearchMovies = () => {
     const dispatch = useAppDispatch()
     const totalPages = useSelector(getSelectTotalPages)
     const movieName = useSelector(getSelectMoviesName)
-    const {data, isFetching} = useFetchMovies()
+    const lang = useSelector(getSelectLanguage)
+    const {data, isFetching} = useFetchMovies(lang)
 
     const handleMoviesSearch = (value: string) => {
         dispatch(setMovieName(value))

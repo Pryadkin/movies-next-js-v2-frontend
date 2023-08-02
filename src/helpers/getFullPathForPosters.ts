@@ -1,28 +1,52 @@
-import {IMovie} from "@/api/apiTypes/requestMovies"
+import {IMovie, IMovieLang} from "@/api/apiTypes/requestMovies"
+import {isIMovie, isIMovieLang} from "@/helpers"
 
 function getPoster(poster: string | null, quality: string) {
-    return poster ? `https://image.tmdb.org/t/p/${quality}${poster}` : null
+    if (poster) {
+        return poster.includes('https')
+            ? poster
+            : `https://image.tmdb.org/t/p/${quality}${poster}`
+    }
+    return null
 };
 
+const getDataWithUpdatePosterPath = (
+    value: IMovie | IMovieLang,
+    quality: string
+) => {
+    if (isIMovie(value)) {
+        const updatePosterPath = getPoster(value.poster_path, quality)
+
+        return {
+            ...value,
+            poster_path: updatePosterPath
+        } as IMovie
+    }
+    if (isIMovieLang(value)) {
+        const updatePosterPathEn = getPoster(value.poster_path_en, quality)
+        const updatePosterPathRu = getPoster(value.poster_path_ru, quality)
+
+        return {
+            ...value,
+            poster_path_en: updatePosterPathEn,
+            poster_path_ru: updatePosterPathRu
+        } as IMovieLang
+    }
+
+    return null
+}
+
 function getFullPathForPosters(
-    data: Array<IMovie> | IMovie,
+    data: IMovie | IMovieLang | IMovie[] | IMovieLang[],
     quality = 'w300'
 ) {
     if (Array.isArray(data)) {
         return data.map(item => {
-            item.poster_path = getPoster(item.poster_path, quality)
-            return item
+            return getDataWithUpdatePosterPath(item, quality)
         })
     }
 
-    const updatePosterPath = getPoster(data.poster_path, quality)
-
-    const updateData = {
-        ...data,
-        poster_path: updatePosterPath
-    }
-
-    return updateData
+    return getDataWithUpdatePosterPath(data, quality)
 };
 
 export default getFullPathForPosters
