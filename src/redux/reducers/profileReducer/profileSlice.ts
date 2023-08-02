@@ -76,15 +76,20 @@ const profileSlice = createSlice({
             state.genres = action.payload
         },
         setSelectGenres(state, action: PayloadAction<IGenre>) {
-            const isGenreExist = state.selectGenres.find(genre => genre.id === action.payload.id)
+            state.selectGenres.push(action.payload)
+        },
+        setSelectIgnoreGenres(state, action: PayloadAction<IGenre>) {
+            state.selectIgnoreGenres.push(action.payload)
+        },
+        removeSelectGenres(state, action: PayloadAction<IGenre>) {
+            const updateGenres = state.selectGenres.filter(genre => genre.id !== action.payload.id)
 
-            if (isGenreExist) {
-                const updateGenres = state.selectGenres.filter(genre => genre.id !== action.payload.id)
+            state.selectGenres = updateGenres
+        },
+        removeSelectIgnoreGenres(state, action: PayloadAction<IGenre>) {
+            const updateGenres = state.selectIgnoreGenres.filter(genre => genre.id !== action.payload.id)
 
-                state.selectGenres = updateGenres
-            } else {
-                state.selectGenres.push(action.payload)
-            }
+            state.selectIgnoreGenres = updateGenres
         },
         updateMovieDateViewing(state, action: PayloadAction<string[]>) {
             if (state.selectMovie) {
@@ -108,7 +113,9 @@ const profileSlice = createSlice({
 
                 state.selectMovie = updateMovie
             }
-
+        },
+        setGenreFlagStatus(state, action: PayloadAction<boolean>) {
+            state.genreFlagStatus = action.payload
         }
     },
 })
@@ -130,7 +137,11 @@ export const {
     removeEnableFilters,
     setSortMovies,
     getGenres,
+    setGenreFlagStatus,
     setSelectGenres,
+    setSelectIgnoreGenres,
+    removeSelectGenres,
+    removeSelectIgnoreGenres,
     updateMovieDateViewing,
     addMovieDateViewing,
     deleteMovieDateViewing,

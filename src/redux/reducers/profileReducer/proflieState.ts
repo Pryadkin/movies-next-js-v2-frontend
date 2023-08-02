@@ -12,7 +12,9 @@ export interface State {
     enableFilters: ITag[],
     sortItem: TSortItem,
     genres: IGenre[],
+    genreFlagStatus: boolean;
     selectGenres: IGenre[],
+    selectIgnoreGenres: IGenre[],
 }
 
 export const initialState: State = {
@@ -24,5 +26,7 @@ export const initialState: State = {
     enableFilters: [],
     sortItem: '',
     genres: [],
-    selectGenres: []
+    genreFlagStatus: true,
+    selectGenres: [],
+    selectIgnoreGenres: [],
 }

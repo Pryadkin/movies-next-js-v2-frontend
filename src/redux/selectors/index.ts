@@ -11,6 +11,7 @@ export {
     getSelectTags,
     getSelectEnableFilters,
     getSelectGenres,
+    getSelectGenreFlagStatus,
     getFilteredMovies,
     getSelectTagsForAntSelect,
 } from './profileSelectors'

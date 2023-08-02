@@ -1,28 +1,37 @@
 import {FC, useMemo, useState} from "react"
 import {useSelector} from "react-redux"
 
+import {CheckOutlined, CloseOutlined} from '@ant-design/icons'
 import type {CollapseProps} from 'antd'
 import {
     Button,
     Collapse,
+    Switch,
     Tag,
 } from "antd"
+
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
 import {
     addEnableFilters,
     removeEnableFilters,
+    removeSelectGenres,
+    removeSelectIgnoreGenres,
+    setGenreFlagStatus,
     setSelectGenres,
+    setSelectIgnoreGenres,
     setSortMovies
 } from "@/redux/reducers"
 import {
     getSelectEnableFilters,
+    getSelectGenreFlagStatus,
     getSelectGenres,
     getSelectTags
 } from "@/redux/selectors"
 
 import styles from './Sidebare.module.scss'
 
+import {getSelectIgnoreGenres} from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
 import {IGenre, ITag, TSortItem} from "@/types"
 
@@ -37,6 +46,8 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const tags = useSelector(getSelectTags)
     const enableFilters = useSelector(getSelectEnableFilters)
     const selectGenres = useSelector(getSelectGenres)
+    const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
+    const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
     const tagsWithoutEnable = useMemo(() => {
         return tags ? tags.filter(tag => !enableFilters.includes(tag)) : []
     }, [tags, enableFilters])
@@ -55,8 +66,30 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         dispatch(removeEnableFilters(tag))
     }
 
-    const handleGenreTagClick = (genre: IGenre) => () => {
-        dispatch(setSelectGenres(genre))
+    const handleGenreTagClick = (value: IGenre) => () => {
+        const isGenreExist = selectGenres.find(genre => genre.id === value.id)
+        const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.id === value.id)
+
+        if (isGenreExist) {
+            dispatch(removeSelectGenres(value))
+        } else {
+            dispatch(setSelectGenres(value))
+
+            isGenreIgnoreExist && dispatch(removeSelectIgnoreGenres(value))
+        }
+    }
+
+    const handleGenreIgnoreTagClick = (value: IGenre) => () => {
+        const isGenreExist = selectGenres.find(genre => genre.id === value.id)
+        const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.id === value.id)
+
+        if (isGenreIgnoreExist) {
+            dispatch(removeSelectIgnoreGenres(value))
+        } else {
+            dispatch(setSelectIgnoreGenres(value))
+
+            isGenreExist && dispatch(removeSelectGenres(value))
+        }
     }
 
     const getTags = (t: ITag[], isEnable?: boolean) => t.map(tag => {
@@ -91,26 +124,70 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         setIsAscSorted(value === 'ascDate')
     }
 
+    const handleGenreSwitchChange = (val: boolean) => {
+        dispatch(setGenreFlagStatus(val))
+    }
+
+    const genresTags = () => {
+        if (genreFlagStatus) {
+            return (
+                <div>
+                    {!isGenresFetching
+                        ? genresData?.map(genre => {
+                            return (
+                                <Tag
+                                    key={genre.id}
+                                    className={styles.tag}
+                                    color={selectGenres.find(item => item.id === genre.id) ? 'cyan' : 'default'}
+                                    onClick={handleGenreTagClick(genre)}
+                                >
+                                    {genre.name}
+                                </Tag>
+                            )
+                        })
+                        : (
+                            <div>Loading..</div>
+                        )}
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                {!isGenresFetching
+                    ? genresData?.map(genre => {
+                        return (
+                            <Tag
+                                key={genre.id}
+                                className={styles.tag}
+                                color={selectIgnoreGenres.find(item => item.id === genre.id) ? 'volcano' : 'blue'}
+                                onClick={handleGenreIgnoreTagClick(genre)}
+                            >
+                                {genre.name}
+                            </Tag>
+                        )
+                    })
+                    : (
+                        <div>Loading..</div>
+                    )}
+            </div>
+        )
+    }
+
     const items: CollapseProps['items'] = [
         {
             key: '1',
             label: 'Genres',
-            children: !isGenresFetching
-                ? genresData?.map(genre => {
-                    return (
-                        <Tag
-                            key={genre.id}
-                            className={styles.tag}
-                            color={selectGenres.find(item => item.id === genre.id) ? 'cyan' : 'default'}
-                            onClick={handleGenreTagClick(genre)}
-                        >
-                            {genre.name}
-                        </Tag>
-                    )
-                })
-                : (
-                    <div>Loading..</div>
-                ),
+            children: <div className={styles.genreWrapper}>
+                <Switch
+                    className={styles.switch}
+                    checkedChildren={<CheckOutlined rev={undefined} />}
+                    unCheckedChildren={<CloseOutlined rev={undefined} />}
+                    onChange={handleGenreSwitchChange}
+                    defaultChecked
+                />
+                {genresTags()}
+            </div>
         },
         {
             key: '2',

@@ -27,3 +27,13 @@
   display: flex;
   flex-direction: column;
 }
+
+.genreWrapper {
+  position: relative;
+}
+
+.switch {
+  position: absolute;
+  top: -42px;
+  right: 0px;
+}

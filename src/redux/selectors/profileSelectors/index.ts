@@ -15,8 +15,10 @@ export const getSelectTags = (state: RootState) => state.profileReducer.tags
 export const getSelectEnableFilters = (state: RootState) => state.profileReducer.enableFilters
 
 export const getSelectGenres = (state: RootState) => state.profileReducer.selectGenres
+export const getSelectIgnoreGenres = (state: RootState) => state.profileReducer.selectIgnoreGenres
 export const getSelectDateViewing = (state: RootState) => state.profileReducer.selectMovie?.settings.dateViewing
 export const getSelectSortItem = (state: RootState) => state.profileReducer.sortItem
+export const getSelectGenreFlagStatus = (state: RootState) => state.profileReducer.genreFlagStatus
 
 export const getSortedMovies = createSelector(
     getSelectMyMovies,
@@ -43,8 +45,14 @@ export const getSortedMovies = createSelector(
 export const getFilteredMovies = createSelector(
     getSelectEnableFilters,
     getSelectGenres,
+    getSelectIgnoreGenres,
     getSortedMovies,
-    (filters, selectGenres, sortedMovies) => {
+    (
+        filters,
+        selectGenres,
+        selectIgnoreGenres,
+        sortedMovies
+    ) => {
         let filteredMovies = sortedMovies
 
         for (let i = 0; i < filters.length; i++) {
@@ -59,7 +67,13 @@ export const getFilteredMovies = createSelector(
             })
         }
 
-        return filters.length || selectGenres.length ? filteredMovies : sortedMovies
+        for (let i = 0; i < selectIgnoreGenres.length; i++) {
+            filteredMovies = filteredMovies.filter(movie => {
+                return !movie.genre_ids.find(genreId => genreId === selectIgnoreGenres[i].id)
+            })
+        }
+
+        return filters.length || selectGenres.length || selectIgnoreGenres.length ? filteredMovies : sortedMovies
     }
 )
 
