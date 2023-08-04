@@ -32,6 +32,7 @@ export {
     updateMovieDateViewing,
     addMovieDateViewing,
     deleteMovieDateViewing,
+    setSearchMovie,
 } from './profileReducer'
 export {
     layoutReducer,

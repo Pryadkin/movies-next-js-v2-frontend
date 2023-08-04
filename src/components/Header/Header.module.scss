@@ -1,7 +1,8 @@
 @use '@/styles/colors';
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 100px 200px 200px 1fr;
   padding: 0 20px;
   background-color: colors.$main-color !important;
   align-items: center;
@@ -12,6 +13,7 @@
   color: white;
   font-size: 20px;
   text-transform: uppercase;
+  grid-column: 1;
 }
 
 .menu {
@@ -19,6 +21,7 @@
   padding-left: 50px;
   color: white;
   width: 300px;
+  grid-column: 2;
 }
 
 .link {
@@ -29,4 +32,8 @@
     color: white;
     background-color: colors.$main-color-hover;
   }
+}
+
+.rightElems {
+  grid-column: 4;
 }

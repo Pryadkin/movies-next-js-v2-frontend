@@ -16,6 +16,7 @@ export interface State {
     genreFlagStatus: boolean;
     selectGenres: IGenre[],
     selectIgnoreGenres: IGenre[],
+    searchMovie: string,
 }
 
 export const initialState: State = {
@@ -31,4 +32,5 @@ export const initialState: State = {
     genreFlagStatus: true,
     selectGenres: [],
     selectIgnoreGenres: [],
+    searchMovie: ''
 }

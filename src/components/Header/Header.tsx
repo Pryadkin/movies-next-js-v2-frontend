@@ -1,14 +1,18 @@
-import {FC} from 'react'
+import {FC, SyntheticEvent, useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Button} from 'antd'
+import Search from 'antd/es/input/Search'
 import {Header as HeaderAntd} from 'antd/es/layout/layout'
 import Link from 'next/link'
 
-import {RootState} from '@/redux/store/rootReducer'
-import {TLanguage} from '@/types'
+import {setSearchMovie} from '@/redux/reducers'
 
 import styles from './Header.module.scss'
+
+import {useAppDispatch} from '@/redux/store'
+import {RootState} from '@/redux/store/rootReducer'
+import {TLanguage} from '@/types'
 
 interface Props {
     lang: TLanguage,
@@ -21,15 +25,26 @@ const Header: FC<Props> = ({
     onDrawerMovieListOpen,
     onLangChange,
 }) => {
+    const dispatch = useAppDispatch()
     const userName = useSelector((state: RootState) => state.profileReducer.userName)
     const navigation = [
         {id: 1, title: 'Profile', path: userName},
         {id: 2, title: 'Search', path: '/search'},
     ]
+    const [searchMovieInput, setSearchMovieInput] = useState('')
 
     const handleLangClick = () => {
         const correctLang = lang === 'ru-RU' ? 'en-EN' : 'ru-RU'
         onLangChange(correctLang)
+    }
+
+    const handleSearchMovieChange = ({target}: SyntheticEvent) => {
+        const targetInputElement: HTMLInputElement = target as HTMLInputElement
+        setSearchMovieInput(targetInputElement.value)
+    }
+
+    const handleSearchMovieClick = () => {
+        dispatch(setSearchMovie(searchMovieInput))
     }
 
     return (
@@ -49,19 +64,28 @@ const Header: FC<Props> = ({
                 ))}
             </div>
 
-            <Button
-                size="small"
-                onClick={handleLangClick}
-            >
-                {lang}
-            </Button>
+            <Search
+                size='small'
+                value={searchMovieInput}
+                onSearch={handleSearchMovieClick}
+                onChange={handleSearchMovieChange}
+            />
 
-            <Button
-                size="small"
-                onClick={onDrawerMovieListOpen}
-            >
+            <div className={styles.rightElems}>
+                <Button
+                    size="small"
+                    onClick={handleLangClick}
+                >
+                    {lang}
+                </Button>
+
+                <Button
+                    size="small"
+                    onClick={onDrawerMovieListOpen}
+                >
                     MovieList
-            </Button>
+                </Button>
+            </div>
         </HeaderAntd>
     )
 }

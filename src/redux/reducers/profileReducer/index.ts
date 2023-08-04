@@ -24,4 +24,5 @@ export {
     updateMovieDateViewing,
     addMovieDateViewing,
     deleteMovieDateViewing,
+    setSearchMovie,
 } from './profileSlice'

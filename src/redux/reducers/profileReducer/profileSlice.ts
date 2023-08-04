@@ -124,6 +124,9 @@ const profileSlice = createSlice({
         },
         setGenreFlagStatus(state, action: PayloadAction<boolean>) {
             state.genreFlagStatus = action.payload
+        },
+        setSearchMovie(state, action: PayloadAction<string>) {
+            state.searchMovie = action.payload
         }
     },
 })
@@ -155,4 +158,5 @@ export const {
     updateMovieDateViewing,
     addMovieDateViewing,
     deleteMovieDateViewing,
+    setSearchMovie,
 } = profileSlice.actions

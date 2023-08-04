@@ -20,6 +20,7 @@ export const getSelectIgnoreGenres = (state: RootState) => state.profileReducer.
 export const getSelectDateViewing = (state: RootState) => state.profileReducer.selectMovie?.settings.dateViewing
 export const getSelectSortItem = (state: RootState) => state.profileReducer.sortItem
 export const getSelectGenreFlagStatus = (state: RootState) => state.profileReducer.genreFlagStatus
+export const getSelectSearchMovie = (state: RootState) => state.profileReducer.searchMovie
 
 export const getSortedMovies = createSelector(
     getSelectMyMovies,

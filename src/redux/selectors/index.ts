@@ -9,9 +9,9 @@ export {
     getSelectMovie,
     getSelectMyMovies,
     getSelectTags,
-    getSelectEnableFilters,
     getSelectGenres,
     getSelectGenreFlagStatus,
+    getSelectSearchMovie,
     getFilteredMovies,
     getSelectTagsForAntSelect,
 } from './profileSelectors'
