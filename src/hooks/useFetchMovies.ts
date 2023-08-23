@@ -27,11 +27,17 @@ export const useFetchMovies = (lang: TLanguage) => {
         lang: TLanguage,
     ) => {
         const res = value ? await API.requestMovies(value, page, lang) : null
-        const updateRes = getPictureUrl(res?.data.results, true)
 
-        if (res) setValueToRedux(res.data)
+        if (res && res.data.results) {
+            const result =res.data.results
+            const updateRes = getPictureUrl(result, true)
 
-        return updateRes
+            setValueToRedux(res.data)
+
+            return updateRes
+        }
+
+        return []
     }
 
     const {

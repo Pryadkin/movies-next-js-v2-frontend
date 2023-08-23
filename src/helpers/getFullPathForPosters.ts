@@ -1,5 +1,5 @@
 import {IMovie, IMovieLang} from "@/api/apiTypes/requestMovies"
-import {isIMovie, isIMovieLang} from "@/helpers"
+import {isIMovie} from "@/helpers"
 
 function getPoster(poster: string | null, quality: string) {
     if (poster) {
@@ -10,9 +10,9 @@ function getPoster(poster: string | null, quality: string) {
     return null
 };
 
-const getDataWithUpdatePosterPath = (
+const getFullPathForPosters = (
     value: IMovie | IMovieLang,
-    quality: string
+    quality = 'w300'
 ) => {
     if (isIMovie(value)) {
         const updatePosterPath = getPoster(value.poster_path, quality)
@@ -21,8 +21,7 @@ const getDataWithUpdatePosterPath = (
             ...value,
             poster_path: updatePosterPath
         } as IMovie
-    }
-    if (isIMovieLang(value)) {
+    } else {
         const updatePosterPathEn = getPoster(value.poster_path_en, quality)
         const updatePosterPathRu = getPoster(value.poster_path_ru, quality)
 
@@ -32,22 +31,7 @@ const getDataWithUpdatePosterPath = (
             poster_path_ru: updatePosterPathRu
         } as IMovieLang
     }
-
-    return null
 }
-
-function getFullPathForPosters(
-    data: IMovie | IMovieLang | IMovie[] | IMovieLang[],
-    quality = 'w300'
-) {
-    if (Array.isArray(data)) {
-        return data.map(item => {
-            return getDataWithUpdatePosterPath(item, quality)
-        })
-    }
-
-    return getDataWithUpdatePosterPath(data, quality)
-};
 
 export default getFullPathForPosters
 

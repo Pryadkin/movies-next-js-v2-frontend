@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {IMovieLang} from '@/api/apiTypes'
+import {IMovie, IMovieLang, ITvLang} from '@/api/apiTypes'
 
 import {CardItem} from '../CardItem'
 import {Spin} from '../Spin'
@@ -7,7 +7,7 @@ import {Spin} from '../Spin'
 import styles from './CardItems.module.scss'
 
 interface Props {
-    data: IMovieLang[] | undefined,
+    data: (IMovieLang | IMovie)[]
     isFetching: boolean,
     isProfileCard?: boolean,
 }

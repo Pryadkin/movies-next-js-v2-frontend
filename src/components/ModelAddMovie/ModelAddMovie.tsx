@@ -18,10 +18,11 @@ import styles from './ModelAddMovie.module.scss'
 
 import getFullPathForPosters from '@/helpers/getFullPathForPosters'
 import {useAddLangToMovie} from '@/hooks/useAddLangToMovie'
+import {useAddLangToTv} from '@/hooks/useAddLangToTv'
 import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
-
+import {getSelectMovieType} from '@/redux/selectors/searchSelectors'
 
 import {SetMovieDate} from '../SetMovieDate'
 
@@ -46,6 +47,7 @@ export const ModelAddMovie = ({
     const {pathname} = useRouter()
     const isProfilePath = pathname.includes('profile')
     const lang = useSelector(getSelectLanguage)
+    const movieType = useSelector(getSelectMovieType)
     const {mutationSave: mutationSaveMovie} = useSaveProfileMovie()
     const {mutationUpdate} = useUpdateProfileMovie()
     const movieWithSettings: any = isIMovie(movie) && addSettingsToMovie(movie)
@@ -53,7 +55,12 @@ export const ModelAddMovie = ({
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
     const correctLang = isProfilePath ? lang : anotherLang
     const {mutationAddLang} = useAddLangToMovie()
+    const {mutationAddLangTv} = useAddLangToTv()
     const [newMovie, setNewMovie] = useState<IMovieLang | null>()
+
+    const isLoading = mutationAddLang.isLoading || mutationAddLangTv.isLoading
+    const data = mutationAddLang.data as IMovie[]
+    || mutationAddLangTv.data as IMovie[]
 
     const handleUpdateMovieDateViewing = (val: string[]) => {
         // TODO: add updating date by save movie
@@ -82,26 +89,31 @@ export const ModelAddMovie = ({
     }
 
     const handleUploadAnotherLangMovieBtnClick = () => {
-        mutationAddLang.mutate({
-            movieName: movieWithLang.original_title,
-            lang: correctLang
-        })
+        if (movieType === 'movie') {
+            mutationAddLang.mutate({
+                movieName: movieWithLang.original_title,
+                lang: correctLang
+            })
+        }
+        if (movieType === 'tv')  {
+            mutationAddLangTv.mutate({
+                movieName: movieWithLang.original_title,
+                lang: correctLang
+            })
+        }
     }
 
     const handleAddAnotherLangMovieClick = (movie: IMovie) => () => {
         const updateMovie = addContantToMovieLang(movie, movieWithLang, correctLang)
         const updateRes = getFullPathForPosters(updateMovie) as IMovieLang
 
-        console.info('updateMovie', updateRes)
-
         setNewMovie(updateRes)
     }
 
     const getAnotherLangMovie = () => {
-        if (mutationAddLang.isLoading) return <div>...Loading</div>
-        if (mutationAddLang.data) {
-            const movies = mutationAddLang.data as IMovie[]
-            return movies.map(movie => {
+        if (isLoading) return <div>...Loading</div>
+        if (data) {
+            return data.map(movie => {
                 return (
                     <li
                         key={movie.id}

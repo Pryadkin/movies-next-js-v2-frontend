@@ -2,7 +2,7 @@ import {IMovie} from "@/api/apiTypes"
 import getFullPathForPosters from "@/helpers/getFullPathForPosters"
 
 export const getPictureUrl = (
-    results: any,
+    results: IMovie[],
     isWithPicture: boolean,
 ) => {
     const updateResults = isWithPicture
@@ -11,7 +11,10 @@ export const getPictureUrl = (
         })
         : results
 
-    const fullPathPoster = getFullPathForPosters(updateResults)
+
+    const fullPathPoster = updateResults.map(item => {
+        return getFullPathForPosters(item)
+    })
 
     return Array.isArray(fullPathPoster) ? fullPathPoster : [fullPathPoster]
 }

@@ -101,14 +101,14 @@ const SearchMovies = () => {
                 />
             )}
 
-            {movieName && (
+            {movieName && data && (
                 <CardItems
                     data={data}
                     isFetching={isFetching}
                 />
             )}
 
-            {tvName && (
+            {tvName && dataTv && (
                 <CardItems
                     data={dataTv}
                     isFetching={isTvFetching}
