@@ -142,7 +142,7 @@ export const ModelAddMovie = ({
                 : mutationSaveMovie.mutate(mov)
         }
         if (newMovie) {
-            newMovie && request(newMovie)
+            request(newMovie)
         } else {
             request(movieWithLang)
         }

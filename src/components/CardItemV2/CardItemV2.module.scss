@@ -1,0 +1,43 @@
+.cardWrapper {
+  border-radius: 3px;
+  border: 2px solid gray;
+  margin: 5px;
+}
+
+.card {
+  margin: 20px;
+}
+
+.background {
+  opacity: 0;
+  transition: visibility 0.1s, opacity 0.1s linear;
+  position: absolute;
+  background-color: black;
+  margin: 20px;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.btn {
+  position: absolute;
+  width: 100px;
+  top: 19px;
+
+  opacity: 0;
+  transition: visibility 0.1s, opacity 0.1s linear;
+  z-index: 10;
+}
+
+.btnRemove {
+  left: 30px;
+}
+
+.btnFilter {
+  left: 150px;
+}
+
+.btnLang {
+  transform: rotate(90deg);
+  right: -20px;
+  top: 300px;
+}

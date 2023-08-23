@@ -2,6 +2,7 @@
 import {IMovie, IMovieLang, ITvLang} from '@/api/apiTypes'
 
 import {CardItem} from '../CardItem'
+import {CardItemV2} from '../CardItemV2'
 import {Spin} from '../Spin'
 
 import styles from './CardItems.module.scss'
