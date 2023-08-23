@@ -7,9 +7,18 @@
   background-color: #dbdbdb;
 }
 
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.radioGroup {
+  margin-right: 10px;
+}
+
 .searchInput {
   width: 500px;
-  padding-top: 10px;
 }
 
 .cardWrapper {

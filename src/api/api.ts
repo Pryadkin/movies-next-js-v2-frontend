@@ -1,5 +1,6 @@
 import {
     requestMovies,
+    requestTv,
     requestSaveMovie,
     requestDeleteMovie,
     requestProfileMovies,
@@ -16,6 +17,7 @@ import {
 
 export const API = {
     requestMovies,
+    requestTv,
     requestSaveMovie,
     requestDeleteMovie,
     requestProfileMovies,

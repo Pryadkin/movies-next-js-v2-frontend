@@ -58,11 +58,16 @@ export const getFilteredMovies = createSelector(
         sortedMovies
     ) => {
         let filteredMovies = sortedMovies
+        const isExact = false
 
         for (let i = 0; i < tags.length; i++) {
+            let isExist = null
             filteredMovies = filteredMovies.filter(movie => {
-                return movie.settings.tags.find(tag => tag.tagName === tags[i].tagName)
+                const findMovie = movie.settings.tags.find(tag => tag.tagName === tags[i].tagName)
+
+                return findMovie
             })
+            if (!isExact && isExist) break
         }
 
         for (let i = 0; i < ignoreTags.length; i++) {

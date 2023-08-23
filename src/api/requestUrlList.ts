@@ -3,6 +3,9 @@ export const enum RequestUrl {
     BASE_URL = 'https://api.themoviedb.org/3',
     GET_MOVIES = '/search/movie',
 
+    //TV
+    GET_TV = '/search/tv',
+
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',
     ADD_PROFILE_MOVIE = '/profile/add_movie',

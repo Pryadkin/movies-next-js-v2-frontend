@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 import {IResponseMovies} from '@/api/apiTypes/requestMovies'
+import {TMovieType} from '@/types'
 
 import {initialState} from './searchState'
 
@@ -23,6 +24,12 @@ const searchSlice = createSlice({
         },
         setMovieName(state, action: PayloadAction<string>) {
             state.movieName = action.payload
+        },
+        setTvName(state, action: PayloadAction<string>) {
+            state.tvName = action.payload
+        },
+        setMovieType(state, action: PayloadAction<TMovieType>) {
+            state.movieType = action.payload
         }
     },
 })
@@ -32,7 +39,9 @@ export const searchReducer = searchSlice.reducer
 export const {
     setMovies,
     setMovieName,
+    setTvName,
     setPage,
     setTotalPages,
     setTotalResults,
+    setMovieType,
 } = searchSlice.actions

@@ -51,6 +51,7 @@ export const CardItem: FC<Props> = ({
     }
 
     const getCard = (mov: IMovie | IMovieLang) => {
+
         if (isIMovie(mov)) {
             return (
                 <Card
@@ -66,7 +67,6 @@ export const CardItem: FC<Props> = ({
                             blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
                             placeholder="blur"
                         />
-
                     }
                 >
                     <Meta
@@ -79,8 +79,11 @@ export const CardItem: FC<Props> = ({
         }
 
         if (isIMovieLang(mov)) {
-            const title = lang === 'en-EN' ? mov.title_en : mov.title_ru
-            const poster_path = lang === 'en-EN' ? mov.poster_path_en : mov.poster_path_ru
+            const isEnglish = lang === 'en-EN'
+            const title = isEnglish ? mov.title_en : mov.title_ru
+            const poster_path = isEnglish
+                ? mov.poster_path_en
+                : mov.poster_path_ru
 
             return (
                 <Card

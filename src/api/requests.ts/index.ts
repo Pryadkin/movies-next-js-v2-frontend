@@ -1,4 +1,5 @@
 export {requestMovies} from './requestMovies'
+export {requestTv} from './requestTv'
 export {requestProfileMovies} from './requestProfileMovies'
 export {requestSaveMovie} from './requestSaveMovie'
 export {requestDeleteMovie} from './requestDeleteMovie'
