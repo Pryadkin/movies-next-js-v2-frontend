@@ -41,31 +41,6 @@ export interface IMovie {
     }
 }
 
-export interface ITV {
-    adult: boolean,
-    backdrop_path: string,
-    first_air_date: string,
-    genre_ids: number[]
-    id: number,
-    name: string,
-    origin_country: string[],
-    original_language: string,
-    original_name: string,
-    overview: string,
-    popularity: number,
-    poster_path: string,
-    vote_average: number,
-    vote_count: number,
-    settings: {
-        tags: {
-            tagName: string,
-            color: string,
-        }[],
-        dateAdd: string,
-        dateViewing: string[]
-    }
-}
-
 export interface IMovieLang {
     id: number
     popularity: number

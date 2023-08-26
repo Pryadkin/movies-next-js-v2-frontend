@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
-import {IMovie, IMovieLang, ITvLang} from '@/api/apiTypes'
+import {IMovie, IMovieLang} from '@/api/apiTypes'
 
-import {CardItem} from '../CardItem'
 import {CardItemV2} from '../CardItemV2'
 import {Spin} from '../Spin'
 
 import styles from './CardItems.module.scss'
+
 
 interface Props {
     data: (IMovieLang | IMovie)[]
@@ -28,11 +28,11 @@ export const CardItems: React.FC<Props> = ({
                         const width = 240
                         const height = 450
                         return (
-                            <CardItem
+                            <CardItemV2
                                 key={movie.id}
                                 movie={movie}
-                                width={width}
-                                height={height}
+                                width={200}
+                                height={300}
                                 isProfileCard={isProfileCard}
                             />
                         )}
@@ -42,6 +42,12 @@ export const CardItems: React.FC<Props> = ({
                     null
                 )
             }
+
+            {/* <ModelAddMovie
+                movie={movie as IMovie}
+                isModalOpen={isAddMovieModalOpen}
+                onModalCancel={() => setIsAddMovieModalOpen(false)}
+            /> */}
         </div>
     )
 }

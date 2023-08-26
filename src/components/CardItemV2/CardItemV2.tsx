@@ -1,21 +1,21 @@
 import {FC, useState} from 'react'
 import {useSelector} from 'react-redux'
 
-import {Button, Card, Popconfirm} from 'antd'
+import {Button} from 'antd'
 import clsx from 'clsx'
 import Image from 'next/image'
 
 import {IMovie, IMovieLang} from '@/api/apiTypes'
 import {isIMovie, isIMovieLang} from "@/helpers"
-import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 
 import styles from './CardItemV2.module.scss'
 
-import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 
 import {ModelAddMovie} from '../ModelAddMovie'
+
+import {Card} from './Card'
 
 interface Props {
     movie: IMovieLang | IMovie,
@@ -32,38 +32,38 @@ export const CardItemV2: FC<Props> = ({
 }) => {
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
-    const {mutationDelete} = useDeleteMovie()
+
     const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
 
-    const handleAddBtnClick = () => {
-        setIsAddMovieModalOpen(true)
-    }
 
-    const handleRemoveBtnClick = (movieId: number) => () => {
-        mutationDelete.mutate(movieId)
-    }
 
-    const handleFilterBtnClick = (movieId: number) => () => {
-        dispatch(getIsDrawerMovieTagsOpen(true))
-        dispatch(setSelectMovie(movieId))
+    const addLangButton = (mov: IMovie | IMovieLang) => {
+        if (isIMovieLang(mov)) {
+            return <Button
+                type="default"
+                size='small'
+                className={clsx(styles.btn, styles.btnLang)}
+                onClick={(e: any) => {
+                    e.stopPropagation()
+                    setIsAddMovieModalOpen(true)
+                }}
+            >
+                ADD LAND
+            </Button>
+        }
     }
 
     const getCard = (mov: IMovie | IMovieLang) => {
-
         if (isIMovie(mov)) {
+            const numberWords = 20
+            const title = mov.title.length > numberWords ? `${mov.title.slice(0, numberWords)}...` : mov.title
             return (
-                <div
-                    className={styles.cardWrapper}
-                >
-                    <Image
-                        alt={mov.title}
-                        src={mov.poster_path || ''}
-                        width={width}
-                        height={height}
-                        blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
-                        placeholder="blur"
-                    />
-                </div>
+                <Card
+                    mov={mov}
+                    isProfileCard={isProfileCard}
+                    modalOpen={isAddMovieModalOpen}
+                    onModalOpen={setIsAddMovieModalOpen}
+                />
             )
         }
 
@@ -90,72 +90,14 @@ export const CardItemV2: FC<Props> = ({
         }
     }
 
-    const addLangButton = (mov: IMovie | IMovieLang) => {
-        if (isIMovieLang(mov)) {
-            return <Button
-                type="default"
-                size='small'
-                className={clsx(styles.btn, styles.btnLang)}
-                onClick={() => setIsAddMovieModalOpen(true)}
-            >
-                ADD LAND
-            </Button>
-        }
-    }
+    const [isRotate, setIsRotate] = useState(false)
 
-    const button = () => {
-        if (isProfileCard) {
-            return (
-                <>
-                    <Popconfirm
-                        title="Delete the movie"
-                        description="Are you sure to delete this movie?"
-                        onConfirm={handleRemoveBtnClick(movie.id)}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Button
-                            type="default"
-                            className={clsx(styles.btn, styles.btnRemove)}
-                        >
-                            remove
-                        </Button>
-                    </Popconfirm>
-
-                    <Button
-                        type="default"
-                        className={clsx(styles.btn, styles.btnFilter)}
-                        onClick={handleFilterBtnClick(movie.id)}
-                    >
-                        SETTINGS
-                    </Button>
-                </>
-            )
-        }
-        return (
-            <Button
-                type="default"
-                className={styles.btn}
-                onClick={handleAddBtnClick}
-            >
-                add
-            </Button>
-        )
-    }
     return (
         <div
             key={movie.id}
-            className={styles.cardWrapper}
+            className={clsx(styles.cardsWrapper, isRotate && styles.rotate)}
+            onClick={() => setIsRotate(!isRotate)}
         >
-            <div
-                style={{width, height}}
-                className={styles.background}
-            />
-
-            {button()}
-
-            {addLangButton(movie)}
-
             {getCard(movie)}
 
             <ModelAddMovie

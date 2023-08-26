@@ -93,7 +93,7 @@ const Layout: React.FC<Props> = ({
                 )}
 
                 <Content className={styles.contant}>
-                    <div>{children}</div>
+                    {children}
                 </Content>
             </LayoutAntd>
 
