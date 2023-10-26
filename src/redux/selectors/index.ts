@@ -2,6 +2,7 @@ export {
     getSelectMovies,
     getSelectMovieName,
     getSelectPage,
+    getCurrentMovie,
 } from './searchSelectors'
 
 export {

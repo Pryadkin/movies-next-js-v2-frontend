@@ -1,11 +1,16 @@
 /* eslint-disable max-len */
-import {IMovie, IMovieLang} from '@/api/apiTypes'
+import {useState} from 'react'
+import {useSelector} from 'react-redux'
 
-import {CardItemV2} from '../CardItemV2'
-import {Spin} from '../Spin'
+import {IMovie, IMovieLang} from '@/api/apiTypes'
+import {getCurrentMovie} from '@/redux/selectors'
+
+import {Card} from '../Card/Card'
 
 import styles from './CardItems.module.scss'
 
+import {ModelAddMovie} from '../ModelAddMovie'
+import {Spin} from '../Spin'
 
 interface Props {
     data: (IMovieLang | IMovie)[]
@@ -18,6 +23,9 @@ export const CardItems: React.FC<Props> = ({
     isFetching,
     isProfileCard,
 }) => {
+    const currentMovie = useSelector(getCurrentMovie)
+    const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
+
     if (isFetching) return <Spin />
 
     return (
@@ -25,14 +33,16 @@ export const CardItems: React.FC<Props> = ({
             {data
                 ? (
                     data.map(movie => {
-                        const width = 240
-                        const height = 450
+                        const width = 200
+                        const height = 300
                         return (
-                            <CardItemV2
+                            <Card
                                 key={movie.id}
                                 movie={movie}
-                                width={200}
-                                height={300}
+                                currentMovie={currentMovie}
+                                width={width}
+                                height={height}
+                                onModalOpen={setIsAddMovieModalOpen}
                                 isProfileCard={isProfileCard}
                             />
                         )}
@@ -43,11 +53,13 @@ export const CardItems: React.FC<Props> = ({
                 )
             }
 
-            {/* <ModelAddMovie
-                movie={movie as IMovie}
-                isModalOpen={isAddMovieModalOpen}
-                onModalCancel={() => setIsAddMovieModalOpen(false)}
-            /> */}
+            {currentMovie && (
+                <ModelAddMovie
+                    movie={currentMovie as IMovie}
+                    isModalOpen={isAddMovieModalOpen}
+                    onModalCancel={() => setIsAddMovieModalOpen(false)}
+                />
+            )}
         </div>
     )
 }

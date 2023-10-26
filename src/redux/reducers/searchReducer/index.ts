@@ -7,4 +7,5 @@ export {
     setTotalPages,
     setTotalResults,
     setMovieType,
+    setCurrentMovie,
 } from './searchSlice'

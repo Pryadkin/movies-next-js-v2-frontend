@@ -27,7 +27,7 @@ export const initialState: State = {
     tags: [],
     selectTags: [],
     selectIgnoreTags: [],
-    sortItem: '',
+    sortItem: 'ascReleaseDate',
     genres: [],
     genreFlagStatus: true,
     selectGenres: [],

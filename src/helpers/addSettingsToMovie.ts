@@ -10,6 +10,7 @@ export const addSettingsToMovie = (movie: IMovie) => {
     return {
         ...movie,
         settings: {
+            ...movie.settings,
             tags: [],
             dateAdd,
             dateViewing: []

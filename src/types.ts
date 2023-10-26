@@ -8,7 +8,7 @@ export interface IGenre {
     name: string
 }
 
-export type TSortItem = 'ascDate' | 'descDate' | ''
+export type TSortItem = 'ascDate' | 'descDate' | 'ascReleaseDate' | 'descReleaseDate' | ''
 
 export type TLanguage = 'ru-RU' | 'en-EN'
 

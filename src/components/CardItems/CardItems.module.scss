@@ -4,3 +4,15 @@
   overflow: scroll;
   height: 100%;
 }
+
+.spinWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100vw - 255px);
+  height: calc(100vh - 60px);
+
+  span {
+    width: 200px;
+  }
+}

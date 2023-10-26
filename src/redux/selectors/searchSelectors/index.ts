@@ -9,3 +9,4 @@ export const getSelectPage = (state: RootState) => state.searchReducer.page
 export const getSelectTotalPages = (state: RootState) => state.searchReducer.totalPages
 export const getSelectMoviesName = (state: RootState) => state.searchReducer.movieName
 export const getSelectMovieType = (state: RootState) => state.searchReducer.movieType
+export const getCurrentMovie = (state: RootState) => state.searchReducer.currentMovie

@@ -7,6 +7,7 @@ export {
     setTotalPages,
     setTotalResults,
     setMovieType,
+    setCurrentMovie,
 } from './searchReducer'
 export {
     profileReducer,

@@ -1,5 +1,7 @@
 import {
     requestMovies,
+    requestDetailsMovie,
+    requestDetailsTv,
     requestTv,
     requestSaveMovie,
     requestDeleteMovie,
@@ -13,10 +15,12 @@ import {
     requestUpdateMovieTags,
     requestDeleteMovieTags,
     requestGenres,
-} from './requests.ts'
+} from './requests/index'
 
 export const API = {
     requestMovies,
+    requestDetailsMovie,
+    requestDetailsTv,
     requestTv,
     requestSaveMovie,
     requestDeleteMovie,

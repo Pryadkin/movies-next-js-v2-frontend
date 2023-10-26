@@ -7,3 +7,5 @@ export const isIMovie = (obj: any): obj is IMovie => {
 export const isIMovieLang = (obj: any): obj is IMovieLang => {
     return obj.poster_path_en !== undefined
 }
+
+export {getPictureUrlByShortUrl} from './getPictureUrlByShortUrl'

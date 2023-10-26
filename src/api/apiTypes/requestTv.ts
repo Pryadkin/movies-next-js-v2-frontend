@@ -37,7 +37,8 @@ export interface ITv {
             color: string,
         }[],
         dateAdd: string,
-        dateViewing: string[]
+        dateViewing: string[],
+        isTv: boolean,
     }
 }
 

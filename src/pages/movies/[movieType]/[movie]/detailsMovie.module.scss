@@ -1,0 +1,39 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+}
+
+.content {
+  margin: 0 50px;
+  z-index: 15;
+}
+
+.movieDataElem {
+  margin-top: 10px;
+}
+
+.spinWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100vw - 255px);
+  height: calc(100vh - 60px);
+
+  span {
+    width: 200px;
+  }
+}
+
+.poster {
+  z-index: 10;
+}
+
+.background {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  width: calc(100vw - 255px);
+  height: calc(100vh - 60px);
+  position: absolute;
+  opacity: .2;
+}

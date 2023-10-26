@@ -32,7 +32,12 @@ import {
 
 import styles from './Sidebare.module.scss'
 
-import {getSelectIgnoreGenres, getSelectSelIgnoreTags, getSelectSelTags} from "@/redux/selectors/profileSelectors"
+import {
+    getSelectIgnoreGenres,
+    getSelectSelIgnoreTags,
+    getSelectSelTags,
+    getSelectSortItem
+} from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
 import {IGenre, ITag, TSortItem} from "@/types"
 
@@ -48,7 +53,9 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const selectGenres = useSelector(getSelectGenres)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
+    const sortMoviesType= useSelector(getSelectSortItem)
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
+    const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
 
     const {
         genresData,
@@ -107,11 +114,9 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         }
     }
 
-    const [isAscSorted, setIsAscSorted] = useState(false)
-
     const handleSortedMovieBtnClick = (value: TSortItem) => () => {
         dispatch(setSortMovies(value))
-        setIsAscSorted(value === 'ascDate')
+        setIsAscSorted(value)
     }
 
     const handleGenreSwitchChange = (val: boolean) => {
@@ -237,14 +242,28 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
             children: <div className={styles.dateWrapper}>
                 <Button
                     size="small"
-                    type={isAscSorted ? 'primary' : 'default'}
+                    type={isAscSorted === 'ascReleaseDate' ? 'primary' : 'default'}
+                    onClick={handleSortedMovieBtnClick('ascReleaseDate')}
+                >
+                    Viewing release date asc
+                </Button>
+                <Button
+                    size="small"
+                    type={isAscSorted === 'descReleaseDate' ? 'primary' : 'default'}
+                    onClick={handleSortedMovieBtnClick('descReleaseDate')}
+                >
+                    Viewing release date desc
+                </Button>
+                <Button
+                    size="small"
+                    type={isAscSorted === 'ascDate' ? 'primary' : 'default'}
                     onClick={handleSortedMovieBtnClick('ascDate')}
                 >
                     Viewing date asc
                 </Button>
                 <Button
                     size="small"
-                    type={!isAscSorted ? 'primary' : 'default'}
+                    type={isAscSorted === 'descDate' ? 'primary' : 'default'}
                     onClick={handleSortedMovieBtnClick('descDate')}
                 >
                     Viewing date desc

@@ -26,17 +26,31 @@ export const getSortedMovies = createSelector(
     getSelectMyMovies,
     getSelectSortItem,
     (movies, sortItem) => {
+        const getSorted = (
+            a: string,
+            b: string,
+            sortType: string
+        ) => {
+            const updateLastA = dayjs(a)
+                .valueOf()
+            const updateLastB = dayjs(b)
+                .valueOf()
+
+            return sortType.slice(0 , 3) === 'asc' ? updateLastB - updateLastA : updateLastA - updateLastB
+        }
         const getSort = (sortType: TSortItem) => {
             return [...movies].sort((a, b) => {
-                const lastDateA = a.settings.dateViewing.slice(-1)[0]
-                const lastDateB = b.settings.dateViewing.slice(-1)[0]
+                if (sortType.slice(-11) === 'ReleaseDate') {
+                    const lastDateA = a.release_date
+                    const lastDateB = b.release_date
 
-                const updateLastA = dayjs(lastDateA)
-                    .valueOf()
-                const updateLastB = dayjs(lastDateB)
-                    .valueOf()
+                    return getSorted(lastDateA, lastDateB, sortType)
+                } else {
+                    const lastDateA = a.settings.dateViewing.slice(-1)[0]
+                    const lastDateB = b.settings.dateViewing.slice(-1)[0]
 
-                return sortType === 'descDate' ? updateLastA - updateLastB : updateLastB - updateLastA
+                    return getSorted(lastDateA, lastDateB, sortType)
+                }
             })
         }
 

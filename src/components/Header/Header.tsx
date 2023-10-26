@@ -26,9 +26,9 @@ const Header: FC<Props> = ({
     onLangChange,
 }) => {
     const dispatch = useAppDispatch()
-    const userName = useSelector((state: RootState) => state.profileReducer.userName)
+    // const userName = useSelector((state: RootState) => state.profileReducer.userName)
     const navigation = [
-        {id: 1, title: 'Profile', path: userName},
+        {id: 1, title: 'Profile', path: '/movies'},
         {id: 2, title: 'Search', path: '/search'},
     ]
     const [searchMovieInput, setSearchMovieInput] = useState('')
