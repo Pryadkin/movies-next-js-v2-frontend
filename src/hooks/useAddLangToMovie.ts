@@ -1,6 +1,7 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {getPictureUrlByShortUrl} from "@/helpers"
 import {TLanguage} from "@/types"
 
 export const useAddLangToMovie = () => {
@@ -8,7 +9,28 @@ export const useAddLangToMovie = () => {
         const res = await API.requestMovies(movieName, '1', language)
 
         if (res) {
-            return res.data.results
+            const result = res.data.results
+
+            const updateMovies = result.map(elem => {
+                const getImageUrl = (url: string) => {
+                    return url ? getPictureUrlByShortUrl(elem.poster_path, 'w500') : ''
+                }
+
+                const updateRes = {
+                    ...elem,
+                    poster_path: getImageUrl(elem.poster_path),
+                    backdrop_path: elem.backdrop_path ? getImageUrl(elem.backdrop_path) : '',
+                    settings: {
+                        tags: [],
+                        dateAdd: '',
+                        dateViewing: []
+                    }
+                }
+
+                return updateRes
+            })
+
+            return updateMovies
         }
     }
 

@@ -1,5 +1,4 @@
 'client'
-import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Input, Radio, RadioChangeEvent} from 'antd'
@@ -114,7 +113,6 @@ const SearchMovies = () => {
                     isFetching={isTvFetching}
                 />
             )}
-
         </div>
     )
 }

@@ -42,7 +42,8 @@ export interface IMovie {
             color: string,
         }[],
         dateAdd: string,
-        dateViewing: string[]
+        dateViewing: string[],
+        isTv?: boolean,
     }
 }
 
@@ -71,7 +72,8 @@ export interface IMovieLang {
             color: string,
         }[],
         dateAdd: string,
-        dateViewing: string[]
+        dateViewing: string[],
+        isTv?: boolean,
     }
 }
 
@@ -139,10 +141,32 @@ export interface IDetailsMovie {
     }[],
     status: string,
     tagline: string,
-    title: string,
+    title?: string,
+    name?: string,
     video: boolean,
     vote_average: number,
-    vote_count: number
+    vote_count: number,
+    networks?: {
+        id: string,
+        logo_path: string,
+        name: string,
+        origin_country: string,
+    }[],
+    first_air_date?: string,
+    last_air_date?: string,
+    number_of_episodes?: number,
+    number_of_seasons?: number,
+    seasons?: {
+        air_date: string,
+        episode_count: number,
+        id: number,
+        name: string,
+        overview: string,
+        poster_path: string,
+        season_number: number,
+        vote_average: number,
+    }[],
+    type?: string,
 }
 // https://api.themoviedb.org/3/movie/452699/images?api_key=b72f01423c617f99db15bb46a8285ccb
 

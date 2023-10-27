@@ -1,5 +1,4 @@
 import {FC, SyntheticEvent, useState} from 'react'
-import {useSelector} from 'react-redux'
 
 import {Button} from 'antd'
 import Search from 'antd/es/input/Search'
@@ -11,7 +10,6 @@ import {setSearchMovie} from '@/redux/reducers'
 import styles from './Header.module.scss'
 
 import {useAppDispatch} from '@/redux/store'
-import {RootState} from '@/redux/store/rootReducer'
 import {TLanguage} from '@/types'
 
 interface Props {
@@ -26,7 +24,6 @@ const Header: FC<Props> = ({
     onLangChange,
 }) => {
     const dispatch = useAppDispatch()
-    // const userName = useSelector((state: RootState) => state.profileReducer.userName)
     const navigation = [
         {id: 1, title: 'Profile', path: '/movies'},
         {id: 2, title: 'Search', path: '/search'},

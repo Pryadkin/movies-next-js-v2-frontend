@@ -33,15 +33,20 @@ export const MovieSettings = () => {
     }
     return (
         <div className={styles.wrapper}>
-            <AddTags
-                movie={selectMovie}
-                tags={selectTegs}
-            />
-            <SetMovieDate
-                movie={selectMovie}
-                onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
-                onAddMovieDateViewing={handleAddMovieDateViewing}
-            />
+            <div className={styles.tagsWrapper}>
+                <AddTags
+                    movie={selectMovie}
+                    tags={selectTegs}
+                />
+            </div>
+            {selectMovie && (
+                <SetMovieDate
+                    movie={selectMovie}
+                    onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
+                    onAddMovieDateViewing={handleAddMovieDateViewing}
+                />
+            )}
+
             <Button onClick={handleUpdateMovieClick}>
                     Update movie
             </Button>

@@ -8,4 +8,5 @@ export {
     setTotalResults,
     setMovieType,
     setCurrentMovie,
+    setTagToCurrentMovie,
 } from './searchSlice'

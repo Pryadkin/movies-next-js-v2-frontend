@@ -48,13 +48,14 @@ export const useFetchTv = (lang: TLanguage) => {
                     backdrop_path: elem.backdrop_path ? getImageUrl(elem.backdrop_path) : '',
                     settings: {
                         isTv: true,
+                        tags: [],
+                        dateAdd: '',
+                        dateViewing: []
                     }
                 }
 
                 return updateRes
             })
-
-            console.log('updateRes', updateMovies)
 
             return updateMovies
         }

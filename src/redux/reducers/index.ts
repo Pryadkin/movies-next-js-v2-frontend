@@ -8,6 +8,7 @@ export {
     setTotalResults,
     setMovieType,
     setCurrentMovie,
+    setTagToCurrentMovie,
 } from './searchReducer'
 export {
     profileReducer,
@@ -39,5 +40,6 @@ export {
 } from './profileReducer'
 export {
     layoutReducer,
-    setLanguage
+    setLanguage,
+    sestIsModalDetailsOpen,
 } from './layoutReducer'

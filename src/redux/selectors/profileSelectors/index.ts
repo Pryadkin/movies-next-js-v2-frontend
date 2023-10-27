@@ -91,14 +91,36 @@ export const getFilteredMovies = createSelector(
         }
 
         for (let i = 0; i < selectGenres.length; i++) {
+            if (selectGenres[i].id === 0) {
+                filteredMovies = filteredMovies.filter(movie => {
+                    return movie.settings.isTv
+                })
+            }
+
             filteredMovies = filteredMovies.filter(movie => {
-                return movie.genre_ids.find(genreId => genreId === selectGenres[i].id)
+                return movie.genre_ids.find(genreId => {
+                    if (selectGenres[i].id !== 0) {
+                        return genreId === selectGenres[i].id
+                    }
+                    return true
+                })
             })
         }
 
         for (let i = 0; i < selectIgnoreGenres.length; i++) {
+            if (selectIgnoreGenres[i].id === 0) {
+                filteredMovies = filteredMovies.filter(movie => {
+                    return !movie.settings.isTv
+                })
+            }
+
             filteredMovies = filteredMovies.filter(movie => {
-                return !movie.genre_ids.find(genreId => genreId === selectIgnoreGenres[i].id)
+                return !movie.genre_ids.find(genreId => {
+                    if (selectIgnoreGenres[i].id !== 0) {
+                        return genreId === selectIgnoreGenres[i].id
+                    }
+                    return false
+                })
             })
         }
 

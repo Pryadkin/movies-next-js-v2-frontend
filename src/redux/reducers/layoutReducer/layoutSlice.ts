@@ -12,11 +12,15 @@ const layoutSlice = createSlice({
         setLanguage(state, action: PayloadAction<TLanguage>) {
             state.language = action.payload
         },
+        sestIsModalDetailsOpen(state, action: PayloadAction<boolean>) {
+            state.isModalDetailsOpen = action.payload
+        }
     },
 })
 
 export const layoutReducer = layoutSlice.reducer
 
 export const {
-    setLanguage
+    setLanguage,
+    sestIsModalDetailsOpen,
 } = layoutSlice.actions

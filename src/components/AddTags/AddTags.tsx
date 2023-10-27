@@ -6,7 +6,8 @@ import {IMovieLang} from "@/api/apiTypes"
 import {errorMessage} from "@/notification"
 import {
     deleteTagFromMovie,
-    setTagToMovie
+    setTagToCurrentMovie,
+    setTagToMovie,
 } from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
@@ -18,7 +19,7 @@ import {useColorToTag} from "./useColorToTag"
 
 interface Props {
     movie: IMovieLang | undefined | null,
-    tags: ITag[]
+    tags: ITag[],
 }
 
 export const AddTags: FC<Props> = ({
@@ -31,12 +32,13 @@ export const AddTags: FC<Props> = ({
     const [movieTagsTitle] = useState('Movie tags')
 
     const handleTagClick = (value: ITag) => () => {
-        const check = movie?.settings?.tags.find(tag => tag.tagName === value.tagName)
+        const isMovieTagExists = movie?.settings?.tags.find(tag => tag.tagName === value.tagName)
 
-        if (check) {
+        if (isMovieTagExists) {
             errorMessage(new Error, 'tag already exist')
         } else if (movie && movie.settings){
             dispatch(setTagToMovie(value))
+            dispatch(setTagToCurrentMovie(value))
         }
     }
 
@@ -85,7 +87,7 @@ export const AddTags: FC<Props> = ({
             >
                 <h3>{movieTagsTitle}</h3>
                 <div className={styles.tagsWrapper}>
-                    {movie && getTags(movie?.settings.tags, true)}
+                    {movie?.settings && getTags(movie.settings.tags, true)}
                 </div>
             </Space.Compact>
         </Space>

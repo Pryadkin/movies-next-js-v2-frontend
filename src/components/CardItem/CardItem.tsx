@@ -12,6 +12,7 @@ import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import styles from './CardItem.module.scss'
 
 import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
+import {getCurrentMovie} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 
@@ -33,6 +34,7 @@ export const CardItem: FC<Props> = ({
     isProfileCard,
 }) => {
     const dispatch = useAppDispatch()
+    const currentMovie = useSelector(getCurrentMovie)
     const lang = useSelector(getSelectLanguage)
     const {mutationDelete} = useDeleteMovie()
     const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
@@ -180,7 +182,7 @@ export const CardItem: FC<Props> = ({
             {getCard(movie)}
 
             <ModelAddMovie
-                movie={movie as IMovie}
+                movie={currentMovie as IMovie}
                 isModalOpen={isAddMovieModalOpen}
                 onModalCancel={() => setIsAddMovieModalOpen(false)}
             />

@@ -16,19 +16,22 @@ import styles from './Layout.module.scss'
 
 import {
     getIsDrawerMovieTagsOpen,
+    sestIsModalDetailsOpen,
+    setCurrentMovie,
     setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
 import {
+    getCurrentMovie,
     getSelectIsDrawerMovieTagsOpen,
-    getSelectMovie,
 } from '@/redux/selectors'
-import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {getIsModalDetailsOpen, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
+import {ModelDetails} from '../ModelDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
 import {Sidebare} from '../Sidebare'
@@ -45,7 +48,7 @@ const Layout: React.FC<Props> = ({
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
-    const selectMovie = useSelector(getSelectMovie)
+    const selectMovie = useSelector(getCurrentMovie)
 
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
@@ -70,6 +73,13 @@ const Layout: React.FC<Props> = ({
 
     const handleLangChange = (lang: TLanguage) => {
         dispatch(setLanguage(lang))
+    }
+
+    const isModalDetailsOpen = useSelector(getIsModalDetailsOpen)
+
+    const handleModalDetailsClose = () => {
+        dispatch(sestIsModalDetailsOpen(false))
+        dispatch(setCurrentMovie(null))
     }
 
     return (
@@ -118,6 +128,14 @@ const Layout: React.FC<Props> = ({
                 isModalOpen={isSettingsModalOpen}
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
+
+            {/* {selectMovie && ( */}
+            <ModelDetails
+                movie={selectMovie}
+                isModalOpen={isModalDetailsOpen}
+                onModalCancel={handleModalDetailsClose}
+            />
+            {/* )} */}
         </LayoutAntd>
     )
 }

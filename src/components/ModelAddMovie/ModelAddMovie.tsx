@@ -12,18 +12,20 @@ import {useRouter} from 'next/router'
 import {IMovie, IMovieLang} from '@/api/apiTypes'
 import {isIMovie} from '@/helpers'
 import {addContantToMovieLang, addLangToMovie} from '@/helpers/addLangToMovie'
-import {addSettingsToMovie} from '@/helpers/addSettingsToMovie'
 
 import styles from './ModelAddMovie.module.scss'
 
-import getFullPathForPosters from '@/helpers/getFullPathForPosters'
 import {useAddLangToMovie} from '@/hooks/useAddLangToMovie'
 import {useAddLangToTv} from '@/hooks/useAddLangToTv'
 import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
+import {setCurrentMovie} from '@/redux/reducers'
+import {getSelectTags} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {getSelectMovieType} from '@/redux/selectors/searchSelectors'
+import {useAppDispatch} from '@/redux/store'
 
+import {AddTags} from '../AddTags'
 import {SetMovieDate} from '../SetMovieDate'
 
 enum Text {
@@ -44,19 +46,19 @@ export const ModelAddMovie = ({
     isModalOpen,
     onModalCancel,
 }: Props) => {
+    const dispatch = useAppDispatch()
     const {pathname} = useRouter()
+    const selectTegs = useSelector(getSelectTags)
     const isProfilePath = pathname.includes('profile')
     const lang = useSelector(getSelectLanguage)
     const movieType = useSelector(getSelectMovieType)
     const {mutationSave: mutationSaveMovie} = useSaveProfileMovie()
     const {mutationUpdate} = useUpdateProfileMovie()
-    const movieWithSettings: any = isIMovie(movie) && addSettingsToMovie(movie)
-    const movieWithLang = isIMovie(movie) ? addLangToMovie(movieWithSettings, lang) : movie
+    const movieWithLang = isIMovie(movie) ? addLangToMovie(movie, lang) : movie
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
     const correctLang = isProfilePath ? lang : anotherLang
     const {mutationAddLang} = useAddLangToMovie()
     const {mutationAddLangTv} = useAddLangToTv()
-    const [newMovie, setNewMovie] = useState<IMovieLang | null>()
 
     const isLoading = mutationAddLang.isLoading || mutationAddLangTv.isLoading
     const data = mutationAddLang.data as IMovie[]
@@ -79,13 +81,12 @@ export const ModelAddMovie = ({
             settings: {
                 ...movieWithLang.settings,
                 dateViewing: [
-                    ...movieWithLang.settings.dateViewing,
+                    ...movieWithLang.settings?.dateViewing,
                     val
                 ]
             }
         }
-
-        setNewMovie(updateMovie)
+        dispatch(setCurrentMovie(updateMovie))
     }
 
     const handleUploadAnotherLangMovieBtnClick = () => {
@@ -105,9 +106,8 @@ export const ModelAddMovie = ({
 
     const handleAddAnotherLangMovieClick = (movie: IMovie) => () => {
         const updateMovie = addContantToMovieLang(movie, movieWithLang, correctLang)
-        const updateRes = getFullPathForPosters(updateMovie) as IMovieLang
 
-        setNewMovie(updateRes)
+        dispatch(setCurrentMovie(updateMovie as any))
     }
 
     const getAnotherLangMovie = () => {
@@ -135,20 +135,23 @@ export const ModelAddMovie = ({
         }
     }
 
-    const handleAddMovieBtnClick = () => {
+    const handleAddMovieBtnClick = (m: any) => () => {
         const request = (mov: IMovieLang) => {
             isProfilePath
                 ? mutationUpdate.mutate(mov)
                 : mutationSaveMovie.mutate(mov)
         }
-        if (newMovie) {
-            request(newMovie)
+
+        if (m) {
+            request(m)
         } else {
             request(movieWithLang)
         }
 
         onModalCancel()
     }
+
+    const isAddMovieBtnEnable = movie.title_ru && movie.title_en
 
     return (
         <Modal
@@ -175,19 +178,38 @@ export const ModelAddMovie = ({
                     добавить фильм на {correctLang}
                 </Button>
 
-                <ol>
+                <ol style={{
+                    width: 500,
+                    height: 300,
+                    overflow: 'scroll',
+                    border: '1px solid black',
+                    borderRadius: 5,
+                    padding: 10,
+                    paddingLeft: 30,
+                    paddingRight: 50,
+                }}>
                     {getAnotherLangMovie()}
                 </ol>
 
-                {!isProfilePath && (
+                {!isProfilePath && movieWithLang && (
                     <SetMovieDate
-                        movie={newMovie}
+                        movie={movieWithLang}
                         onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
                         onAddMovieDateViewing={handleAddMovieDateViewing}
                     />
                 )}
 
-                <Button onClick={handleAddMovieBtnClick}>
+                <div className={styles.tagsWrapper}>
+                    <AddTags
+                        movie={movie}
+                        tags={selectTegs}
+                    />
+                </div>
+
+                <Button
+                    onClick={handleAddMovieBtnClick(movie)}
+                    disabled={!isAddMovieBtnEnable}
+                >
                     Add MOVIE
                 </Button>
             </Space>

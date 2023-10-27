@@ -16,3 +16,7 @@ export {
     getFilteredMovies,
     getSelectTagsForAntSelect,
 } from './profileSelectors'
+
+export {
+    getIsModalDetailsOpen,
+} from './layoutSelectors'

@@ -1,28 +1,37 @@
-'client'
+import React from 'react'
+import {useSelector} from 'react-redux'
 
-import {useSelector} from "react-redux"
+import {
+    Modal,
+} from 'antd'
 
-import {useRouter} from "next/router"
 
-import {IDetailsMovie} from "@/api/apiTypes"
-import {Spin} from "@/components/Spin/Spin"
-import {useFetchDetailsMovie} from "@/hooks/useFetchDetailsMovie"
-import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
+import {IDetailsMovie, IMovieLang} from '@/api/apiTypes'
+import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {ChartElement} from '@/ui-kit'
 
-import styles from './detailsMovie.module.scss'
+import styles from './ModelDetails.module.scss'
 
-import {ChartElement} from "@/ui-kit"
+import {Spin} from '../Spin'
 
-const MovieDitails = () => {
-    const {query} = useRouter()
-    const isTv = query.movieType === 'tv'
-    const movieId = query.movie as string
+interface Props {
+    movie: IMovieLang,
+    isModalOpen: boolean,
+    onModalCancel: () => void,
+}
+
+export const ModelDetails = ({
+    movie,
+    isModalOpen,
+    onModalCancel,
+}: Props) => {
     const lang = useSelector(getSelectLanguage)
 
     const {
         data,
         isFetching
-    } = useFetchDetailsMovie(Number(movieId), lang, isTv)
+    } = useFetchDetailsMovie(movie?.id, lang, movie?.settings?.isTv)
 
     const getPage = (movie: IDetailsMovie) => {
         if (movie) {
@@ -152,25 +161,30 @@ const MovieDitails = () => {
     }
 
     return (
-        <div
-            className={styles.wrapper}
+        <Modal
+            className={styles.modalContainer}
+            open={isModalOpen}
+            onCancel={onModalCancel}
+            footer={[]}
         >
-            {data
-                ? (
-                    getPage(data)
-                )
-                : (
-                    <Spin />
-                )
-            }
             <div
-                className={styles.background}
-                style={{
-                    backgroundImage: `url(${data?.backdrop_path})`,
-                }}
-            />
-        </div>
+                className={styles.wrapper}
+            >
+                {data
+                    ? (
+                        getPage(data)
+                    )
+                    : (
+                        <Spin />
+                    )
+                }
+                <div
+                    className={styles.background}
+                    style={{
+                        backgroundImage: `url(${data?.backdrop_path})`,
+                    }}
+                />
+            </div>
+        </Modal>
     )
 }
-
-export default MovieDitails
