@@ -2,6 +2,7 @@ export const enum RequestUrl {
     // movies
     BASE_URL = 'https://api.themoviedb.org/3',
     GET_MOVIES = '/search/movie',
+    GET_MULTI = '/search/multi',
     GET_MOVIE = '/movie',
     GET_DETAILS_TV = '/tv',
 

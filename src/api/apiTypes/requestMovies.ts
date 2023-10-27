@@ -35,7 +35,9 @@ export interface IMovie {
     title: string
     vote_average: number
     overview: string
-    release_date: string
+    release_date?: string,
+    first_air_date?: string, // only tv
+    media_type?: string, // only tv with multi
     settings: {
         tags: {
             tagName: string,
