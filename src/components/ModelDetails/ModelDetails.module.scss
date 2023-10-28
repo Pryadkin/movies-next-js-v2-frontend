@@ -1,9 +1,29 @@
 .modalContainer {
-    width: 1000px !important;
+    width: calc(100vw - 200px) !important;
+    top: 10px;
+
+    & > div {
+        height: calc(100vh - 45px);
+    }
 }
 
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 50px;
+}
+
+.movieDataElem {
+    margin: 10px 0;
+}
+
+.poster {
+    img {
+        width: 100%;
+    }
+}
+
+.info {
+    overflow: scroll;
+    height: calc(100vh - 300px);
 }
