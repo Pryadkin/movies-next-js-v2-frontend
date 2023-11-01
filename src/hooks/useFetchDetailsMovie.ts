@@ -7,7 +7,7 @@ import {TLanguage} from "@/types"
 
 export const useFetchDetailsMovie = (movieId: number, lang: TLanguage, isTv: boolean) => {
     const fetchDetailsMovie = async (
-        value: any,
+        value: number,
         lang: TLanguage,
         isTv: boolean,
     ): Promise<IDetailsMovie | null> => {
@@ -57,6 +57,7 @@ export const useFetchDetailsMovie = (movieId: number, lang: TLanguage, isTv: boo
         queryKey: ['details-movie', movieId, lang],
         queryFn: () => fetchDetailsMovie(movieId, lang, isTv),
         keepPreviousData : true,
+        enabled: !!movieId,
     })
 
     return {data, isFetching, isError, error}

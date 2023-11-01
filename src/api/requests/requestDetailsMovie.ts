@@ -7,7 +7,7 @@ import {IDetailsMovie, IRequestDetailsMovie} from '../apiTypes'
 import {RequestUrl} from '../requestUrlList'
 
 export const requestDetailsMovie = async (
-    movieId: string,
+    movieId: number,
     lang: TLanguage
 ): Promise<AxiosResponse<IDetailsMovie> | undefined> => {
     const params: IRequestDetailsMovie = {

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
     Button,
     Modal,
+    Spin,
 } from 'antd'
 import clsx from 'clsx'
 
@@ -18,9 +19,6 @@ import {useAppDispatch} from '@/redux/store'
 import {ChartElement} from '@/ui-kit'
 
 
-import {Spin} from '../Spin'
-
-
 interface Props {
     movie: IMovieLang,
     isModalOpen: boolean,
@@ -33,17 +31,46 @@ export const ModelDetails = ({
     onModalCancel,
 }: Props) => {
     const dispatch = useAppDispatch()
+    const posterRef = useRef<HTMLImageElement>(null)
     const lang = useSelector(getSelectLanguage)
+    const [movieImg, setMovieImg] = useState('')
 
     const {
         data,
         isFetching
     } = useFetchDetailsMovie(movie?.id, lang, movie?.settings?.isTv)
 
+    useEffect(() => {
+        data && setMovieImg(data?.poster_path)
+    }, [data])
+
     const handleFilterBtnClick = (movieId: number) => () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
         dispatch(setSelectMovie(movieId))
     }
+
+    const [isImgShow, setImgShow] = useState<boolean>(false)
+
+    const handleDetailsClose = () => {
+        setMovieImg('')
+        onModalCancel()
+    }
+
+    useEffect(() => {
+        if (!posterRef.current) return
+
+        const resizeObserver = new ResizeObserver(entries => { d
+            if (entries[0].contentBoxSize[0].blockSize < 100) {
+                setImgShow(false)
+            } else {
+                setImgShow(true)
+            }
+        })
+        resizeObserver.observe(posterRef.current)
+        return () => {
+            resizeObserver.disconnect()
+        }
+    }, [movieImg])
 
     const getPage = (movie: IDetailsMovie) => {
         if (movie) {
@@ -52,7 +79,28 @@ export const ModelDetails = ({
             return (
                 <>
                     <div className={styles.poster}>
-                        <img src={movie.poster_path} alt="poster_path" />
+                        {!isImgShow && (
+                            <div style={{
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                <Spin/>
+                            </div>
+                        )}
+
+                        <div
+                            ref={posterRef}
+                            className="imageWrapper"
+                        >
+                            <img
+                                src={movieImg}
+                                alt="poster_path"
+                            />
+                        </div>
+
                         <Button
                             type="default"
                             className={clsx(styles.btn, styles.btnFilter)}
@@ -185,7 +233,7 @@ export const ModelDetails = ({
         <Modal
             className={styles.modalContainer}
             open={isModalOpen}
-            onCancel={onModalCancel}
+            onCancel={handleDetailsClose}
             footer={[]}
         >
             <div

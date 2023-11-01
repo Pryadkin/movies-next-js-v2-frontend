@@ -1,15 +1,18 @@
+$imageWidth: calc(100vw / 2 - 200px);
+$modalHeight: calc(100vh);
+
 .modalContainer {
     width: calc(100vw - 200px) !important;
     top: 10px;
 
     & > div {
-        height: calc(100vh - 45px);
+        height: $modalHeight;
     }
 }
 
 .wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.7fr 1fr;
     gap: 50px;
 }
 
@@ -26,4 +29,11 @@
 .info {
     overflow: scroll;
     height: calc(100vh - 300px);
+}
+
+.imageWrapper {
+    img {
+        width: 100%;
+        max-height: calc($modalHeight - 100px);
+    }
 }
