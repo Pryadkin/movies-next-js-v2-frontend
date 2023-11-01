@@ -59,7 +59,7 @@ export const ModelDetails = ({
     useEffect(() => {
         if (!posterRef.current) return
 
-        const resizeObserver = new ResizeObserver(entries => { d
+        const resizeObserver = new ResizeObserver(entries => {
             if (entries[0].contentBoxSize[0].blockSize < 100) {
                 setImgShow(false)
             } else {
