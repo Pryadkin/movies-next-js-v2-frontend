@@ -22,11 +22,11 @@ export const useFetchMovies = (lang: TLanguage) => {
     }
 
     const fetchMovies = async (
-        value: string,
+        name: string,
         page: string,
         lang: TLanguage,
     ) => {
-        const res = value ? await API.requestMovies(value, page, lang) : null
+        const res = name ? await API.requestMovies(name, page, lang) : null
 
         if (res && res.data.results) {
             const result =res.data.results

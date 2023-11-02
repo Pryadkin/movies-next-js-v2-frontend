@@ -8,19 +8,20 @@ import {
 } from 'antd'
 import clsx from 'clsx'
 
-import {IDetailsMovie, IMovieLang} from '@/api/apiTypes'
+import {IDetailsMovie, IMovie} from '@/api/apiTypes'
+import {getCorrectPrice} from '@/helpers'
 import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
 import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
-import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 
 import styles from './ModelDetails.module.scss'
 
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {ChartElement} from '@/ui-kit'
 
 
 interface Props {
-    movie: IMovieLang,
+    movie: IMovie,
     isModalOpen: boolean,
     onModalCancel: () => void,
 }
@@ -180,7 +181,15 @@ export const ModelDetails = ({
                             </div>
 
                             <div className={styles.movieDataElem}>
-                                Доход: {movie.revenue}
+                                Доход: {getCorrectPrice(movie.revenue)} $
+                            </div>
+
+                            <div className={styles.movieDataElem}>
+                                Бюджет: {getCorrectPrice(movie.budget)} $
+                            </div>
+
+                            <div className={styles.movieDataElem}>
+                                Продолжительность: {movie.runtime} мин
                             </div>
 
                             <div className={styles.movieDataElem}>
@@ -189,14 +198,6 @@ export const ModelDetails = ({
                                         <span key={elem.iso_3166_1}>{elem.name}</span>
                                     )
                                 })}
-                            </div>
-
-                            <div className={styles.movieDataElem}>
-                                Продолжительность: {movie.runtime} мин
-                            </div>
-
-                            <div className={styles.movieDataElem}>
-                                Бюджет: {movie.budget}
                             </div>
 
                             <div className={styles.movieDataElem}>

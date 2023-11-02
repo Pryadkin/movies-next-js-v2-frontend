@@ -76,13 +76,12 @@ const MovieDitails = () => {
                                                 style={{marginLeft: 30, color: 'grey'}}
                                             >
 
-                                                    Название: {elem.name}
+                                                Название: {elem.name}
                                             </div>
                                             <div
                                                 style={{marginLeft: 30, color: 'grey'}}
                                             >
-
-                                                    Дата релиза: {elem.air_date}
+                                                Дата релиза: {elem.air_date}
                                             </div>
                                             <div
                                                 style={{marginLeft: 30, color: 'grey'}}
@@ -92,7 +91,6 @@ const MovieDitails = () => {
                                             </div>
                                             <br />
                                         </li>
-
                                     )
                                 })}
                             </ol>
@@ -115,11 +113,11 @@ const MovieDitails = () => {
                         </div>
 
                         <div className={styles.movieDataElem}>
-                            Продолжительность: {movie.runtime} мин
+                            Бюджет: {movie.budget}
                         </div>
 
                         <div className={styles.movieDataElem}>
-                            Бюджет: {movie.budget}
+                            Продолжительность: {movie.runtime} мин
                         </div>
 
                         <div className={styles.movieDataElem}>

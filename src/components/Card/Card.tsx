@@ -1,17 +1,16 @@
-import {useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Button, Popconfirm} from 'antd'
 import clsx from 'clsx'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
 
-import {IMovie, IMovieLang} from '@/api/apiTypes'
+import {IMovie} from '@/api/apiTypes'
+import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
+import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 
 import styles from './Card.module.scss'
 
-import {isIMovie, isIMovieLang} from '@/helpers'
-import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import {getIsDrawerMovieTagsOpen, sestIsModalDetailsOpen, setCurrentMovie, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
@@ -24,20 +23,43 @@ export const Card = ({
     isProfileCard,
     onModalOpen
 }: {
-    movie: IMovie | IMovieLang,
+    movie: IMovie | ICorrectMovie,
     width: number,
     height: number,
-    currentMovie: IMovie | IMovieLang | null,
+    currentMovie: IMovie | null,
     isProfileCard: boolean | undefined,
     onModalOpen: (val: boolean) => void
 }) => {
-    const isCurMovie = currentMovie && currentMovie.id === movie.id
+    const cardRef = useRef<HTMLDivElement>(null)
+    // const isCurMovie = currentMovie && currentMovie.id === movie.id
     const [isRotate, setIsRotate] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
 
-    const handleCardClick= () => {
-        setIsRotate(!isRotate)
+    useEffect(() => {
+        const handleClickOutside = ({target}: MouseEvent) => {
+            if (target instanceof HTMLElement) {
+                if (cardRef.current?.contains(target)) {
+                    const isHTMLImageElem = target instanceof HTMLImageElement
 
+                    const isCorrectBody = isHTMLImageElem
+                        ? Boolean(target.alt)
+                        : Boolean(target.dataset.title)
+
+                    setIsRotate(isCorrectBody)
+                } else {
+                    setIsRotate(false)
+                }
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside, true)
+        }
+
+    }, [cardRef])
+
+    const handleCardClick = () => {
         dispatch(setCurrentMovie((movie as IMovie)))
     }
 
@@ -111,152 +133,98 @@ export const Card = ({
 
     const handleDetailsClick = () => {
         dispatch(sestIsModalDetailsOpen(true))
-        // if ((mov as ITv).settings?.isTv) {
-        //     rounter.push(`movies/tv/${movie.id}`)
-        // } else {
-        //     rounter.push(`movies/mov/${movie.id}`)
-        // }
     }
 
     const getCard = () => {
-        if (isIMovie(movie)) {
-            return (
-                <>
-                    <div
-                        data-title={movie.title}
-                        title={movie.title}
-                        className={clsx(
-                            styles.front,
-                            styles.tvStyle
-                        )}
-                    >
-                        {isMouseOver && (
-                            <div
-                                className={styles.details}
-                                onClick={handleDetailsClick}
-                            >
-                                DETAILS
-                            </div>
-                        )}
+        const isEnglish = lang === 'en-EN'
+        const isMovieLangKey = Boolean((movie as ICorrectMovie).title_en)
+        const correctMovie = movie as ICorrectMovie
 
-                        {movie.settings.isTv && (
-                            <div className={styles.tvLabel}>TV</div>
-                        )}
-                        <Image
-                            className={styles.image}
-                            title={movie.title}
-                            alt={movie.title}
-                            src={movie.poster_path || ''}
-                            width={width}
-                            height={height}
-                            blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
-                            placeholder="blur"
-                        />
-                        <p className={styles.title}>
-                            {getTitle(movie.title)}
-                        </p>
-                        <p className={styles.title}>
-                            {movie.release_date}
-                        </p>
+        const lang_title = isEnglish
+            ? correctMovie.title_en
+            : correctMovie.title_ru
+        const lang_poster_path = isEnglish
+            ? correctMovie.poster_path_en
+            : correctMovie.poster_path_ru
 
-                    </div>
-                    <div className={styles.back}>
-                        <p className={styles.backTitle}>
-                            {movie.title}
-                        </p>
+        const title = isMovieLangKey
+            ? lang_title
+            : (movie as IMovie).title
+        const poster_path = isMovieLangKey
+            ? lang_poster_path
+            : (movie as IMovie).poster_path
 
-                        <p className={styles.backTitle}>
-                            {movie.release_date}
-                        </p>
+        return (
+            <>
+                <div
+                    data-title={getTitle(title)}
+                    className={styles.front}
+                >
+                    {isMouseOver && (
+                        <div
+                            className={styles.details}
+                            onClick={handleDetailsClick}
+                        >
+                            DETAILS
+                        </div>
+                    )}
 
-                        <p className={styles.backTitle}>
-                                popularity - {movie.popularity}
-                        </p>
+                    {movie.settings.isTv && (
+                        <div className={styles.tvLabel}>TV</div>
+                    )}
+                    <Image
+                        style={{
+                            marginTop: 10
+                        }}
+                        alt={title || ''}
+                        src={poster_path || ''}
+                        width={width}
+                        height={height}
+                        blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
+                        placeholder="blur"
+                    />
+                    <p className={styles.title}>
+                        {getTitle(title)}
+                    </p>
+                    <p className={styles.title}>
+                        {movie.release_date}
+                    </p>
 
-                        {button()}
-                    </div>
-                </>
-            )
-        }
-        if (isIMovieLang(movie)) {
-            const isEnglish = lang === 'en-EN'
-            const title = isEnglish ? movie.title_en : movie.title_ru
-            const poster_path = isEnglish
-                ? movie.poster_path_en
-                : movie.poster_path_ru
+                </div>
+                <div className={styles.back}>
+                    <p className={styles.backTitle}>
+                        {title}
+                    </p>
 
-            return (
-                <>
-                    <div
-                        data-title={getTitle(title)}
-                        className={styles.front}
-                    >
-                        {isMouseOver && (
-                            <div
-                                className={styles.details}
-                                onClick={handleDetailsClick}
-                            >
-                                DETAILS
-                            </div>
-                        )}
+                    <p className={styles.backTitle}>
+                        {movie.release_date}
+                    </p>
 
-                        {movie.settings.isTv && (
-                            <div className={styles.tvLabel}>TV</div>
-                        )}
-                        <Image
-                            style={{
-                                marginTop: 10
-                            }}
-                            alt={title || ''}
-                            src={poster_path || ''}
-                            width={width}
-                            height={height}
-                            blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
-                            placeholder="blur"
-                        />
-                        <p className={styles.title}>
-                            {getTitle(title)}
-                        </p>
-                        <p className={styles.title}>
-                            {movie.release_date}
-                        </p>
+                    <p className={styles.backTitle}>
+                        popularity - {movie.popularity}
+                    </p>
 
-                    </div>
-                    <div className={styles.back}>
-                        <p className={styles.backTitle}>
-                            {title}
-                        </p>
-
-                        <p className={styles.backTitle}>
-                            {movie.release_date}
-                        </p>
-
-                        <p className={styles.backTitle}>
-                            popularity - {movie.popularity}
-                        </p>
-
-                        {button()}
-                    </div>
-                </>
-            )
-        }
-
-        return null
+                    {button()}
+                </div>
+            </>
+        )
     }
 
     return (
         <div
             key={movie.id}
+            ref={cardRef}
+            data-index={movie.id}
             className={clsx(
                 styles.cardsWrapper,
-                isRotate && isCurMovie && styles.rotate
+                isRotate && styles.rotate
             )}
             onClick={handleCardClick}
             onMouseOver={() => setIsMouseOver(true)}
             onMouseLeave={() => setIsMouseOver(false)}
         >
-            <div className={styles.card}>
-                <div className={styles.content}>
+            <div className={styles.card} data-index={movie.id}>
+                <div className={styles.content} data-index={movie.id}>
                     {getCard()}
                 </div>
             </div>

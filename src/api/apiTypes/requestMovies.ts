@@ -1,6 +1,15 @@
+import {ITv} from "./requestTv"
+
 export interface IResponseMovies {
     page: number,
     results: IMovie[],
+    total_pages: number,
+    total_results: number,
+}
+
+export interface IResponseMulti {
+    page: number,
+    results: IMovie[] | ITv[],
     total_pages: number,
     total_results: number,
 }
@@ -26,7 +35,34 @@ export interface IMovie {
     popularity: number
     vote_count: number
     video: false
-    poster_path: string
+    poster_path: string,
+    adult: boolean
+    backdrop_path: string | null
+    original_language: string
+    original_title: string
+    genre_ids: Array<number>
+    title: string
+    vote_average: number
+    overview: string
+    release_date: string,
+    settings: {
+        tags: {
+            tagName: string,
+            color: string,
+        }[],
+        dateAdd: string,
+        dateViewing: string[],
+        isTv: boolean,
+    }
+}
+
+export interface IMultiMovie {
+    id: number
+    popularity: number
+    vote_count: number
+    video?: false
+    poster_path_ru: string,
+    poster_path_en: string,
     adult: boolean
     backdrop_path: string | null
     original_language: string
@@ -36,7 +72,35 @@ export interface IMovie {
     vote_average: number
     overview: string
     release_date?: string,
-    first_air_date?: string, // only tv
+    first_air_date?: string,
+    settings: {
+        tags: {
+            tagName: string,
+            color: string,
+        }[],
+        dateAdd: string,
+        dateViewing: string[],
+        isTv: boolean,
+    }
+}
+
+export interface ICorrectMovie {
+    id: number
+    popularity: number
+    vote_count: number
+    video: false
+    poster_path_ru: string,
+    poster_path_en: string,
+    adult: boolean
+    backdrop_path: string | null
+    original_language: string
+    original_title: string
+    genre_ids: Array<number>
+    title_en: string | null
+    title_ru: string | null
+    vote_average: number
+    overview: string
+    release_date: string,
     media_type?: string, // only tv with multi
     settings: {
         tags: {
@@ -45,55 +109,55 @@ export interface IMovie {
         }[],
         dateAdd: string,
         dateViewing: string[],
-        isTv?: boolean,
+        isTv: boolean,
     }
 }
 
-export interface IMovieLang {
-    id: number
-    popularity: number
-    vote_count: number
-    video: false
-    poster_path_en: string
-    poster_path_ru: string
-    adult: boolean
-    backdrop_path_en: string | null
-    backdrop_path_ru: string | null
-    original_language: string
-    original_title: string
-    genre_ids: Array<number>
-    title_en: string | null
-    title_ru: string | null
-    vote_average: number
-    overview_en: string | null
-    overview_ru: string | null
-    release_date: string
-    settings: {
-        tags: {
-            tagName: string,
-            color: string,
-        }[],
-        dateAdd: string,
-        dateViewing: string[],
-        isTv?: boolean,
-    }
-}
+// export interface IMovieLang {
+//     id: number
+//     popularity: number
+//     vote_count: number
+//     video: false
+//     poster_path_en: string
+//     poster_path_ru: string
+//     adult: boolean
+//     backdrop_path_en: string | null
+//     backdrop_path_ru: string | null
+//     original_language: string
+//     original_title: string
+//     genre_ids: Array<number>
+//     title_en: string | null
+//     title_ru: string | null
+//     vote_average: number
+//     overview_en: string | null
+//     overview_ru: string | null
+//     release_date: string
+//     settings: {
+//         tags: {
+//             tagName: string,
+//             color: string,
+//         }[],
+//         dateAdd: string,
+//         dateViewing: string[],
+//         isTv?: boolean,
+//     }
+// }
 
-export type TMovieEn = Omit<
-IMovieLang,
-'poster_path_ru' |
-'backdrop_path_ru' |
-'title_ru' |
-'overview_ru'
->
+// export type TMovieEn = Omit<
+// IMovieLang,
+// 'poster_path_ru' |
+// 'backdrop_path_ru' |
+// 'title_ru' |
+// 'overview_ru'
+// >
 
-export type TMovieRu = Omit<
-IMovieLang,
-'poster_path_en' |
-'backdrop_path_en' |
-'title_en' |
-'overview_en'
->
+// export type TMovieRu = Omit<
+// IMovieLang,
+// 'poster_path_en' |
+// 'backdrop_path_en' |
+// 'title_en' |
+// 'overview_en'
+// >
 
 export interface IErrorResponse {
     error: string,
@@ -197,7 +261,7 @@ export interface IDetailsMovie {
 //     imdb_id: "tt9603212",
 //     original_language: "en",
 //     original_title: "Mission: Impossible - Dead Reckoning Part One",
-//     overview: "Итан Хант и его команда противостоят системе искусственного интеллекта Entity, которая вышла из под контроля и стала угрозой человечества.",
+//     overview: "Итан Хант и его команда противосто",
 //     popularity: 998.192,
 //     poster_path: "/qncL23TGeAqmqmbBxJl4R6nYToJ.jpg",
 //     production_companies: [

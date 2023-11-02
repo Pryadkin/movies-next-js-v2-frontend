@@ -3,6 +3,7 @@ import {AxiosResponse} from 'axios'
 import {TLanguage} from '@/types'
 
 import {APIInstance} from '../apiInstance'
+import {IResponseTv} from '../apiTypes'
 import {IRequestMovies, IResponseMovies} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
@@ -10,7 +11,7 @@ export const requestMulti = async (
     name: string,
     page: string,
     lang: TLanguage
-): Promise<AxiosResponse<IResponseMovies> | undefined> => {
+): Promise<AxiosResponse<IResponseMovies | IResponseTv> | undefined> => {
     const params: IRequestMovies = {
         api_key: process.env.API_MOVIE_KEY || '',
         query: name,

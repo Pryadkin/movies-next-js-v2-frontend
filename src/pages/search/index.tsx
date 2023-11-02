@@ -20,6 +20,7 @@ import {
     getSelectTvName
 } from '@/redux/selectors/searchSelectors'
 import {useAppDispatch} from '@/redux/store/rootReducer'
+import {TMovieType} from '@/types'
 
 const {Search} = Input
 
@@ -31,7 +32,7 @@ const SearchMovies = () => {
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
     const data = mutationMovieFetch.data
-    const [selectType, setSelectType] = useState<any>('')
+    const [selectType, setSelectType] = useState<TMovieType>('multi')
 
     const isMovieName = movieName || tvName
 
@@ -71,7 +72,7 @@ const SearchMovies = () => {
         <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
                 <Radio.Group
-                    defaultValue="a"
+                    defaultValue="c"
                     buttonStyle="outline"
                     className={styles.radioGroup}
                     onChange={handleSearchTypeChange}
