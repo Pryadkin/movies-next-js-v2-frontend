@@ -1,4 +1,4 @@
-import {IMovie, IMovieLang} from "@/api/apiTypes/requestMovies"
+import {IMovie} from "@/api/apiTypes/requestMovies"
 import {TLanguage, TMovieType} from "@/types"
 export interface State {
     movieName: string,
@@ -9,7 +9,7 @@ export interface State {
     totalResults: number | null,
     language: TLanguage,
     movieType: TMovieType,
-    currentMovie: IMovie | IMovieLang | null,
+    currentMovie: IMovie | null,
 }
 
 export const initialState: State = {
@@ -20,6 +20,6 @@ export const initialState: State = {
     totalPages: null,
     totalResults: null,
     language: 'ru-RU',
-    movieType: 'movie',
+    movieType: 'multi',
     currentMovie: null
 }

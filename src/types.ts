@@ -1,6 +1,7 @@
 export interface ITag {
     tagName: string,
     color: string,
+    isGroup?: boolean,
 }
 
 export interface IGenre {

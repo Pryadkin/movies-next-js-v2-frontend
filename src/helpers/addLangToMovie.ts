@@ -1,8 +1,8 @@
 import {IMovie} from "@/api/apiTypes"
-import {IMovieLang} from "@/api/apiTypes"
+import {ICorrectMovie} from "@/api/apiTypes/requestMovies"
 import {TLanguage} from '@/types'
 
-export const addLangToMovie = (movie: IMovie, lang: TLanguage): IMovieLang => {
+export const addLangToMovie = (movie: IMovie, lang: TLanguage): ICorrectMovie => {
     const {
         adult,
         genre_ids,
@@ -77,10 +77,10 @@ export const addLangToMovie = (movie: IMovie, lang: TLanguage): IMovieLang => {
 }
 
 export const addContantToMovieLang = (
-    movie: IMovie,
-    movieLang: IMovieLang,
+    movie: ICorrectMovie,
+    movieLang: ICorrectMovie,
     anotherlang: TLanguage,
-): IMovieLang => {
+): ICorrectMovie => {
     if (anotherlang === 'en-EN') {
         return {
             ...movieLang,

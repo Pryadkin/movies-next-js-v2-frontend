@@ -75,6 +75,7 @@ export const useFetchMulti = (lang: TLanguage) => {
 
                 const updateRes = {
                     ...elem,
+                    id: tvResult ? elem.id : elem.id,
                     title,
                     original_title,
                     poster_path_ru,
@@ -92,6 +93,8 @@ export const useFetchMulti = (lang: TLanguage) => {
                     }
                 }
 
+                console.log('updateRes', updateRes)
+
                 return updateRes
             })
 
@@ -106,13 +109,13 @@ export const useFetchMulti = (lang: TLanguage) => {
     const mutationMovieFetch = useMutation({
         mutationFn: ({
             searchName,
-            selectType,
+            movieType,
             page
         }: {
             searchName: string,
-            selectType: TMovieType,
+            movieType: TMovieType,
             page: string,
-        }) => fetchMovies(searchName, selectType, page, lang),
+        }) => fetchMovies(searchName, movieType, page, lang),
     })
 
     return {mutationMovieFetch}

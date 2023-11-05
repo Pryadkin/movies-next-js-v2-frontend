@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
@@ -9,14 +8,14 @@ import {
 } from 'antd'
 import {useRouter} from 'next/router'
 
-import {IMovie, IMovieLang} from '@/api/apiTypes'
+import {IMovie} from '@/api/apiTypes'
+import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
 import {isIMovie} from '@/helpers'
 import {addContantToMovieLang, addLangToMovie} from '@/helpers/addLangToMovie'
 
 import styles from './ModelAddMovie.module.scss'
 
-import {useAddLangToMovie} from '@/hooks/useAddLangToMovie'
-import {useAddLangToTv} from '@/hooks/useAddLangToTv'
+import {useFetchMulti} from '@/hooks/useFetchMulti'
 import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
 import {setCurrentMovie} from '@/redux/reducers'
@@ -36,7 +35,7 @@ enum Text {
 }
 
 interface Props {
-    movie: IMovie | IMovieLang
+    movie: ICorrectMovie,
     isModalOpen: boolean,
     onModalCancel: () => void,
 }
@@ -57,12 +56,12 @@ export const ModelAddMovie = ({
     const movieWithLang = isIMovie(movie) ? addLangToMovie(movie, lang) : movie
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
     const correctLang = isProfilePath ? lang : anotherLang
-    const {mutationAddLang} = useAddLangToMovie()
-    const {mutationAddLangTv} = useAddLangToTv()
+    const {mutationMovieFetch} = useFetchMulti(anotherLang)
+    const data = mutationMovieFetch.data
 
-    const isLoading = mutationAddLang.isLoading || mutationAddLangTv.isLoading
-    const data = mutationAddLang.data as IMovie[]
-    || mutationAddLangTv.data as IMovie[]
+    // console.log('first', first)
+
+    const isLoading = mutationMovieFetch.isLoading || mutationMovieFetch.isLoading
 
     const handleUpdateMovieDateViewing = (val: string[]) => {
         // TODO: add updating date by save movie
@@ -89,23 +88,16 @@ export const ModelAddMovie = ({
         dispatch(setCurrentMovie(updateMovie))
     }
 
-    const handleUploadAnotherLangMovieBtnClick = () => {
-        if (movieType === 'movie') {
-            mutationAddLang.mutate({
-                movieName: movieWithLang.original_title,
-                lang: correctLang
-            })
-        }
-        if (movieType === 'tv')  {
-            mutationAddLangTv.mutate({
-                movieName: movieWithLang.original_title,
-                lang: correctLang
-            })
-        }
+    const handleUploadAnotherLangMovieBtnClick = (movie: ICorrectMovie) => () => {
+        mutationMovieFetch.mutate({
+            searchName: movie.original_title,
+            movieType,
+            page: '1'
+        })
     }
 
-    const handleAddAnotherLangMovieClick = (movie: IMovie) => () => {
-        const updateMovie = addContantToMovieLang(movie, movieWithLang, correctLang)
+    const handleAddAnotherLangMovieClick = (mov: ICorrectMovie) => () => {
+        const updateMovie = addContantToMovieLang(mov, movieWithLang, correctLang)
 
         dispatch(setCurrentMovie(updateMovie as any))
     }
@@ -136,7 +128,7 @@ export const ModelAddMovie = ({
     }
 
     const handleAddMovieBtnClick = (m: any) => () => {
-        const request = (mov: IMovieLang) => {
+        const request = (mov: IMovie) => {
             isProfilePath
                 ? mutationUpdate.mutate(mov)
                 : mutationSaveMovie.mutate(mov)
@@ -174,7 +166,7 @@ export const ModelAddMovie = ({
                 {movieWithLang.title_en || movieWithLang.title_ru}
                 {movieWithLang.release_date}
 
-                <Button onClick={handleUploadAnotherLangMovieBtnClick}>
+                <Button onClick={handleUploadAnotherLangMovieBtnClick(movieWithLang)}>
                     добавить фильм на {correctLang}
                 </Button>
 

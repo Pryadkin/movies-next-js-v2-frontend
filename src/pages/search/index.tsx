@@ -1,5 +1,4 @@
 'client'
-import {useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Input, Radio, RadioChangeEvent} from 'antd'
@@ -8,6 +7,7 @@ import {Pagination} from 'antd'
 import {CardItems} from '@/components/CardItems'
 import {useFetchMulti} from '@/hooks/useFetchMulti'
 import {
+    setMovieType,
     setPage,
 } from '@/redux/reducers'
 
@@ -15,31 +15,31 @@ import styles from './Search.module.scss'
 
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {
+    getSelectMovieType,
     getSelectMoviesName,
     getSelectTotalPages,
     getSelectTvName
 } from '@/redux/selectors/searchSelectors'
 import {useAppDispatch} from '@/redux/store/rootReducer'
-import {TMovieType} from '@/types'
 
 const {Search} = Input
 
 const SearchMovies = () => {
     const dispatch = useAppDispatch()
+    const movieType = useSelector(getSelectMovieType)
     const totalPages = useSelector(getSelectTotalPages)
     const movieName = useSelector(getSelectMoviesName)
     const tvName = useSelector(getSelectTvName)
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
     const data = mutationMovieFetch.data
-    const [selectType, setSelectType] = useState<TMovieType>('multi')
 
     const isMovieName = movieName || tvName
 
     const handleMoviesSearch = (value: string) => {
         mutationMovieFetch.mutate({
             searchName: value,
-            selectType,
+            movieType,
             page: '1'
         })
 
@@ -51,15 +51,15 @@ const SearchMovies = () => {
     const handleSearchTypeChange = ({target}: RadioChangeEvent) => {
         switch (target.value) {
             case "a": {
-                setSelectType('movie')
+                dispatch(setMovieType('movie'))
                 break
             }
             case "b": {
-                setSelectType('tv')
+                dispatch(setMovieType('tv'))
                 break
             }
             case "c": {
-                setSelectType('multi')
+                dispatch(setMovieType('multi'))
                 break
             }
             default: {

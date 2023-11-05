@@ -123,7 +123,38 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         dispatch(setGenreFlagStatus(val))
     }
 
-    const customTags = () => {
+    const groupTags = (tags: ITag[]) => {
+        return (
+            <div>
+                {tags?.map(tag => {
+                    if (tagFlagStatus) {
+                        return (
+                            <Tag
+                                key={tag.tagName}
+                                className={styles.tag}
+                                color={selectTags.find(item => item.tagName === tag.tagName) ? 'cyan' : 'default'}
+                                onClick={handleCustomTagClick(tag)}
+                            >
+                                {tag.tagName}
+                            </Tag>
+                        )
+                    }
+                    return (
+                        <Tag
+                            key={tag.tagName}
+                            className={styles.tag}
+                            color={selectIgnoreTags.find(item => item.tagName === tag.tagName) ? 'volcano' : 'blue'}
+                            onClick={handleCustomTagIgnoreClick(tag)}
+                        >
+                            {tag.tagName}
+                        </Tag>
+                    )
+                })}
+            </div>
+        )
+    }
+
+    const customTags = (tags: ITag[]) => {
         if (tagFlagStatus) {
             return (
                 <div>
@@ -224,6 +255,20 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
         },
         {
             key: '2',
+            label: 'Group',
+            children: <div className={styles.genreWrapper}>
+                <Switch
+                    className={styles.switch}
+                    checkedChildren={<CheckOutlined rev={undefined} />}
+                    unCheckedChildren={<CloseOutlined rev={undefined} />}
+                    onChange={() => setTagFlagStatus(!tagFlagStatus)}
+                    defaultChecked
+                />
+                {groupTags(tags.filter(elem => elem.isGroup))}
+            </div>,
+        },
+        {
+            key: '3',
             label: 'All tags',
             children: <div className={styles.genreWrapper}>
                 <Switch
@@ -233,11 +278,11 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                     onChange={() => setTagFlagStatus(!tagFlagStatus)}
                     defaultChecked
                 />
-                {customTags()}
+                {customTags(tags.filter(elem => !elem.isGroup))}
             </div>,
         },
         {
-            key: '3',
+            key: '4',
             label: 'Sort',
             children: <div className={styles.dateWrapper}>
                 <Button
