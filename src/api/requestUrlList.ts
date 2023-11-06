@@ -9,6 +9,9 @@ export const enum RequestUrl {
     //TV
     GET_TV = '/search/tv',
 
+    // Popular
+    GET_POPULAR = '/person/popular',
+
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',
     ADD_PROFILE_MOVIE = '/profile/add_movie',

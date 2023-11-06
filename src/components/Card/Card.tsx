@@ -19,7 +19,6 @@ export const Card = ({
     movie,
     width,
     height,
-    currentMovie,
     isProfileCard,
     onModalOpen
 }: {
@@ -31,7 +30,6 @@ export const Card = ({
     onModalOpen: (val: boolean) => void
 }) => {
     const cardRef = useRef<HTMLDivElement>(null)
-    // const isCurMovie = currentMovie && currentMovie.id === movie.id
     const [isRotate, setIsRotate] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
 

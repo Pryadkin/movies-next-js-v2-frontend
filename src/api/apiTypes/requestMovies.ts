@@ -19,6 +19,12 @@ export interface IRequestDetailsMovie {
     language: string
 }
 
+export interface IRequestPopular {
+    api_key: string,
+    page: string,
+    language: string,
+}
+
 export interface IRequestMovies {
     api_key: string
     query: string

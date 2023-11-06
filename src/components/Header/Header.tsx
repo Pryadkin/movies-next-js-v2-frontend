@@ -27,6 +27,7 @@ const Header: FC<Props> = ({
     const navigation = [
         {id: 1, title: 'Profile', path: '/movies'},
         {id: 2, title: 'Search', path: '/search'},
+        {id: 3, title: 'Popular', path: '/popular'},
     ]
     const [searchMovieInput, setSearchMovieInput] = useState('')
 
@@ -61,7 +62,9 @@ const Header: FC<Props> = ({
                 ))}
             </div>
 
+
             <Search
+                className={styles.search}
                 size='small'
                 value={searchMovieInput}
                 onSearch={handleSearchMovieClick}

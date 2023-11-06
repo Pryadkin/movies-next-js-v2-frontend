@@ -82,6 +82,8 @@ const Layout: React.FC<Props> = ({
         dispatch(setCurrentMovie(null))
     }
 
+    const isSider = asPath === '/movies'
+
     return (
         <LayoutAntd>
             <Header
@@ -91,7 +93,7 @@ const Layout: React.FC<Props> = ({
             />
 
             <LayoutAntd>
-                {asPath !== '/search' && (
+                { isSider && (
                     <Sider
                         trigger={null}
                         collapsible
@@ -129,13 +131,11 @@ const Layout: React.FC<Props> = ({
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
 
-            {/* {selectMovie && ( */}
             <ModelDetails
                 movie={selectMovie}
                 isModalOpen={isModalDetailsOpen}
                 onModalCancel={handleModalDetailsClose}
             />
-            {/* )} */}
         </LayoutAntd>
     )
 }

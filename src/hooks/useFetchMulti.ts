@@ -93,8 +93,6 @@ export const useFetchMulti = (lang: TLanguage) => {
                     }
                 }
 
-                console.log('updateRes', updateRes)
-
                 return updateRes
             })
 

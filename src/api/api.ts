@@ -16,6 +16,7 @@ import {
     requestUpdateMovieTags,
     requestDeleteMovieTags,
     requestGenres,
+    requestPopular,
 } from './requests/index'
 
 export const API = {
@@ -36,4 +37,5 @@ export const API = {
     requestUpdateMovieTags,
     requestDeleteMovieTags,
     requestGenres,
+    requestPopular,
 }
