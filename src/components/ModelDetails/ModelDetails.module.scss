@@ -4,10 +4,10 @@ $modalHeight: calc(100vh);
 .modalContainer {
     width: calc(100vw - 200px) !important;
     top: 10px;
-
-    & > div {
-        height: $modalHeight;
-    }
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
+    position: relative;
 }
 
 .wrapper {
@@ -35,5 +35,25 @@ $modalHeight: calc(100vh);
     img {
         width: 100%;
         max-height: calc($modalHeight - 100px);
+    }
+}
+
+.creditWrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: scroll;
+
+    .creditItem {
+        display: flex;
+        flex-direction: row;
+        margin: 20px;
+    }
+
+    img {
+        width: 100px;
+        height: 150px;
+        margin: 10px;
+        border: 1px solid black;
     }
 }

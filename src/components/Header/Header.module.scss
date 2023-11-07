@@ -2,7 +2,6 @@
 
 .header {
   display: grid;
-  // grid-template-columns: 100px 200px 200px 1fr;
   padding: 0 20px;
   background-color: colors.$main-color !important;
   align-items: center;
@@ -20,7 +19,6 @@
   background-color: colors.$main-color;
   padding-left: 50px;
   color: white;
-  width: 300px;
   grid-column: 2;
 }
 

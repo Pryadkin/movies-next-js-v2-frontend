@@ -7,6 +7,7 @@ import {Pagination} from 'antd'
 import {CardItems} from '@/components/CardItems'
 import {useFetchMulti} from '@/hooks/useFetchMulti'
 import {
+    setMovieName,
     setMovieType,
     setPage,
 } from '@/redux/reducers'
@@ -37,15 +38,22 @@ const SearchMovies = () => {
     const isMovieName = movieName || tvName
 
     const handleMoviesSearch = (value: string) => {
+        dispatch(setMovieName(value))
+
         mutationMovieFetch.mutate({
             searchName: value,
             movieType,
             page: '1'
         })
-
     }
     const handlePaginationChange = (value: number) => {
         dispatch(setPage(value))
+
+        mutationMovieFetch.mutate({
+            searchName: movieName,
+            movieType,
+            page: String(value)
+        })
     }
 
     const handleSearchTypeChange = ({target}: RadioChangeEvent) => {

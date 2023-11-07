@@ -28,6 +28,7 @@ const Header: FC<Props> = ({
         {id: 1, title: 'Profile', path: '/movies'},
         {id: 2, title: 'Search', path: '/search'},
         {id: 3, title: 'Popular', path: '/popular'},
+        {id: 4, title: 'Top Rated', path: '/top-rated'},
     ]
     const [searchMovieInput, setSearchMovieInput] = useState('')
 
