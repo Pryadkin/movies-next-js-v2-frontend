@@ -5,14 +5,17 @@ import {
     Button,
     Modal,
 } from 'antd'
+import {useRouter} from 'next/router'
 
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
 import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
-import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {setIsAddMovieModalOpen} from '@/redux/reducers'
 
 import styles from './ModelDetails.module.scss'
 
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {useAppDispatch} from '@/redux/store'
 import {ChartElement} from '@/ui-kit'
 
 import {Spin} from '../Spin'
@@ -28,6 +31,8 @@ export const ModelDetails = ({
     isModalOpen,
     onModalCancel,
 }: Props) => {
+    const {asPath} = useRouter()
+    const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
 
     const {
@@ -214,14 +219,30 @@ export const ModelDetails = ({
                 }
             </div>
 
-            <Button
-                type="default"
-                style={{zIndex: 100}}
-                className={styles.btn}
-                onClick={handleShowCreditsClick()}
-            >
-                Show credits
-            </Button>
+            <div style={{display: 'flex'}}>
+
+
+                <Button
+                    type="default"
+                    style={{zIndex: 100}}
+                    className={styles.btn}
+                    onClick={handleShowCreditsClick()}
+                >
+                    Show credits
+                </Button>
+
+                {asPath !== '/movies' && (
+                    <Button
+                        type="default"
+                        className={styles.btn}
+                        style={{zIndex: 100}}
+                        onClick={() => dispatch(setIsAddMovieModalOpen(true))}
+                    >
+                        add
+                    </Button>
+                )}
+
+            </div>
 
             <div
                 className={styles.creditWrapper}

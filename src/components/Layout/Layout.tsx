@@ -18,6 +18,7 @@ import {
     getIsDrawerMovieTagsOpen,
     sestIsModalDetailsOpen,
     setCurrentMovie,
+    setIsAddMovieModalOpen,
     setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
@@ -25,12 +26,13 @@ import {
     getCurrentMovie,
     getSelectIsDrawerMovieTagsOpen,
 } from '@/redux/selectors'
-import {getIsModalDetailsOpen, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {getIsAddMovieModalOpen, getIsModalDetailsOpen, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
+import {ModelAddMovie} from '../ModelAddMovie'
 import {ModelDetails} from '../ModelDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
@@ -76,6 +78,7 @@ const Layout: React.FC<Props> = ({
     }
 
     const isModalDetailsOpen = useSelector(getIsModalDetailsOpen)
+    const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
 
     const handleModalDetailsClose = () => {
         dispatch(sestIsModalDetailsOpen(false))
@@ -135,6 +138,12 @@ const Layout: React.FC<Props> = ({
                 movie={selectMovie}
                 isModalOpen={isModalDetailsOpen}
                 onModalCancel={handleModalDetailsClose}
+            />
+
+            <ModelAddMovie
+                movie={selectMovie}
+                isModalOpen={isAddMovieModalOpen}
+                onModalCancel={() => dispatch(setIsAddMovieModalOpen(false))}
             />
         </LayoutAntd>
     )

@@ -14,6 +14,9 @@ const layoutSlice = createSlice({
         },
         sestIsModalDetailsOpen(state, action: PayloadAction<boolean>) {
             state.isModalDetailsOpen = action.payload
+        },
+        setIsAddMovieModalOpen(state, action: PayloadAction<boolean>) {
+            state.isAddMovieModalOpen = action.payload
         }
     },
 })
@@ -23,4 +26,5 @@ export const layoutReducer = layoutSlice.reducer
 export const {
     setLanguage,
     sestIsModalDetailsOpen,
+    setIsAddMovieModalOpen,
 } = layoutSlice.actions

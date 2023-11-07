@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Button, Card, Popconfirm} from 'antd'
@@ -11,12 +11,10 @@ import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 
 import styles from './CardItem.module.scss'
 
-import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
+import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen, setSelectMovie} from '@/redux/reducers'
 import {getCurrentMovie} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
-
-import {ModelAddMovie} from '../ModelAddMovie'
 
 const {Meta} = Card
 
@@ -34,13 +32,11 @@ export const CardItem: FC<Props> = ({
     isProfileCard,
 }) => {
     const dispatch = useAppDispatch()
-    const currentMovie = useSelector(getCurrentMovie)
     const lang = useSelector(getSelectLanguage)
     const {mutationDelete} = useDeleteMovie()
-    const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
 
     const handleAddBtnClick = () => {
-        setIsAddMovieModalOpen(true)
+        dispatch(setIsAddMovieModalOpen(true))
     }
 
     const handleRemoveBtnClick = (movieId: number) => () => {
@@ -179,13 +175,7 @@ export const CardItem: FC<Props> = ({
 
             {addLangButton(movie)}
 
-            {getCard(movie)}
-
-            <ModelAddMovie
-                movie={currentMovie as IMovie}
-                isModalOpen={isAddMovieModalOpen}
-                onModalCancel={() => setIsAddMovieModalOpen(false)}
-            />
+            {movie && getCard(movie)}
         </div>
     )
 }

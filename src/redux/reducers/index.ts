@@ -42,4 +42,5 @@ export {
     layoutReducer,
     setLanguage,
     sestIsModalDetailsOpen,
+    setIsAddMovieModalOpen,
 } from './layoutReducer'

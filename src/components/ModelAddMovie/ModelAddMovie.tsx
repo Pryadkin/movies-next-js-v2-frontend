@@ -59,8 +59,6 @@ export const ModelAddMovie = ({
     const {mutationMovieFetch} = useFetchMulti(anotherLang)
     const data = mutationMovieFetch.data
 
-    // console.log('first', first)
-
     const isLoading = mutationMovieFetch.isLoading || mutationMovieFetch.isLoading
 
     const handleUpdateMovieDateViewing = (val: string[]) => {
@@ -143,7 +141,7 @@ export const ModelAddMovie = ({
         onModalCancel()
     }
 
-    const isAddMovieBtnEnable = movie.title_ru && movie.title_en
+    const isAddMovieBtnEnable = movie?.title_ru && movie?.title_en
 
     return (
         <Modal
@@ -163,8 +161,8 @@ export const ModelAddMovie = ({
             <Space
                 direction="vertical"
             >
-                {movieWithLang.title_en || movieWithLang.title_ru}
-                {movieWithLang.release_date}
+                {movieWithLang?.title_en || movieWithLang?.title_ru}
+                {movieWithLang?.release_date}
 
                 <Button onClick={handleUploadAnotherLangMovieBtnClick(movieWithLang)}>
                     добавить фильм на {correctLang}
