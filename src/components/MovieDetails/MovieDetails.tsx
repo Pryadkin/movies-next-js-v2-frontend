@@ -35,6 +35,8 @@ export const MovieDetails = ({
         movie && dispatch(setCurrentMovie(movie))
     }, [dispatch, movie])
 
+    const directing = credits?.crew.find(elem => elem.known_for_department === "Directing" && elem.profile_path)
+
     const getPage = (movie: IDetailsMovie) => {
         if (movie) {
             const vote = Math.round(movie.vote_average * 10)
@@ -123,7 +125,7 @@ export const MovieDetails = ({
                         <div className={styles.movieDataElem}>
                             Страна производитель: {movie.production_countries.map(elem => {
                                 return (
-                                    <span key={elem.iso_3166_1}>{elem.name}</span>
+                                    <span key={elem.name}>{elem.name}</span>
                                 )
                             })}
                         </div>
@@ -165,6 +167,34 @@ export const MovieDetails = ({
                                         key={elem.id}>{elem.name}</div>
                                 )
                             })}
+                        </div>
+
+                        <div
+                            onClick={() => {
+                                directing && dispatch(setModelContent({
+                                    type: 'artist',
+                                    id: directing.id
+                                }))
+                            }}
+                            style={{
+                                cursor: 'pointer',
+                                overflowX: 'scroll',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                margin: 10,
+                                position: 'absolute',
+                                top: 45,
+                                right: 50,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <img
+                                width={80}
+                                src={directing?.profile_path}
+                                alt={directing?.name}
+                            />
+                            <div>{directing?.name}</div>
                         </div>
                     </div>
                 </>
@@ -251,7 +281,10 @@ export const MovieDetails = ({
                             src={credit.profile_path}
                             alt={credit.name}
                         />
-                        <h3>{credit.name}</h3>
+                        <div>
+                            <h3>{credit.name}</h3>
+                            <div>{credit.known_for_department}</div>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -278,7 +311,10 @@ export const MovieDetails = ({
                             src={credit.profile_path}
                             alt={credit.name}
                         />
-                        <h3>{credit.name}</h3>
+                        <div>
+                            <h3>{credit.name}</h3>
+                            <div>{credit.known_for_department}</div>
+                        </div>
                     </div>
                 ))}
             </div>

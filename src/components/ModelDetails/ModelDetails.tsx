@@ -98,7 +98,7 @@ export const ModelDetails = ({
                         <div className={styles.movieDataElem}>
                             Сеть: {movie?.networks?.map(elem => {
                                 return (
-                                    <span key={elem.name}>{elem.name}</span>
+                                    <span key={elem.id}>{elem.name}</span>
                                 )
                             })}
                         </div>
@@ -146,7 +146,7 @@ export const ModelDetails = ({
                         <div className={styles.movieDataElem}>
                             Страна производитель: {movie.production_countries.map(elem => {
                                 return (
-                                    <span key={elem.iso_3166_1}>{elem.name}</span>
+                                    <span key={elem.name}>{elem.name}</span>
                                 )
                             })}
                         </div>
@@ -255,7 +255,6 @@ export const ModelDetails = ({
                         add
                     </Button>
                 )}
-
             </div>
 
             <div

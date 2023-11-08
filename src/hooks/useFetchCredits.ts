@@ -25,10 +25,22 @@ export const useFetchCredits = (
                 ...elem,
                 profile_path: elem.profile_path ? getPictureUrlByShortUrl(elem.profile_path, 'w500') : ''
             }))
+            const sortCast = updateCast.sort((a, b) => {
+                if (a.popularity > b.popularity) return 1
+                return -1
+            })
+
+            const updateCrew = res.data.crew.map(elem => ({
+                ...elem,
+                profile_path: elem.profile_path ? getPictureUrlByShortUrl(elem.profile_path, 'w500') : ''
+            }))
+
+            const sortCrew = updateCrew.sort((a, b) => a.popularity - b.popularity)
 
             return {
                 ...res.data,
-                cast: updateCast
+                cast: sortCast,
+                crew: sortCrew
             }
         }
 

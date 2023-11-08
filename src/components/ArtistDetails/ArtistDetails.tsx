@@ -1,3 +1,7 @@
+import {useState} from 'react'
+
+import {Button} from 'antd'
+
 import {IMultiMovie} from '@/api/apiTypes/requestMovies'
 import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
 import {ChartElement} from '@/ui-kit'
@@ -5,8 +9,6 @@ import {ChartElement} from '@/ui-kit'
 import styles from './ArtistDetails.module.scss'
 
 import {Credit} from './Credit'
-import { useState } from 'react'
-import { Button } from 'antd'
 
 interface Props {
     artist: IArtistDetails,
