@@ -3,4 +3,5 @@ export {
     setLanguage,
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
+    setArtistId,
 } from './layoutSlice'

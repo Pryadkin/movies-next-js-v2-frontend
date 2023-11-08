@@ -1,20 +1,18 @@
 import {useSelector} from "react-redux"
 
-import {IPopular} from "@/api/apiTypes/requestPopular"
 import {useFetchPopular} from "@/hooks/useFetchPopular"
+import {setArtistId} from "@/redux/reducers"
 import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
+import {useAppDispatch} from "@/redux/store"
 
 import styles from './Popular.module.scss'
 
 const Popular = () => {
+    const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const {
         data,
     } = useFetchPopular(lang)
-
-    const handleItemClick = (artist: IPopular) => () => {
-        console.log('artist', artist)
-    }
 
     return (
         <div className={styles.wrapper}>
@@ -22,7 +20,7 @@ const Popular = () => {
                 <div
                     key={item.id}
                     className={styles.itemWrapper}
-                    onClick={handleItemClick(item)}
+                    onClick={() => dispatch(setArtistId(item.id))}
                 >
                     <img
                         src={item.profile_path}

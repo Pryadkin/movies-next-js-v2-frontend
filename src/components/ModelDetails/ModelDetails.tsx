@@ -10,7 +10,7 @@ import {useRouter} from 'next/router'
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
 import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
-import {setIsAddMovieModalOpen} from '@/redux/reducers'
+import {setArtistId, setIsAddMovieModalOpen} from '@/redux/reducers'
 
 import styles from './ModelDetails.module.scss'
 
@@ -253,6 +253,7 @@ export const ModelDetails = ({
                         key={credit.id}
                         style={{zIndex: 100}}
                         className={styles.creditItem}
+                        onClick={() => dispatch(setArtistId(credit.id))}
                     >
                         <img
                             src={credit.profile_path}

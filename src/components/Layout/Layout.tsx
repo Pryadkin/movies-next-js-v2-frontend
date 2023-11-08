@@ -33,6 +33,7 @@ import {TLanguage} from '@/types'
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
 import {ModelAddMovie} from '../ModelAddMovie'
+import {ModelArtistDetails} from '../ModelArtistDetails'
 import {ModelDetails} from '../ModelDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
@@ -145,6 +146,8 @@ const Layout: React.FC<Props> = ({
                 isModalOpen={isAddMovieModalOpen}
                 onModalCancel={() => dispatch(setIsAddMovieModalOpen(false))}
             />
+
+            <ModelArtistDetails />
         </LayoutAntd>
     )
 }

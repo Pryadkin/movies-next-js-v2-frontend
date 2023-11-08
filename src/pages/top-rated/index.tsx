@@ -4,13 +4,14 @@ import {useSelector} from "react-redux"
 import {Pagination, Radio} from "antd"
 
 import {CardItems} from "@/components/CardItems"
+import {Spin} from "@/components/Spin"
 import {useFetchTopRated} from "@/hooks/useFetchTopRated"
 import {setPage} from "@/redux/reducers"
 import {getSelectPage} from "@/redux/selectors"
-import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 
 import styles from './TopRated.module.scss'
 
+import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {useAppDispatch} from "@/redux/store"
 import {TMovieType} from "@/types"
 
@@ -92,12 +93,16 @@ const TopRated = () => {
                 )}
             </div>
 
-            {data && (
-                <CardItems
-                    data={data.results}
-                    isFetching={isLoading}
-                />
-            )}
+            {data
+                ? (
+                    <CardItems
+                        data={data.results}
+                        isFetching={isLoading}
+                    />
+                )
+                : (
+                    <Spin />
+                )}
         </div>
     )
 }

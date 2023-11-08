@@ -17,7 +17,10 @@ const layoutSlice = createSlice({
         },
         setIsAddMovieModalOpen(state, action: PayloadAction<boolean>) {
             state.isAddMovieModalOpen = action.payload
-        }
+        },
+        setArtistId(state, action: PayloadAction<number | null>) {
+            state.artistId = action.payload
+        },
     },
 })
 
@@ -27,4 +30,5 @@ export const {
     setLanguage,
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
+    setArtistId,
 } = layoutSlice.actions

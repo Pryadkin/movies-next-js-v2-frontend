@@ -1,0 +1,1 @@
+export {ModelArtistDetails} from './ModelArtistDetails'

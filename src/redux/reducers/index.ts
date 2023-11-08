@@ -43,4 +43,5 @@ export {
     setLanguage,
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
+    setArtistId,
 } from './layoutReducer'

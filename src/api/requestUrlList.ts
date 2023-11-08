@@ -16,6 +16,9 @@ export const enum RequestUrl {
     // Credits
     GET_CREDITS= '/credits',
 
+    // Person
+    GET_PERSON= '/person',
+
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',
     ADD_PROFILE_MOVIE = '/profile/add_movie',
