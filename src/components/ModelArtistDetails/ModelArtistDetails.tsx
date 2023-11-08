@@ -5,6 +5,7 @@ import {
     Modal,
 } from 'antd'
 
+import {useFetchArtistCombinedCredits} from '@/hooks/useFetchArtistCombinedCredits'
 import {useFetchArtistDetails} from '@/hooks/useFetchArtistDetails'
 import {setArtistId} from '@/redux/reducers'
 import {getArtistId, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
@@ -19,7 +20,8 @@ export const ModelArtistDetails = () => {
     const artistId = useSelector(getArtistId)
     const lang = useSelector(getSelectLanguage)
 
-    const {data} = useFetchArtistDetails(artistId, lang)
+    const {data: artist} = useFetchArtistDetails(artistId, lang)
+    const {data: artistCombinedCredits} = useFetchArtistCombinedCredits(artistId, lang)
 
     return (
         <Modal
@@ -28,7 +30,12 @@ export const ModelArtistDetails = () => {
             onCancel={() => dispatch(setArtistId(null))}
             footer={[]}
         >
-            {data && <ArtistDetails artist={data}/>}
+            {artist && (
+                <ArtistDetails
+                    artist={artist}
+                    combinedCredits={artistCombinedCredits}
+                />
+            )}
         </Modal>
     )
 }

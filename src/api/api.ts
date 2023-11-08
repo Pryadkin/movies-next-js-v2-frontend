@@ -20,6 +20,7 @@ import {
     requestTopRated,
     requestCredits,
     requestArtistDetails,
+    requestArtistCombinedCredits,
 } from './requests/index'
 
 export const API = {
@@ -44,4 +45,5 @@ export const API = {
     requestTopRated,
     requestCredits,
     requestArtistDetails,
+    requestArtistCombinedCredits,
 }

@@ -4,9 +4,36 @@
   gap: 50px;
 }
 
-.contant {
+.creditsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 100px;
+}
 
+.creditItem {
+  display: flex;
+  transition: 0.3s;
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 250px;
 
+  &:hover {
+    position: relative;
+    padding: 0;
+  }
+
+  img {
+    width: 150px;
+  }
+
+}
+
+.creditTitle {
+  position: absolute;
+  background-color: white;
+  border-radius: 5px;
+  top: 20px;
+  left: 20px;
 }
 
 .subTitle {
