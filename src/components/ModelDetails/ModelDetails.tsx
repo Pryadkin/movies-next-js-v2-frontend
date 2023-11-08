@@ -13,7 +13,7 @@ import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
 
 import styles from './ModelDetails.module.scss'
 
-import {setArtistId, setIsAddMovieModalOpen} from '@/redux/reducers'
+import {setArtistId, setArtistToModelContent, setIsAddMovieModalOpen, setMovieToModelContent} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TMovieType} from '@/types'
@@ -23,8 +23,8 @@ import {Spin} from '../Spin'
 
 interface Props {
     movie: IMovie,
-    isModalOpen: boolean,
-    onModalCancel: () => void,
+    isModalOpen?: boolean,
+    onModalCancel?: () => void,
 }
 
 export const ModelDetails = ({
@@ -46,7 +46,7 @@ export const ModelDetails = ({
 
     const handleMoviePageClick = () => {
         push(`/movies/${movieType}/${movie.id}`)
-        onModalCancel()
+        onModalCancel && onModalCancel()
     }
 
     const getPage = (movie: IDetailsMovie) => {
@@ -210,7 +210,7 @@ export const ModelDetails = ({
     }
 
     const handleModalCancel = () => {
-        onModalCancel()
+        onModalCancel && onModalCancel()
         setIsCreditShow(false)
     }
 
@@ -272,7 +272,10 @@ export const ModelDetails = ({
                         key={credit.id}
                         style={{zIndex: 100}}
                         className={styles.creditItem}
-                        onClick={() => dispatch(setArtistId(credit.id))}
+                        onClick={() => {
+                            dispatch(setMovieToModelContent(null))
+                            dispatch(setArtistToModelContent(credit.id))
+                        }}
                     >
                         <img
                             src={credit.profile_path}

@@ -5,18 +5,18 @@ import {IDetailsMovie} from "@/api/apiTypes"
 import {getPictureUrlByShortUrl} from "@/helpers"
 import {TLanguage} from "@/types"
 
-export const useFetchDetailsMovie = (movieId: number, lang: TLanguage, isTv: boolean) => {
+export const useFetchDetailsMovie = (movieId: number | null, lang: TLanguage, isTv: boolean) => {
     const fetchDetailsMovie = async (
-        value: number,
+        value: number | null,
         lang: TLanguage,
         isTv: boolean,
     ): Promise<IDetailsMovie | null> => {
         const request = isTv
             ? (
-                await API.requestDetailsTv(value, lang)
+                value && await API.requestDetailsTv(value, lang)
             )
             : (
-                await API.requestDetailsMovie(value, lang)
+                value && await API.requestDetailsMovie(value, lang)
             )
         const res = value ? request : null
 

@@ -4,3 +4,4 @@ export const getSelectLanguage = (state: RootState) => state.layoutReducer.langu
 export const getIsModalDetailsOpen = (state: RootState) => state.layoutReducer.isModalDetailsOpen
 export const getIsAddMovieModalOpen = (state: RootState) => state.layoutReducer.isAddMovieModalOpen
 export const getArtistId = (state: RootState) => state.layoutReducer.artistId
+export const getModelContent= (state: RootState) => state.layoutReducer.modelContent

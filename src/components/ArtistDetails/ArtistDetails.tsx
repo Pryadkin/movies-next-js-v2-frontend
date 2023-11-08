@@ -1,6 +1,5 @@
 import {IMultiMovie} from '@/api/apiTypes/requestMovies'
 import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
-import {useAppDispatch} from '@/redux/store'
 import {ChartElement} from '@/ui-kit'
 
 import styles from './ArtistDetails.module.scss'
@@ -9,11 +8,11 @@ import {Credit} from './Credit'
 
 interface Props {
     artist: IArtistDetails,
-    combinedCredits: IMultiMovie[] | null | undefined
+    combinedCredits: IMultiMovie[] | null | undefined,
 }
 export const ArtistDetails = ({
     artist,
-    combinedCredits
+    combinedCredits,
 }: Props) => {
     const popularity = Math.round(artist.popularity)
 

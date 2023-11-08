@@ -20,4 +20,5 @@ export {
 export {
     getIsModalDetailsOpen,
     getArtistId,
+    getModelContent,
 } from './layoutSelectors'

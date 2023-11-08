@@ -21,6 +21,12 @@ const layoutSlice = createSlice({
         setArtistId(state, action: PayloadAction<number | null>) {
             state.artistId = action.payload
         },
+        setMovieToModelContent(state, action: PayloadAction<number | null>) {
+            state.modelContent.movieId = action.payload
+        },
+        setArtistToModelContent(state, action: PayloadAction<number | null>) {
+            state.modelContent.artistId = action.payload
+        },
     },
 })
 
@@ -31,4 +37,6 @@ export const {
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
     setArtistId,
+    setMovieToModelContent,
+    setArtistToModelContent,
 } = layoutSlice.actions

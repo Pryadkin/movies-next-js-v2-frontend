@@ -4,4 +4,6 @@ export {
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
     setArtistId,
+    setMovieToModelContent,
+    setArtistToModelContent,
 } from './layoutSlice'
