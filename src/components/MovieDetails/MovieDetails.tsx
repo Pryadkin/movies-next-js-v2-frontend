@@ -3,39 +3,32 @@ import {useSelector} from 'react-redux'
 
 import {
     Button,
-    Modal,
 } from 'antd'
 import {useRouter} from 'next/router'
 
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
 import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
-
-import styles from './ModelDetails.module.scss'
-
 import {setArtistId, setIsAddMovieModalOpen} from '@/redux/reducers'
+
+import styles from './MovieDetails.module.scss'
+
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
-import {TMovieType} from '@/types'
 import {ChartElement} from '@/ui-kit'
 
 import {Spin} from '../Spin'
 
 interface Props {
     movie: IMovie,
-    isModalOpen: boolean,
-    onModalCancel: () => void,
 }
 
-export const ModelDetails = ({
+export const MovieDetails = ({
     movie,
-    isModalOpen,
-    onModalCancel,
 }: Props) => {
-    const {asPath, push} = useRouter()
+    const {asPath} = useRouter()
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
-    const movieType: TMovieType = movie?.settings?.isTv ? 'tv' : 'movie'
 
     const {
         data,
@@ -43,11 +36,6 @@ export const ModelDetails = ({
     const {
         data: credits,
     } = useFetchCredits(movie?.id, movie?.settings?.isTv, lang)
-
-    const handleMoviePageClick = () => {
-        push(`/movies/${movieType}/${movie.id}`)
-        onModalCancel()
-    }
 
     const getPage = (movie: IDetailsMovie) => {
         if (movie) {
@@ -85,18 +73,6 @@ export const ModelDetails = ({
                                 }
                             ]}
                         />
-
-                        <Button
-                            style={{
-                                position: 'absolute',
-                                top: -10,
-                                right: 40,
-                            }}
-                            type="link"
-                            onClick={handleMoviePageClick}
-                        >
-                            Перейти на страницу фильма
-                        </Button>
 
                         <div className={styles.movieDataElem}>
                             Сеть: {movie?.networks?.map(elem => {
@@ -209,18 +185,8 @@ export const ModelDetails = ({
         setCreditsShow()
     }
 
-    const handleModalCancel = () => {
-        onModalCancel()
-        setIsCreditShow(false)
-    }
-
     return (
-        <Modal
-            className={styles.modalContainer}
-            open={isModalOpen}
-            onCancel={handleModalCancel}
-            footer={[]}
-        >
+        <>
             <div
                 className={styles.wrapper}
                 style={{
@@ -297,6 +263,6 @@ export const ModelDetails = ({
                     zIndex: 1,
                 }}
             />
-        </Modal>
+        </>
     )
 }

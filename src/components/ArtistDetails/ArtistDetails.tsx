@@ -62,7 +62,6 @@ export const ArtistDetails = ({
 
                     <h3>Biography</h3>
                     <div>{artist.biography}</div>
-                    <div>{}</div>
                 </div>
             </div>
 

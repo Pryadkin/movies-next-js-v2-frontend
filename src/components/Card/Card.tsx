@@ -4,16 +4,18 @@ import {useSelector} from 'react-redux'
 import {Button, Popconfirm} from 'antd'
 import clsx from 'clsx'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 
 import {IMovie} from '@/api/apiTypes'
 import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
-import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 
 import styles from './Card.module.scss'
 
+import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import {getIsDrawerMovieTagsOpen, sestIsModalDetailsOpen, setCurrentMovie, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
+import {TMovieType} from '@/types'
 
 export const Card = ({
     movie,
@@ -29,6 +31,7 @@ export const Card = ({
     isProfileCard: boolean | undefined,
     onModalOpen: (val: boolean) => void
 }) => {
+    const router = useRouter()
     const cardRef = useRef<HTMLDivElement>(null)
     const [isRotate, setIsRotate] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
@@ -78,10 +81,23 @@ export const Card = ({
         dispatch(setSelectMovie(movieId))
     }
 
+    const handleMovieDetailsShowClick = (movie: IMovie | ICorrectMovie) => () => {
+        const movieType: TMovieType = movie.settings.isTv ? 'tv' : 'movie'
+        router.push(`/movies/${movieType}/${movie.id}`)
+    }
+
+
     const button = () => {
         if (isProfileCard) {
             return (
                 <>
+                    <Button
+                        type="default"
+                        className={clsx(styles.btn, styles.btnFilter)}
+                        onClick={handleMovieDetailsShowClick(movie)}
+                    >
+                        Movie Details
+                    </Button>
                     <Button
                         type="default"
                         className={clsx(styles.btn, styles.btnFilter)}

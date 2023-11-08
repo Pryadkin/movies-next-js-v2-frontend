@@ -6,6 +6,7 @@
   background-color: colors.$main-color !important;
   align-items: center;
   height: var(--header-height) !important;
+  z-index: 100;
 }
 
 .logo {
