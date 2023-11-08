@@ -48,7 +48,7 @@ export const MovieSettings = () => {
             )}
 
             <Button onClick={handleUpdateMovieClick}>
-                    Update movie
+                Update movie
             </Button>
         </div>
     )

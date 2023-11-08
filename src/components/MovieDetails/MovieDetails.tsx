@@ -1,19 +1,17 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
     Button,
 } from 'antd'
-import {useRouter} from 'next/router'
 
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
-import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
-import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
+import {setCurrentMovie, setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 
 import styles from './MovieDetails.module.scss'
 
-import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {ChartElement} from '@/ui-kit'
 
@@ -26,16 +24,16 @@ interface Props {
 export const MovieDetails = ({
     movie,
 }: Props) => {
-    const {asPath} = useRouter()
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
 
     const {
-        data,
-    } = useFetchDetailsMovie(movie?.id, lang, movie?.settings?.isTv)
-    const {
         data: credits,
     } = useFetchCredits(movie?.id, movie?.settings?.isTv, lang)
+
+    useEffect(() => {
+        movie && dispatch(setCurrentMovie(movie))
+    }, [dispatch, movie])
 
     const getPage = (movie: IDetailsMovie) => {
         if (movie) {
@@ -194,9 +192,9 @@ export const MovieDetails = ({
                     zIndex: 100
                 }}
             >
-                {data
+                {movie
                     ? (
-                        getPage(data)
+                        getPage(movie)
                     )
                     : (
                         <Spin />
@@ -205,8 +203,6 @@ export const MovieDetails = ({
             </div>
 
             <div style={{display: 'flex'}}>
-
-
                 <Button
                     type="default"
                     style={{zIndex: 100}}
@@ -216,17 +212,14 @@ export const MovieDetails = ({
                     Show credits
                 </Button>
 
-                {asPath !== '/movies' && (
-                    <Button
-                        type="default"
-                        className={styles.btn}
-                        style={{zIndex: 100}}
-                        onClick={() => dispatch(setIsAddMovieModalOpen(true))}
-                    >
-                        add
-                    </Button>
-                )}
-
+                <Button
+                    type="default"
+                    className={styles.btn}
+                    style={{zIndex: 100}}
+                    onClick={() => dispatch(setIsAddMovieModalOpen(true))}
+                >
+                    add
+                </Button>
             </div>
 
             <div
@@ -257,7 +250,7 @@ export const MovieDetails = ({
             <div
                 className={styles.background}
                 style={{
-                    backgroundImage: `url(${data?.backdrop_path})`,
+                    backgroundImage: `url(${movie?.backdrop_path})`,
                     position: 'absolute',
                     backgroundSize: 'cover',
                     width: '100%',

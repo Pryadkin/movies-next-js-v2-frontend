@@ -38,9 +38,6 @@ export const ModelDetails = ({
     const movieType: TMovieType = movie?.settings?.isTv ? 'tv' : 'movie'
 
     const {
-        data,
-    } = useFetchDetailsMovie(movie?.id, lang, movie?.settings?.isTv)
-    const {
         data: credits,
     } = useFetchCredits(movie?.id, movie?.settings?.isTv, lang)
 
@@ -228,9 +225,9 @@ export const ModelDetails = ({
                     zIndex: 100
                 }}
             >
-                {data
+                {movie
                     ? (
-                        getPage(data)
+                        getPage(movie)
                     )
                     : (
                         <Spin />
@@ -239,8 +236,6 @@ export const ModelDetails = ({
             </div>
 
             <div style={{display: 'flex'}}>
-
-
                 <Button
                     type="default"
                     style={{zIndex: 100}}
@@ -291,7 +286,7 @@ export const ModelDetails = ({
             <div
                 className={styles.background}
                 style={{
-                    backgroundImage: `url(${data?.backdrop_path})`,
+                    backgroundImage: `url(${movie?.backdrop_path})`,
                     position: 'absolute',
                     backgroundSize: 'cover',
                     width: '100%',

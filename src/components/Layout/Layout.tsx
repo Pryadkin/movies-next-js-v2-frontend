@@ -62,10 +62,8 @@ const Layout: React.FC<Props> = ({
         data: moviesTree,
         isFetching: isMovieTreeFetching
     } = useFetchMovieTree()
-    const {
-        data: moviesTags,
-        isFetching: isMovieTagsFetching
-    } = useFetchMovieTags()
+
+    const {} = useFetchMovieTags()
 
     const handlesetDrawerMovieTagsOpen = (val: boolean) => {
         dispatch(getIsDrawerMovieTagsOpen(val))
@@ -135,11 +133,11 @@ const Layout: React.FC<Props> = ({
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
 
-            <ModelDetails
+            {/* <ModelDetails
                 movie={selectMovie}
                 isModalOpen={isModalDetailsOpen}
                 onModalCancel={handleModalDetailsClose}
-            />
+            /> */}
 
             <ModelAddMovie
                 movie={selectMovie}

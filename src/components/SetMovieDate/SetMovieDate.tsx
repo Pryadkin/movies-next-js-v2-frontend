@@ -34,7 +34,7 @@ export const SetMovieDate: FC<Props> = ({
     onUpdateMovieDateViewing,
     onAddMovieDateViewing
 }) => {
-    const movieDateViewing = movie?.settings.dateViewing
+    const movieDateViewing = movie?.settings?.dateViewing
     const [datePickerValue, setDatePickerValue] = useState('')
     const [addDatePickerValue, setAddDatePickerValue] = useState('')
     const [dateViewing, setDateViewing] = useState([''])

@@ -12,7 +12,7 @@ import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
 import styles from './Card.module.scss'
 
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
-import {getIsDrawerMovieTagsOpen, sestIsModalDetailsOpen, setCurrentMovie, setSelectMovie} from '@/redux/reducers'
+import {getIsDrawerMovieTagsOpen, setCurrentMovie, setModelContent, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TMovieType} from '@/types'
@@ -146,7 +146,10 @@ export const Card = ({
     }
 
     const handleDetailsClick = () => {
-        dispatch(sestIsModalDetailsOpen(true))
+        dispatch(setModelContent({
+            type: movie?.settings?.isTv ? 'tv' : 'movie',
+            id: movie.id
+        }))
     }
 
     const getCard = () => {
@@ -183,7 +186,7 @@ export const Card = ({
                         </div>
                     )}
 
-                    {movie.settings.isTv && (
+                    {movie?.settings?.isTv && (
                         <div className={styles.tvLabel}>TV</div>
                     )}
                     <Image

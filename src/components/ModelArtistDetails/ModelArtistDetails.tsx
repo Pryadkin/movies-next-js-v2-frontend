@@ -29,6 +29,9 @@ export const ModelArtistDetails = () => {
     const type = modelContent[modelContent.length - 1]?.type
     const id = modelContent[modelContent.length - 1]?.id
 
+    const {data: movie} = useFetchDetailsMovie(movieId, lang, type === 'tv')
+    const {data: artist} = useFetchArtistDetails(artistId, lang)
+    const {data: artistCombinedCredits} = useFetchArtistCombinedCredits(artistId, lang)
 
     useEffect(() => {
         if (modelContent) {
@@ -47,10 +50,6 @@ export const ModelArtistDetails = () => {
             setIsShow(true)
         }
     }, [id, modelContent, type])
-
-    const {data: movie} = useFetchDetailsMovie(movieId, lang, type === 'tv')
-    const {data: artist} = useFetchArtistDetails(artistId, lang)
-    const {data: artistCombinedCredits} = useFetchArtistCombinedCredits(artistId, lang)
 
     return (
         <Modal

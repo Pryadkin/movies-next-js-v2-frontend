@@ -12,7 +12,6 @@ import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import styles from './CardItem.module.scss'
 
 import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen, setSelectMovie} from '@/redux/reducers'
-import {getCurrentMovie} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 
