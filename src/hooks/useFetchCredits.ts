@@ -45,7 +45,7 @@ export const useFetchCredits = (
         data,
         isFetching,
     } = useQuery({
-        queryKey: ['credits'],
+        queryKey: ['credits', movieId, lang],
         queryFn: () => fetchCredits(movieId, movieType, lang),
         keepPreviousData : true,
         enabled: !!movieId,

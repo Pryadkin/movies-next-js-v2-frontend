@@ -5,6 +5,11 @@ import {TLanguage} from '@/types'
 
 import {initialState} from './layoutState'
 
+interface IModelContant {
+    type: 'movie' | 'artist' | 'tv',
+    id: number
+}
+
 const layoutSlice = createSlice({
     name: 'layout',
     initialState,
@@ -21,11 +26,14 @@ const layoutSlice = createSlice({
         setArtistId(state, action: PayloadAction<number | null>) {
             state.artistId = action.payload
         },
-        setMovieToModelContent(state, action: PayloadAction<number | null>) {
-            state.modelContent.movieId = action.payload
+        setModelContent(state, action: PayloadAction<IModelContant>) {
+            state.modelContent.push(action.payload)
         },
-        setArtistToModelContent(state, action: PayloadAction<number | null>) {
-            state.modelContent.artistId = action.payload
+        deleteModelContent(state) {
+            state.modelContent.pop()
+        },
+        deleteAllModelContent(state) {
+            state.modelContent = []
         },
     },
 })
@@ -37,6 +45,7 @@ export const {
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
     setArtistId,
-    setMovieToModelContent,
-    setArtistToModelContent,
+    setModelContent,
+    deleteModelContent,
+    deleteAllModelContent,
 } = layoutSlice.actions

@@ -1,7 +1,7 @@
 import {useState} from "react"
 
 import {IMultiMovie} from "@/api/apiTypes/requestMovies"
-import {setArtistToModelContent, setMovieToModelContent} from "@/redux/reducers"
+import {setModelContent} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
 import styles from './ArtistDetails.module.scss'
@@ -14,8 +14,10 @@ export const Credit = ({credit}: {credit: IMultiMovie}) => {
         <div
             className={styles.creditItem}
             onClick={() => {
-                dispatch(setMovieToModelContent(credit.id))
-                dispatch(setArtistToModelContent(null))
+                dispatch(setModelContent({
+                    type: credit?.settings?.isTv ? 'tv' : 'movie',
+                    id: credit.id
+                }))
             }}
         >
             <img

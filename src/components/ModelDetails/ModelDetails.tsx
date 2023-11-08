@@ -13,7 +13,7 @@ import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
 
 import styles from './ModelDetails.module.scss'
 
-import {setArtistId, setArtistToModelContent, setIsAddMovieModalOpen, setMovieToModelContent} from '@/redux/reducers'
+import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TMovieType} from '@/types'
@@ -273,8 +273,10 @@ export const ModelDetails = ({
                         style={{zIndex: 100}}
                         className={styles.creditItem}
                         onClick={() => {
-                            dispatch(setMovieToModelContent(null))
-                            dispatch(setArtistToModelContent(credit.id))
+                            dispatch(setModelContent({
+                                type: 'artist',
+                                id: credit.id
+                            }))
                         }}
                     >
                         <img

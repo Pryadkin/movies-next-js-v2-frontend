@@ -44,6 +44,7 @@ export {
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
     setArtistId,
-    setMovieToModelContent,
-    setArtistToModelContent,
+    setModelContent,
+    deleteModelContent,
+    deleteAllModelContent,
 } from './layoutReducer'

@@ -39,7 +39,7 @@ export const useFetchArtistDetails = (artistId: number | null, lang: TLanguage) 
         data,
         isFetching,
     } = useQuery({
-        queryKey: ['artist-details', lang],
+        queryKey: ['artist-details', lang, artistId],
         queryFn: () => fetchArtistDetails(artistId, lang),
         keepPreviousData : true,
         enabled: !!artistId,

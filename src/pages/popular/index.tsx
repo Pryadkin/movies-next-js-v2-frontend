@@ -1,7 +1,7 @@
 import {useSelector} from "react-redux"
 
 import {useFetchPopular} from "@/hooks/useFetchPopular"
-import {setArtistId} from "@/redux/reducers"
+import {setArtistId, setModelContent} from "@/redux/reducers"
 import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {useAppDispatch} from "@/redux/store"
 
@@ -20,7 +20,12 @@ const Popular = () => {
                 <div
                     key={item.id}
                     className={styles.itemWrapper}
-                    onClick={() => dispatch(setArtistId(item.id))}
+                    onClick={() => {
+                        dispatch(setModelContent({
+                            type: 'artist',
+                            id: item.id
+                        }))
+                    }}
                 >
                     <img
                         src={item.profile_path}

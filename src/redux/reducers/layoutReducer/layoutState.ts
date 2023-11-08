@@ -6,9 +6,9 @@ export interface State {
     isAddMovieModalOpen: boolean,
     artistId: number | null,
     modelContent: {
-        movieId:  number | null,
-        artistId: number | null
-    }
+        type: 'movie' | 'tv' | 'artist',
+        id: number
+    }[]
 }
 
 export const initialState: State = {
@@ -16,8 +16,5 @@ export const initialState: State = {
     isModalDetailsOpen: false,
     isAddMovieModalOpen: false,
     artistId: null,
-    modelContent: {
-        movieId:  null,
-        artistId: null
-    },
+    modelContent: [],
 }
