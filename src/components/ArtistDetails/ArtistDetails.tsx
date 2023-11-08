@@ -5,16 +5,23 @@ import {ChartElement} from '@/ui-kit'
 import styles from './ArtistDetails.module.scss'
 
 import {Credit} from './Credit'
+import { useState } from 'react'
+import { Button } from 'antd'
 
 interface Props {
     artist: IArtistDetails,
-    combinedCredits: IMultiMovie[] | null | undefined,
+    cast: IMultiMovie[] | null | undefined,
+    crew: IMultiMovie[] | null | undefined,
 }
 export const ArtistDetails = ({
     artist,
-    combinedCredits,
+    cast,
+    crew
 }: Props) => {
     const popularity = Math.round(artist.popularity)
+
+    const [isCreditCastShow, setIsCreditCastShow] = useState(false)
+    const [isCreditCrewShow, setIsCreditCrewShow] = useState(false)
 
     return (
         <div className={styles.container}>
@@ -64,11 +71,57 @@ export const ArtistDetails = ({
                 </div>
             </div>
 
-            {combinedCredits && (
+            <div style={{display: 'flex'}}>
+                <Button
+                    type="default"
+                    style={{zIndex: 100}}
+                    className={styles.btn}
+                    onClick={() => {
+                        setIsCreditCastShow(!isCreditCastShow)
+                        setIsCreditCrewShow(false)
+                    }}
+                >
+                    Show credits cast
+                </Button>
+                <Button
+                    type="default"
+                    style={{zIndex: 100}}
+                    className={styles.btn}
+                    onClick={() => {
+                        setIsCreditCastShow(false)
+                        setIsCreditCrewShow(!isCreditCrewShow)
+                    }}
+                >
+                    Show credits crew
+                </Button>
+            </div>
+
+            {isCreditCastShow ? <h2>Cast</h2> : isCreditCrewShow && <h2>Crew</h2>}
+            {cast && (
                 <div
                     className={styles.creditsWrapper}
+                    style={{
+                        display: isCreditCastShow ? 'flex' : 'none',
+                        marginBottom: 50
+                    }}
                 >
-                    {combinedCredits.map(credit => (
+                    {cast.map(credit => (
+                        <Credit
+                            key={credit.id}
+                            credit={credit}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {crew && (
+                <div
+                    className={styles.creditsWrapper}
+                    style={{
+                        display: isCreditCrewShow ? 'flex' : 'none',
+                    }}
+                >
+                    {crew.map(credit => (
                         <Credit
                             key={credit.id}
                             credit={credit}

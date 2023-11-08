@@ -16,11 +16,13 @@ export const useFetchArtistCombinedCredits = (artistId: number | null, lang: TLa
             const cast = res.data.cast
             const crew = res.data.crew
 
-            const multiMovie = getMultiMovie(cast, lang)
+            const multiMovieCast = getMultiMovie(cast, lang)
+            const multiMovieCrew = getMultiMovie(crew, lang)
 
-            console.log('multiMovie', multiMovie)
-
-            return multiMovie
+            return {
+                cast: multiMovieCast,
+                crew: multiMovieCrew
+            }
         }
 
         return null

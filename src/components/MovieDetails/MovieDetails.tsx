@@ -171,17 +171,9 @@ export const MovieDetails = ({
             )
         }
     }
-    const [isCreditShow, setIsCreditShow] = useState(false)
 
-    const handleShowCreditsClick = () => () => {
-        const setCreditsShow = () => {
-            credits && isCreditShow
-                ? setIsCreditShow(false)
-                : setIsCreditShow(true)
-        }
-
-        setCreditsShow()
-    }
+    const [isCreditCastShow, setIsCreditCastShow] = useState(false)
+    const [isCreditCrewShow, setIsCreditCrewShow] = useState(false)
 
     return (
         <>
@@ -207,9 +199,23 @@ export const MovieDetails = ({
                     type="default"
                     style={{zIndex: 100}}
                     className={styles.btn}
-                    onClick={handleShowCreditsClick()}
+                    onClick={() => {
+                        setIsCreditCastShow(!isCreditCastShow)
+                        setIsCreditCrewShow(false)
+                    }}
                 >
-                    Show credits
+                    Show credits cast
+                </Button>
+                <Button
+                    type="default"
+                    style={{zIndex: 100}}
+                    className={styles.btn}
+                    onClick={() => {
+                        setIsCreditCastShow(false)
+                        setIsCreditCrewShow(!isCreditCrewShow)
+                    }}
+                >
+                    Show credits crew
                 </Button>
 
                 <Button
@@ -222,11 +228,41 @@ export const MovieDetails = ({
                 </Button>
             </div>
 
+            {isCreditCastShow ? <h2>Cast</h2> : isCreditCrewShow && <h2>Crew</h2>}
             <div
                 className={styles.creditWrapper}
-                style={{height: isCreditShow ? 1000 : 0}}
+                style={{
+                    height: isCreditCastShow ? 1000 : 0,
+                }}
             >
                 {credits && credits.cast.map(credit => (
+                    <div
+                        key={credit.id}
+                        style={{zIndex: 100}}
+                        className={styles.creditItem}
+                        onClick={() => {
+                            dispatch(setModelContent({
+                                type: 'artist',
+                                id: credit.id
+                            }))
+                        }}
+                    >
+                        <img
+                            src={credit.profile_path}
+                            alt={credit.name}
+                        />
+                        <h3>{credit.name}</h3>
+                    </div>
+                ))}
+            </div>
+
+            <div
+                className={styles.creditWrapper}
+                style={{
+                    height: isCreditCrewShow ? 1000 : 0,
+                }}
+            >
+                {credits && credits.crew.map(credit => (
                     <div
                         key={credit.id}
                         style={{zIndex: 100}}

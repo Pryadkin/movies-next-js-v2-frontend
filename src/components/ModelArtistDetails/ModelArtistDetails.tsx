@@ -71,7 +71,8 @@ export const ModelArtistDetails = () => {
             {artistId && artist && (
                 <ArtistDetails
                     artist={artist}
-                    combinedCredits={artistCombinedCredits}
+                    cast={artistCombinedCredits?.cast}
+                    crew={artistCombinedCredits?.crew}
                 />
             )}
 
