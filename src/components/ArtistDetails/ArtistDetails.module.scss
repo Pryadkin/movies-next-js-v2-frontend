@@ -4,29 +4,6 @@
   gap: 50px;
 }
 
-.creditsWrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.creditItem {
-  display: flex;
-  transition: 0.3s;
-  padding: 10px;
-  margin-bottom: 10px;
-  height: 250px;
-
-  &:hover {
-    position: relative;
-    padding: 0;
-  }
-
-  img {
-    width: 150px;
-  }
-
-}
-
 .creditTitle {
   position: absolute;
   background-color: white;

@@ -8,7 +8,7 @@ import {ChartElement} from '@/ui-kit'
 
 import styles from './ArtistDetails.module.scss'
 
-import {Credit} from './Credit'
+import {CreditWrapper} from './CreditWrapper'
 
 interface Props {
     artist: IArtistDetails,
@@ -98,38 +98,13 @@ export const ArtistDetails = ({
                 </Button>
             </div>
 
-            {isCreditCastShow ? <h2>Cast</h2> : isCreditCrewShow && <h2>Crew</h2>}
-            {cast && (
-                <div
-                    className={styles.creditsWrapper}
-                    style={{
-                        display: isCreditCastShow ? 'flex' : 'none',
-                        marginBottom: 50
-                    }}
-                >
-                    {cast.map(credit => (
-                        <Credit
-                            key={credit.id}
-                            credit={credit}
-                        />
-                    ))}
-                </div>
-            )}
-
-            {crew && (
-                <div
-                    className={styles.creditsWrapper}
-                    style={{
-                        display: isCreditCrewShow ? 'flex' : 'none',
-                    }}
-                >
-                    {crew.map(credit => (
-                        <Credit
-                            key={credit.id}
-                            credit={credit}
-                        />
-                    ))}
-                </div>
+            {cast && crew && (
+                <CreditWrapper
+                    cast={cast}
+                    crew={crew}
+                    isCreditCastShow={isCreditCastShow}
+                    isCreditCrewShow={isCreditCrewShow}
+                />
             )}
         </div>
     )
