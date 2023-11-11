@@ -1,3 +1,4 @@
+import {IMovie} from "@/api/apiTypes"
 import {TLanguage} from "@/types"
 
 export interface State {
@@ -8,7 +9,8 @@ export interface State {
     modelContent: {
         type: 'movie' | 'tv' | 'artist',
         id: number
-    }[]
+    }[],
+    selectMovie: IMovie | undefined | null,
 }
 
 export const initialState: State = {
@@ -17,4 +19,5 @@ export const initialState: State = {
     isAddMovieModalOpen: false,
     artistId: null,
     modelContent: [],
+    selectMovie: null
 }

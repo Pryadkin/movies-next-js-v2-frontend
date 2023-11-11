@@ -5,7 +5,6 @@ import {useQuery} from "@tanstack/react-query"
 import {API} from "@/api"
 import {IResponsePopular} from "@/api/apiTypes/requestPopular"
 import {getPictureUrlByShortUrl} from "@/helpers"
-import {getMovieFromTv} from "@/helpers/getMovieFromTv"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {getSelectPage} from "@/redux/selectors"
 import {useAppDispatch} from "@/redux/store"
@@ -37,11 +36,6 @@ export const useFetchPopular = (lang: TLanguage) => {
                     return url ? getPictureUrlByShortUrl(elem.profile_path, 'w500') : ''
                 }
 
-                // const knownFor = elem.known_for.map(movie => ({
-                //     ...movie,
-
-                // }))
-
                 const updateRes = {
                     ...elem,
                     profile_path: getImageUrl(elem.profile_path),
@@ -49,8 +43,6 @@ export const useFetchPopular = (lang: TLanguage) => {
 
                 return updateRes
             })
-
-            console.log('updateMovies', updateMovies)
 
             return updateMovies
         }

@@ -9,15 +9,12 @@ export const getSelectMyMovies = (state: RootState) => state.profileReducer.myMo
 
 export const getSelectIsDrawerMovieTagsOpen = (state: RootState) => state.profileReducer.isDrawerMovieTagsOpen
 
-export const getSelectMovie = (state: RootState) => state.profileReducer.selectMovie
-
 export const getSelectTags = (state: RootState) => state.profileReducer.tags
 export const getSelectSelTags = (state: RootState) => state.profileReducer.selectTags
 export const getSelectSelIgnoreTags = (state: RootState) => state.profileReducer.selectIgnoreTags
 
 export const getSelectGenres = (state: RootState) => state.profileReducer.selectGenres
 export const getSelectIgnoreGenres = (state: RootState) => state.profileReducer.selectIgnoreGenres
-export const getSelectDateViewing = (state: RootState) => state.profileReducer.selectMovie?.settings.dateViewing
 export const getSelectSortItem = (state: RootState) => state.profileReducer.sortItem
 export const getSelectGenreFlagStatus = (state: RootState) => state.profileReducer.genreFlagStatus
 export const getSelectSearchMovie = (state: RootState) => state.profileReducer.searchMovie

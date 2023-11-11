@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
@@ -7,7 +7,7 @@ import {
 
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
-import {setCurrentMovie, setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
+import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 
 import styles from './MovieDetails.module.scss'
@@ -30,10 +30,6 @@ export const MovieDetails = ({
     const {
         data: credits,
     } = useFetchCredits(movie?.id, movie?.settings?.isTv, lang)
-
-    useEffect(() => {
-        movie && dispatch(setCurrentMovie(movie))
-    }, [dispatch, movie])
 
     const directing = credits?.crew.find(elem => elem.known_for_department === "Directing" && elem.profile_path)
 

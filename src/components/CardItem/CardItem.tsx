@@ -42,9 +42,8 @@ export const CardItem: FC<Props> = ({
         mutationDelete.mutate(movieId)
     }
 
-    const handleFilterBtnClick = (movieId: number) => () => {
+    const handleFilterBtnClick = () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
-        dispatch(setSelectMovie(movieId))
     }
 
     const getCard = (mov: IMovie | IMovieLang) => {
@@ -68,7 +67,6 @@ export const CardItem: FC<Props> = ({
                 >
                     <Meta
                         title={mov.title}
-                        // description={getMinText(movie.overview)}
                         description={movie.release_date}
                     />
                 </Card>
@@ -100,7 +98,6 @@ export const CardItem: FC<Props> = ({
                 >
                     <Meta
                         title={title}
-                        // description={getMinText(movie.overview)}
                         description={mov.release_date}
                     />
                 </Card>
@@ -143,7 +140,7 @@ export const CardItem: FC<Props> = ({
                     <Button
                         type="default"
                         className={clsx(styles.btn, styles.btnFilter)}
-                        onClick={handleFilterBtnClick(movie.id)}
+                        onClick={handleFilterBtnClick}
                     >
                         SETTINGS
                     </Button>

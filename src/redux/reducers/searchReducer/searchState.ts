@@ -9,7 +9,6 @@ export interface State {
     totalResults: number | null,
     language: TLanguage,
     movieType: TMovieType,
-    currentMovie: IMovie | null,
 }
 
 export const initialState: State = {
@@ -21,5 +20,4 @@ export const initialState: State = {
     totalResults: null,
     language: 'ru-RU',
     movieType: 'multi',
-    currentMovie: null
 }

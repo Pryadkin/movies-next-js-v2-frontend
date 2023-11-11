@@ -11,7 +11,8 @@ import weekday from 'dayjs/plugin/weekday'
 
 import styles from './SetMovieDate.module.scss'
 
-import {IMovieLang} from '@/api/apiTypes'
+import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
+import {IUpdateDate} from '@/redux/reducers/layoutReducer/layoutSlice'
 
 import {DateListItem} from './DateListItem'
 
@@ -25,44 +26,35 @@ dayjs.extend(weekYear)
 const dateFormat = 'YYYY.MM.DD'
 
 interface Props {
-    movie: IMovieLang | null | undefined,
-    onUpdateMovieDateViewing: (val: string[]) => void,
-    onAddMovieDateViewing: (val: string) => void
+    movie: ICorrectMovie,
+    onUpdateMovieDateViewing: (val: IUpdateDate) => void,
+    onAddMovieDateViewing: (val: string) => void,
+    deleteSelectMovieDateViewing: (val: string) => void
 }
 export const SetMovieDate: FC<Props> = ({
     movie,
     onUpdateMovieDateViewing,
-    onAddMovieDateViewing
+    onAddMovieDateViewing,
+    deleteSelectMovieDateViewing
 }) => {
-    const movieDateViewing = movie?.settings?.dateViewing
-    const [datePickerValue, setDatePickerValue] = useState('')
+    const [newDatePickerValue, setNewDatePickerValue] = useState('')
+    const [oldDatePickerValue, setOldDatePickerValue] = useState('')
     const [addDatePickerValue, setAddDatePickerValue] = useState('')
-    const [dateViewing, setDateViewing] = useState([''])
-    const date = dateViewing || movieDateViewing
-
-    useEffect(() => {
-        setDateViewing(movieDateViewing || [])
-    }, [movieDateViewing])
 
     const handleDatePickerChange: DatePickerProps['onChange'] = (date, dateString) => {
-        const updateDate = dateViewing?.map(date => {
-            if (date === datePickerValue) {
-                return dateString || date
-            }
-            return date
-        })
-
-        setDatePickerValue(dateString)
-        setDateViewing(updateDate)
-        onUpdateMovieDateViewing(updateDate)
+        setNewDatePickerValue(dateString)
     }
 
-    const handleDateListItemClick = (value: string) => () => {
-        const updateDate = dateViewing?.filter(date => date !== value)
+    const handleDateItemUpdate = () => {
+        onUpdateMovieDateViewing({
+            oldDate: oldDatePickerValue,
+            newDate: newDatePickerValue,
+        })
+        setNewDatePickerValue('')
+    }
 
-        setDatePickerValue('')
-        setDateViewing(updateDate)
-        onUpdateMovieDateViewing(updateDate)
+    const handleDateItemDelete = (value: string) => () => {
+        deleteSelectMovieDateViewing(value)
     }
 
     const handleAddDatePickerChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -70,7 +62,8 @@ export const SetMovieDate: FC<Props> = ({
     }
 
     const handleDateChange = (date: string) => () => {
-        setDatePickerValue(date)
+        setNewDatePickerValue(date)
+        setOldDatePickerValue(date)
     }
 
     const handleAddDateClick = () => {
@@ -85,25 +78,38 @@ export const SetMovieDate: FC<Props> = ({
             <h3>Viewing dates</h3>
 
             <ol className={styles.ol}>
-                {date?.map((dateItem, index) => (
+                {movie.settings.dateViewing.map((dateItem, index) => (
                     <li key={index}>
                         <DateListItem
                             dateItem={dateItem}
                             onListItemClick={handleDateChange}
-                            onListItemClose={handleDateListItemClick}
+                            onListItemDelete={handleDateItemDelete(dateItem)}
                         />
                     </li>
                 ))}
             </ol>
 
-            {datePickerValue && (
-                <DatePicker
-                    size='small'
-                    className={styles.datePicker}
-                    value={dayjs(datePickerValue)}
-                    format={dateFormat}
-                    onChange={handleDatePickerChange}
-                />
+            {newDatePickerValue && (
+                <div>
+                    <DatePicker
+                        size='small'
+                        className={styles.datePicker}
+                        value={dayjs(newDatePickerValue)}
+                        format={dateFormat}
+                        onChange={handleDatePickerChange}
+                    />
+                    <Button
+                        type='link'
+                        onClick={handleDateItemUpdate}
+                        style={{
+                            position: 'absolute',
+                            top: 62,
+                            left: 270,
+                        }}
+                    >
+                        update date
+                    </Button>
+                </div>
             )}
 
             <div className={styles.addDate}>

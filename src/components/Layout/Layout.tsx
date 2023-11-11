@@ -16,17 +16,14 @@ import styles from './Layout.module.scss'
 
 import {
     getIsDrawerMovieTagsOpen,
-    sestIsModalDetailsOpen,
-    setCurrentMovie,
     setIsAddMovieModalOpen,
     setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
 import {
-    getCurrentMovie,
     getSelectIsDrawerMovieTagsOpen,
 } from '@/redux/selectors'
-import {getIsAddMovieModalOpen, getIsModalDetailsOpen, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {getIsAddMovieModalOpen, getSelectLanguage, getSelectMovie} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TLanguage} from '@/types'
 
@@ -34,7 +31,6 @@ import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
 import {ModelAddMovie} from '../ModelAddMovie'
 import {ModelArtistDetails} from '../ModelArtistDetails'
-import {ModelDetails} from '../ModelDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
 import {Sidebare} from '../Sidebare'
@@ -51,7 +47,7 @@ const Layout: React.FC<Props> = ({
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
-    const selectMovie = useSelector(getCurrentMovie)
+    const selectMovie = useSelector(getSelectMovie)
 
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
@@ -69,20 +65,14 @@ const Layout: React.FC<Props> = ({
         dispatch(getIsDrawerMovieTagsOpen(val))
 
         // delete select movie by close drawer
-        dispatch(setSelectMovie(0))
+        dispatch(setSelectMovie(null))
     }
 
     const handleLangChange = (lang: TLanguage) => {
         dispatch(setLanguage(lang))
     }
 
-    const isModalDetailsOpen = useSelector(getIsModalDetailsOpen)
     const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
-
-    const handleModalDetailsClose = () => {
-        dispatch(sestIsModalDetailsOpen(false))
-        dispatch(setCurrentMovie(null))
-    }
 
     const isSider = asPath === '/movies'
 

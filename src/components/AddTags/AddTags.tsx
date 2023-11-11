@@ -5,9 +5,7 @@ import {Space, Tag} from "antd"
 import {IMovieLang} from "@/api/apiTypes"
 import {errorMessage} from "@/notification"
 import {
-    deleteTagFromMovie,
-    setTagToCurrentMovie,
-    setTagToMovie,
+    deleteTagFromMovie, setTagToSelectMovie,
 } from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
@@ -32,13 +30,12 @@ export const AddTags: FC<Props> = ({
     const [movieTagsTitle] = useState('Movie tags')
 
     const handleTagClick = (value: ITag) => () => {
-        const isMovieTagExists = movie?.settings?.tags.find(tag => tag.tagName === value.tagName)
+        const isMovieTagExists = movie?.settings?.tags.find((tag: ITag) => tag.tagName === value.tagName)
 
         if (isMovieTagExists) {
             errorMessage(new Error, 'tag already exist')
         } else if (movie && movie.settings){
-            dispatch(setTagToMovie(value))
-            dispatch(setTagToCurrentMovie(value))
+            dispatch(setTagToSelectMovie(value))
         }
     }
 

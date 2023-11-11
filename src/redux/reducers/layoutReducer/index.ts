@@ -7,4 +7,10 @@ export {
     setModelContent,
     deleteModelContent,
     deleteAllModelContent,
+    setSelectMovie,
+    setTagToSelectMovie,
+    deleteTagFromMovie,
+    updateMovieDateViewing,
+    addMovieDateViewing,
+    deleteMovieDateViewing,
 } from './layoutSlice'

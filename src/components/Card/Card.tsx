@@ -12,7 +12,7 @@ import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
 import styles from './Card.module.scss'
 
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
-import {getIsDrawerMovieTagsOpen, setCurrentMovie, setModelContent, setSelectMovie} from '@/redux/reducers'
+import {getIsDrawerMovieTagsOpen, setModelContent, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TMovieType} from '@/types'
@@ -27,7 +27,6 @@ export const Card = ({
     movie: IMovie | ICorrectMovie,
     width: number,
     height: number,
-    currentMovie: IMovie | null,
     isProfileCard: boolean | undefined,
     onModalOpen: (val: boolean) => void
 }) => {
@@ -61,7 +60,7 @@ export const Card = ({
     }, [cardRef])
 
     const handleCardClick = () => {
-        dispatch(setCurrentMovie((movie as IMovie)))
+        dispatch(setSelectMovie((movie as IMovie)))
     }
 
     const dispatch = useAppDispatch()
@@ -76,9 +75,8 @@ export const Card = ({
         mutationDelete.mutate(movieId)
     }
 
-    const handleFilterBtnClick = (movieId: number) => () => {
+    const handleFilterBtnClick = () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
-        dispatch(setSelectMovie(movieId))
     }
 
     const handleMovieDetailsShowClick = (movie: IMovie | ICorrectMovie) => () => {
@@ -101,7 +99,7 @@ export const Card = ({
                     <Button
                         type="default"
                         className={clsx(styles.btn, styles.btnFilter)}
-                        onClick={handleFilterBtnClick(movie.id)}
+                        onClick={handleFilterBtnClick}
                     >
                         SETTINGS
                     </Button>
@@ -145,7 +143,8 @@ export const Card = ({
         }
     }
 
-    const handleDetailsClick = () => {
+    const handleDetailsClick = (mov: IMovie) => () => {
+        dispatch(setSelectMovie(mov))
         dispatch(setModelContent({
             type: movie?.settings?.isTv ? 'tv' : 'movie',
             id: movie.id
@@ -180,7 +179,7 @@ export const Card = ({
                     {isMouseOver && (
                         <div
                             className={styles.details}
-                            onClick={handleDetailsClick}
+                            onClick={handleDetailsClick(movie as IMovie)}
                         >
                             DETAILS
                         </div>

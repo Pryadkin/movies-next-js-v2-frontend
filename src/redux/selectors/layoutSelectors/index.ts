@@ -5,3 +5,7 @@ export const getIsModalDetailsOpen = (state: RootState) => state.layoutReducer.i
 export const getIsAddMovieModalOpen = (state: RootState) => state.layoutReducer.isAddMovieModalOpen
 export const getArtistId = (state: RootState) => state.layoutReducer.artistId
 export const getModelContent= (state: RootState) => state.layoutReducer.modelContent
+
+export const getSelectDateViewing = (state: RootState) => state.layoutReducer.selectMovie?.settings.dateViewing
+
+export const getSelectMovie = (state: RootState) => state.layoutReducer.selectMovie

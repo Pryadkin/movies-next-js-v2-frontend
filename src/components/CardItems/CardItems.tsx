@@ -3,7 +3,7 @@ import {useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {IMovie, IMovieLang} from '@/api/apiTypes'
-import {getCurrentMovie} from '@/redux/selectors'
+import {getSelectMovie} from '@/redux/selectors'
 
 import {Card} from '../Card/Card'
 
@@ -23,7 +23,7 @@ export const CardItems: React.FC<Props> = ({
     isFetching,
     isProfileCard,
 }) => {
-    const currentMovie = useSelector(getCurrentMovie)
+    const selectMovie = useSelector(getSelectMovie)
     const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
 
     if (isFetching) return <Spin />
@@ -39,7 +39,6 @@ export const CardItems: React.FC<Props> = ({
                             <Card
                                 key={movie.id}
                                 movie={movie}
-                                currentMovie={currentMovie}
                                 width={width}
                                 height={height}
                                 onModalOpen={setIsAddMovieModalOpen}
@@ -53,9 +52,9 @@ export const CardItems: React.FC<Props> = ({
                 )
             }
 
-            {currentMovie && (
+            {selectMovie && (
                 <ModelAddMovie
-                    movie={currentMovie as IMovie}
+                    movie={selectMovie as IMovie}
                     isModalOpen={isAddMovieModalOpen}
                     onModalCancel={() => setIsAddMovieModalOpen(false)}
                 />

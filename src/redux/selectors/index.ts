@@ -2,12 +2,10 @@ export {
     getSelectMovies,
     getSelectMovieName,
     getSelectPage,
-    getCurrentMovie,
 } from './searchSelectors'
 
 export {
     getSelectIsDrawerMovieTagsOpen,
-    getSelectMovie,
     getSelectMyMovies,
     getSelectTags,
     getSelectGenres,
@@ -21,4 +19,5 @@ export {
     getIsModalDetailsOpen,
     getArtistId,
     getModelContent,
+    getSelectMovie
 } from './layoutSelectors'

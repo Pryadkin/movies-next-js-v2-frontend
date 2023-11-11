@@ -18,7 +18,8 @@ import styles from './ModelAddMovie.module.scss'
 import {useFetchMulti} from '@/hooks/useFetchMulti'
 import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
-import {setCurrentMovie} from '@/redux/reducers'
+import {deleteMovieDateViewing, setSelectMovie, updateMovieDateViewing} from '@/redux/reducers'
+import {addMovieDateViewing} from '@/redux/reducers/layoutReducer/layoutSlice'
 import {getSelectTags} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {getSelectMovieType} from '@/redux/selectors/searchSelectors'
@@ -61,31 +62,6 @@ export const ModelAddMovie = ({
 
     const isLoading = mutationMovieFetch.isLoading || mutationMovieFetch.isLoading
 
-    const handleUpdateMovieDateViewing = (val: string[]) => {
-        // TODO: add updating date by save movie
-        // const updateMovie: IMovie = {
-        //     ...movieWithLang,
-        //     settings: {
-        //         ...movieWithLang.settings,
-        //         dateViewing: val
-        //     }
-        // }
-    }
-
-    const handleAddMovieDateViewing = (val: string) => {
-        const updateMovie: any = {
-            ...movieWithLang,
-            settings: {
-                ...movieWithLang.settings,
-                dateViewing: [
-                    ...movieWithLang.settings?.dateViewing,
-                    val
-                ]
-            }
-        }
-        dispatch(setCurrentMovie(updateMovie))
-    }
-
     const handleUploadAnotherLangMovieBtnClick = (movie: ICorrectMovie) => () => {
         mutationMovieFetch.mutate({
             searchName: movie.original_title,
@@ -97,7 +73,7 @@ export const ModelAddMovie = ({
     const handleAddAnotherLangMovieClick = (mov: ICorrectMovie) => () => {
         const updateMovie = addContantToMovieLang(mov, movieWithLang, correctLang)
 
-        dispatch(setCurrentMovie(updateMovie as any))
+        dispatch(setSelectMovie(updateMovie as any))
     }
 
     const getAnotherLangMovie = () => {
@@ -184,8 +160,9 @@ export const ModelAddMovie = ({
                 {!isProfilePath && movieWithLang && (
                     <SetMovieDate
                         movie={movieWithLang}
-                        onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
-                        onAddMovieDateViewing={handleAddMovieDateViewing}
+                        onUpdateMovieDateViewing={val => dispatch(updateMovieDateViewing(val))}
+                        onAddMovieDateViewing={val => dispatch(addMovieDateViewing(val))}
+                        deleteSelectMovieDateViewing={val => dispatch(deleteMovieDateViewing(val))}
                     />
                 )}
 

@@ -7,8 +7,6 @@ export {
     setTotalPages,
     setTotalResults,
     setMovieType,
-    setCurrentMovie,
-    setTagToCurrentMovie,
 } from './searchReducer'
 export {
     profileReducer,
@@ -16,10 +14,7 @@ export {
     deleteMovie,
     setProfileMovies,
     getIsDrawerMovieTagsOpen,
-    setSelectMovie,
-    setTagToMovie,
     updateMovie,
-    deleteTagFromMovie,
     deleteTagFromMovies,
     updateTags,
     addSelectTags,
@@ -33,9 +28,6 @@ export {
     addSelectIgnoreGenres,
     removeSelectGenres,
     removeSelectIgnoreGenres,
-    updateMovieDateViewing,
-    addMovieDateViewing,
-    deleteMovieDateViewing,
     setSearchMovie,
 } from './profileReducer'
 export {
@@ -47,4 +39,10 @@ export {
     setModelContent,
     deleteModelContent,
     deleteAllModelContent,
+    setSelectMovie,
+    setTagToSelectMovie,
+    deleteTagFromMovie,
+    updateMovieDateViewing,
+    addMovieDateViewing,
+    deleteMovieDateViewing,
 } from './layoutReducer'
