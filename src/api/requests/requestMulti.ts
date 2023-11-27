@@ -3,15 +3,14 @@ import {AxiosResponse} from 'axios'
 import {TLanguage} from '@/types'
 
 import {APIInstance} from '../apiInstance'
-import {IResponseTv} from '../apiTypes'
-import {IRequestMovies, IResponseMovies} from '../apiTypes/requestMovies'
+import {IRequestMovies, IResponseMulti} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
 export const requestMulti = async (
     name: string,
     page: string,
     lang: TLanguage
-): Promise<AxiosResponse<IResponseMovies | IResponseTv> | undefined> => {
+): Promise<AxiosResponse<IResponseMulti> | undefined> => {
     const params: IRequestMovies = {
         api_key: process.env.API_MOVIE_KEY || '',
         query: name,
@@ -26,7 +25,7 @@ export const requestMulti = async (
             {params}
         )
 
-        return (response as AxiosResponse<IResponseMovies>)
+        return (response as AxiosResponse<IResponseMulti>)
 
     } catch (error) {
         if (error instanceof Error) {

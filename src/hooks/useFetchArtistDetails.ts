@@ -18,14 +18,10 @@ export const useFetchArtistDetails = (artistId: number | null, lang: TLanguage) 
         if (res) {
             const result = res.data
 
-
             const updateRes = {
                 ...result,
                 profile_path: getImageUrl(result.profile_path),
             }
-
-
-            // console.log('updateMovies', updateRes)
 
             return updateRes
         }

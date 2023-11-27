@@ -1,10 +1,10 @@
-import {IMovie, IMultiMovie} from "@/api/apiTypes/requestMovies"
+import {ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
 import {setModelContent, setSelectMovie} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
 import styles from './Credit.module.scss'
 
-export const Credit = ({credit}: {credit: IMultiMovie}) => {
+export const Credit = ({credit}: {credit: ICorrectMovieWithoutLang}) => {
     const dispatch = useAppDispatch()
 
     return (
@@ -16,11 +16,11 @@ export const Credit = ({credit}: {credit: IMultiMovie}) => {
                     type: credit?.settings?.isTv ? 'tv' : 'movie',
                     id: credit.id
                 }))
-                dispatch(setSelectMovie(credit as IMovie))
+                dispatch(setSelectMovie(credit))
             }}
         >
             <img
-                src={credit.poster_path_ru}
+                src={credit.poster_path}
                 alt={credit.title}
             />
         </div>

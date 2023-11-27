@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react'
+import {FC, useState} from 'react'
 
 import {Button, DatePicker, DatePickerProps} from 'antd'
 import dayjs from 'dayjs'
@@ -11,7 +11,7 @@ import weekday from 'dayjs/plugin/weekday'
 
 import styles from './SetMovieDate.module.scss'
 
-import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 import {IUpdateDate} from '@/redux/reducers/layoutReducer/layoutSlice'
 
 import {DateListItem} from './DateListItem'
@@ -26,7 +26,7 @@ dayjs.extend(weekYear)
 const dateFormat = 'YYYY.MM.DD'
 
 interface Props {
-    movie: ICorrectMovie,
+    movie: ICorrectMovieWithLang | ICorrectMovieWithoutLang,
     onUpdateMovieDateViewing: (val: IUpdateDate) => void,
     onAddMovieDateViewing: (val: string) => void,
     deleteSelectMovieDateViewing: (val: string) => void

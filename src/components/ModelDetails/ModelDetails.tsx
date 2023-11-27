@@ -9,11 +9,10 @@ import {useRouter} from 'next/router'
 
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
-import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
+import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 
 import styles from './ModelDetails.module.scss'
 
-import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TMovieType} from '@/types'
@@ -185,7 +184,8 @@ export const ModelDetails = ({
                                 return (
                                     <div
                                         style={{marginLeft: 30, color: 'grey'}}
-                                        key={elem.id}>{elem.name}</div>
+                                        key={elem.id}>{elem.name}
+                                    </div>
                                 )
                             })}
                         </div>

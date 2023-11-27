@@ -1,9 +1,4 @@
-export interface IResponseTv {
-    page: number,
-    results: ITv[],
-    total_pages: number,
-    total_results: number,
-}
+
 
 export interface IRequestTv {
     api_key: string
@@ -41,19 +36,3 @@ export interface ITv {
         isTv: boolean,
     }
 }
-
-// export type TMovieEn = Omit<
-// ITvLang,
-// 'poster_path_ru' |
-// 'backdrop_path_ru' |
-// 'name_ru' |
-// 'overview_ru'
-// >
-
-// export type TMovieRu = Omit<
-// ITvLang,
-// 'poster_path_en' |
-// 'backdrop_path_en' |
-// 'name_en' |
-// 'overview_en'
-// >

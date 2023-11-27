@@ -1,12 +1,12 @@
-import {IMultiMovie} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 
 import {Credit} from '../Credit'
 
 import styles from './CreditWrapper.module.scss'
 
 interface Props {
-    cast: IMultiMovie[],
-    crew: IMultiMovie[],
+    cast: ICorrectMovieWithoutLang[],
+    crew: ICorrectMovieWithoutLang[],
     isCreditCastShow: boolean,
     isCreditCrewShow: boolean,
 }

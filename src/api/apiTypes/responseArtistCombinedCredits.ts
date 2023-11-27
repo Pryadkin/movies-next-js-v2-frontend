@@ -1,9 +1,12 @@
-import {IMovie, IMultiMovie} from "./requestMovies"
-import {ITv} from "./requestTv"
+import {IResponseSearchMovieResult, IResponseSearchMultiResult, IResponseSearchTvResult} from "./requestMovies"
 
 export interface IArtistCombinedCredits {
-    cast: IMovie[] | ITv[]
-    crew: IMovie[] | ITv[]
+    cast: IResponseSearchMovieResult[] |
+    IResponseSearchTvResult[] |
+    IResponseSearchMultiResult[]
+    crew: IResponseSearchMovieResult[] |
+    IResponseSearchTvResult[] |
+    IResponseSearchMultiResult[]
     id: number
 }
 

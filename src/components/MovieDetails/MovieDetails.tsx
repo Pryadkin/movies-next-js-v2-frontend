@@ -1,24 +1,25 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
     Button,
 } from 'antd'
 
-import {IDetailsMovie, IMovie} from '@/api/apiTypes'
+import {IDetailsMovie} from '@/api/apiTypes'
+import {getCorrectPrice} from '@/helpers'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
 import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
-import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 
 import styles from './MovieDetails.module.scss'
 
+import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {ChartElement} from '@/ui-kit'
 
 import {Spin} from '../Spin'
 
 interface Props {
-    movie: IMovie,
+    movie: IDetailsMovie,
 }
 
 export const MovieDetails = ({
@@ -29,9 +30,12 @@ export const MovieDetails = ({
 
     const {
         data: credits,
-    } = useFetchCredits(movie?.id, movie?.settings?.isTv, lang)
+    } = useFetchCredits(movie.id, !!movie.first_air_date, lang)
 
     const directing = credits?.crew.find(elem => elem.known_for_department === "Directing" && elem.profile_path)
+
+    const [isCreditCastShow, setIsCreditCastShow] = useState(false)
+    const [isCreditCrewShow, setIsCreditCrewShow] = useState(false)
 
     const getPage = (movie: IDetailsMovie) => {
         if (movie) {
@@ -127,7 +131,7 @@ export const MovieDetails = ({
                         </div>
 
                         <div className={styles.movieDataElem}>
-                            Доход: {movie.revenue}
+                            Доход: {getCorrectPrice(movie.revenue)}
                         </div>
 
                         <div className={styles.movieDataElem}>
@@ -135,7 +139,7 @@ export const MovieDetails = ({
                         </div>
 
                         <div className={styles.movieDataElem}>
-                            Бюджет: {movie.budget}
+                            Бюджет: {getCorrectPrice(movie.budget)}
                         </div>
 
                         <div className={styles.movieDataElem}>
@@ -197,9 +201,6 @@ export const MovieDetails = ({
             )
         }
     }
-
-    const [isCreditCastShow, setIsCreditCastShow] = useState(false)
-    const [isCreditCrewShow, setIsCreditCrewShow] = useState(false)
 
     return (
         <>
@@ -263,7 +264,7 @@ export const MovieDetails = ({
             >
                 {credits && credits.cast.map(credit => (
                     <div
-                        key={credit.id}
+                        key={credit.credit_id}
                         style={{zIndex: 100}}
                         className={styles.creditItem}
                         onClick={() => {
@@ -293,7 +294,7 @@ export const MovieDetails = ({
             >
                 {credits && credits.crew.map(credit => (
                     <div
-                        key={credit.id}
+                        key={credit.credit_id}
                         style={{zIndex: 100}}
                         className={styles.creditItem}
                         onClick={() => {

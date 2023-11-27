@@ -1,9 +1,8 @@
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {getCorrectMovieWithoutLang} from "@/helpers/getCorrectMovieWithoutLang"
 import {TLanguage} from "@/types"
-
-import {getMultiMovie} from "./useFetchMulti"
 
 export const useFetchArtistCombinedCredits = (artistId: number | null, lang: TLanguage) => {
     const fetchArtistCombinedCredits = async (
@@ -13,15 +12,9 @@ export const useFetchArtistCombinedCredits = (artistId: number | null, lang: TLa
         const res = artistId && await API.requestArtistCombinedCredits(artistId, lang)
 
         if (res) {
-            const cast = res.data.cast
-            const crew = res.data.crew
-
-            const multiMovieCast = getMultiMovie(cast, lang)
-            const multiMovieCrew = getMultiMovie(crew, lang)
-
             return {
-                cast: multiMovieCast,
-                crew: multiMovieCrew
+                cast: getCorrectMovieWithoutLang(res.data.cast, lang),
+                crew: getCorrectMovieWithoutLang(res.data.crew, lang),
             }
         }
 
@@ -36,7 +29,7 @@ export const useFetchArtistCombinedCredits = (artistId: number | null, lang: TLa
     } = useQuery({
         queryKey: ['combinedCredits', lang],
         queryFn: () => fetchArtistCombinedCredits(artistId, lang),
-        keepPreviousData : true,
+        // keepPreviousData : true,
         enabled: !!artistId,
     })
 

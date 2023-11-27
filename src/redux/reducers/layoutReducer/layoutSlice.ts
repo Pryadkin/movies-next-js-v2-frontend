@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
-import {IMovie} from '@/api/apiTypes'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 import {ITag, TLanguage} from '@/types'
 
 import {initialState} from './layoutState'
@@ -41,7 +41,11 @@ const layoutSlice = createSlice({
         deleteAllModelContent(state) {
             state.modelContent = []
         },
-        setSelectMovie(state, action: PayloadAction<IMovie | null>) {
+        setSelectMovie(state, action: PayloadAction<
+        ICorrectMovieWithLang
+        | ICorrectMovieWithoutLang
+        | null
+        >) {
             state.selectMovie = action.payload
         },
         setTagToSelectMovie(state, action: PayloadAction<ITag>) {

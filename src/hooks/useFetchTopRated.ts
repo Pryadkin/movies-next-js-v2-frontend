@@ -1,9 +1,8 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {getCorrectMovieWithoutLang} from "@/helpers/getCorrectMovieWithoutLang"
 import {TLanguage, TMovieType} from "@/types"
-
-import {getMultiMovie} from "./useFetchMulti"
 
 export const useFetchTopRated = (lang: TLanguage) => {
     const fetchTopRated = async (
@@ -14,7 +13,7 @@ export const useFetchTopRated = (lang: TLanguage) => {
         const res = await API.requestTopRated(page, typeMovie, lang)
 
         if (res && res.data) {
-            const multiMovie = getMultiMovie(res.data.results, lang)
+            const multiMovie = getCorrectMovieWithoutLang(res.data.results, lang)
 
             return {
                 ...res.data,

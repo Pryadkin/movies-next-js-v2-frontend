@@ -2,7 +2,7 @@ import {useState} from 'react'
 
 import {Button} from 'antd'
 
-import {IMultiMovie} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
 import {ChartElement} from '@/ui-kit'
 
@@ -12,8 +12,8 @@ import {CreditWrapper} from './CreditWrapper'
 
 interface Props {
     artist: IArtistDetails,
-    cast: IMultiMovie[] | null | undefined,
-    crew: IMultiMovie[] | null | undefined,
+    cast: ICorrectMovieWithoutLang[] | null,
+    crew: ICorrectMovieWithoutLang[] | null,
 }
 export const ArtistDetails = ({
     artist,

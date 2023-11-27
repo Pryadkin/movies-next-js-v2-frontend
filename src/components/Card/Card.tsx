@@ -6,8 +6,7 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 
-import {IMovie} from '@/api/apiTypes'
-import {ICorrectMovie} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 
 import styles from './Card.module.scss'
 
@@ -24,7 +23,7 @@ export const Card = ({
     isProfileCard,
     onModalOpen
 }: {
-    movie: IMovie | ICorrectMovie,
+    movie: ICorrectMovieWithoutLang | ICorrectMovieWithLang,
     width: number,
     height: number,
     isProfileCard: boolean | undefined,
@@ -60,7 +59,7 @@ export const Card = ({
     }, [cardRef])
 
     const handleCardClick = () => {
-        dispatch(setSelectMovie((movie as IMovie)))
+        dispatch(setSelectMovie(movie))
     }
 
     const dispatch = useAppDispatch()
@@ -79,9 +78,9 @@ export const Card = ({
         dispatch(getIsDrawerMovieTagsOpen(true))
     }
 
-    const handleMovieDetailsShowClick = (movie: IMovie | ICorrectMovie) => () => {
-        const movieType: TMovieType = movie.settings.isTv ? 'tv' : 'movie'
-        router.push(`/movies/${movieType}/${movie.id}`)
+    const handleMovieDetailsShowClick = (mov: ICorrectMovieWithoutLang | ICorrectMovieWithLang) => () => {
+        const movieType: TMovieType = mov.settings.isTv ? 'tv' : 'movie'
+        router.push(`/movies/${movieType}/${mov.id}`)
     }
 
 
@@ -143,32 +142,28 @@ export const Card = ({
         }
     }
 
-    const handleDetailsClick = (mov: IMovie) => () => {
+    const handleDetailsClick = (mov: ICorrectMovieWithLang | ICorrectMovieWithoutLang) => () => {
         dispatch(setSelectMovie(mov))
         dispatch(setModelContent({
-            type: movie?.settings?.isTv ? 'tv' : 'movie',
-            id: movie.id
+            type: mov.settings.isTv ? 'tv' : 'movie',
+            id: mov.id
         }))
     }
 
-    const getCard = () => {
+    const getCard = (movie: ICorrectMovieWithoutLang | ICorrectMovieWithLang) => {
         const isEnglish = lang === 'en-EN'
-        const isMovieLangKey = Boolean((movie as ICorrectMovie).title_en)
-        const correctMovie = movie as ICorrectMovie
+        const movieWithoutLang = movie as ICorrectMovieWithoutLang
+        const movieWithLang = movie as ICorrectMovieWithLang
 
-        const lang_title = isEnglish
-            ? correctMovie.title_en
-            : correctMovie.title_ru
-        const lang_poster_path = isEnglish
-            ? correctMovie.poster_path_en
-            : correctMovie.poster_path_ru
+        const langTitle = isEnglish
+            ? movieWithLang.title_en
+            : movieWithLang.title_ru
+        const langPosterPath = isEnglish
+            ? movieWithLang.poster_path_en
+            : movieWithLang.poster_path_ru
 
-        const title = isMovieLangKey
-            ? lang_title
-            : (movie as IMovie).title
-        const poster_path = isMovieLangKey
-            ? lang_poster_path
-            : (movie as IMovie).poster_path
+        const title = langTitle || movieWithoutLang.title
+        const posterPath = langPosterPath || movieWithoutLang.poster_path
 
         return (
             <>
@@ -179,7 +174,7 @@ export const Card = ({
                     {isMouseOver && (
                         <div
                             className={styles.details}
-                            onClick={handleDetailsClick(movie as IMovie)}
+                            onClick={handleDetailsClick(movie)}
                         >
                             DETAILS
                         </div>
@@ -193,7 +188,7 @@ export const Card = ({
                             marginTop: 10
                         }}
                         alt={title || ''}
-                        src={poster_path || ''}
+                        src={posterPath || ''}
                         width={width}
                         height={height}
                         blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
@@ -241,7 +236,7 @@ export const Card = ({
         >
             <div className={styles.card} data-index={movie.id}>
                 <div className={styles.content} data-index={movie.id}>
-                    {getCard()}
+                    {getCard(movie)}
                 </div>
             </div>
         </div>

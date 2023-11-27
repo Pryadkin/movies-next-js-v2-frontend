@@ -9,6 +9,7 @@ import {
 import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
+import {ICorrectMovieWithLang} from '@/api/apiTypes/requestMovies'
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 
@@ -76,6 +77,10 @@ const Layout: React.FC<Props> = ({
 
     const isSider = asPath === '/movies'
 
+    const title = lang === 'en-EN'
+        ? (selectMovie as ICorrectMovieWithLang)?.title_en
+        : (selectMovie as ICorrectMovieWithLang)?.title_ru
+
     return (
         <LayoutAntd>
             <Header
@@ -111,7 +116,7 @@ const Layout: React.FC<Props> = ({
             </Drawer>
 
             <Drawer
-                title={`SETTINGS: ${lang === 'en-EN' ? selectMovie?.title_en : selectMovie?.title_ru}`}
+                title={`SETTINGS: ${title}`}
                 open={isDrawerMovieTagsOpen}
                 onOpen={handlesetDrawerMovieTagsOpen}
             >
@@ -123,17 +128,13 @@ const Layout: React.FC<Props> = ({
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
 
-            {/* <ModelDetails
-                movie={selectMovie}
-                isModalOpen={isModalDetailsOpen}
-                onModalCancel={handleModalDetailsClose}
-            /> */}
-
-            <ModelAddMovie
-                movie={selectMovie}
-                isModalOpen={isAddMovieModalOpen}
-                onModalCancel={() => dispatch(setIsAddMovieModalOpen(false))}
-            />
+            {selectMovie && (
+                <ModelAddMovie
+                    movie={selectMovie}
+                    isModalOpen={isAddMovieModalOpen}
+                    onModalCancel={() => dispatch(setIsAddMovieModalOpen(false))}
+                />
+            )}
 
             <ModelArtistDetails />
         </LayoutAntd>

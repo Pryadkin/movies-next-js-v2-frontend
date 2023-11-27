@@ -3,7 +3,8 @@ import {AxiosResponse} from 'axios'
 import {TLanguage} from '@/types'
 
 import {APIInstance} from '../apiInstance'
-import {IRequestTv, IResponseTv} from '../apiTypes'
+import {IRequestTv} from '../apiTypes'
+import {IResponseTv} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
 export const requestTv = async (

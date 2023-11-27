@@ -8,5 +8,5 @@ export const getCorrectPrice = (price: number) => {
         })
 
     return arrayPrice.reverse()
-        .join('')
+        .join('') + '$'
 }

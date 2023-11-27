@@ -1,19 +1,16 @@
 /* eslint-disable max-len */
-import {useState} from 'react'
-import {useSelector} from 'react-redux'
-
-import {IMovie, IMovieLang} from '@/api/apiTypes'
-import {getSelectMovie} from '@/redux/selectors'
-
-import {Card} from '../Card/Card'
+import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {setIsAddMovieModalOpen} from '@/redux/reducers'
+import {useAppDispatch} from '@/redux/store'
 
 import styles from './CardItems.module.scss'
 
-import {ModelAddMovie} from '../ModelAddMovie'
+import {Card} from '../Card/Card'
 import {Spin} from '../Spin'
 
+
 interface Props {
-    data: (IMovieLang | IMovie)[]
+    data: ICorrectMovieWithoutLang[]
     isFetching: boolean,
     isProfileCard?: boolean,
 }
@@ -23,8 +20,7 @@ export const CardItems: React.FC<Props> = ({
     isFetching,
     isProfileCard,
 }) => {
-    const selectMovie = useSelector(getSelectMovie)
-    const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
+    const dispatch = useAppDispatch()
 
     if (isFetching) return <Spin />
 
@@ -41,7 +37,7 @@ export const CardItems: React.FC<Props> = ({
                                 movie={movie}
                                 width={width}
                                 height={height}
-                                onModalOpen={setIsAddMovieModalOpen}
+                                onModalOpen={() => dispatch(setIsAddMovieModalOpen(true))}
                                 isProfileCard={isProfileCard}
                             />
                         )}
@@ -51,14 +47,6 @@ export const CardItems: React.FC<Props> = ({
                     null
                 )
             }
-
-            {selectMovie && (
-                <ModelAddMovie
-                    movie={selectMovie as IMovie}
-                    isModalOpen={isAddMovieModalOpen}
-                    onModalCancel={() => setIsAddMovieModalOpen(false)}
-                />
-            )}
         </div>
     )
 }

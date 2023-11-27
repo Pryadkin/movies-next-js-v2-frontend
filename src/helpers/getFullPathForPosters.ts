@@ -1,4 +1,4 @@
-import {IMovie, IMovieLang} from "@/api/apiTypes/requestMovies"
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
 import {isIMovie} from "@/helpers"
 
 function getPoster(poster: string | null, quality: string) {
@@ -11,7 +11,7 @@ function getPoster(poster: string | null, quality: string) {
 };
 
 const getFullPathForPosters = (
-    value: IMovie | IMovieLang,
+    value: ICorrectMovieWithLang | ICorrectMovieWithoutLang,
     quality = 'w300'
 ) => {
     if (isIMovie(value)) {
@@ -20,7 +20,7 @@ const getFullPathForPosters = (
         return {
             ...value,
             poster_path: updatePosterPath
-        } as IMovie
+        }
     } else {
         const updatePosterPathEn = getPoster(value.poster_path_en, quality)
         const updatePosterPathRu = getPoster(value.poster_path_ru, quality)
@@ -29,7 +29,7 @@ const getFullPathForPosters = (
             ...value,
             poster_path_en: updatePosterPathEn,
             poster_path_ru: updatePosterPathRu
-        } as IMovieLang
+        }
     }
 }
 

@@ -68,11 +68,11 @@ export const ModelArtistDetails = () => {
                 Back
             </Button>
 
-            {artistId && artist && (
+            {artistId && artist && artistCombinedCredits && (
                 <ArtistDetails
                     artist={artist}
-                    cast={artistCombinedCredits?.cast}
-                    crew={artistCombinedCredits?.crew}
+                    cast={artistCombinedCredits.cast}
+                    crew={artistCombinedCredits.crew}
                 />
             )}
 

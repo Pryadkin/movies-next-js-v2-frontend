@@ -115,7 +115,6 @@ const SearchMovies = () => {
                     isFetching={false}
                 />
             )}
-
         </div>
     )
 }
