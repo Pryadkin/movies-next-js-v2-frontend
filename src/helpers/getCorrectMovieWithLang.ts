@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang, IMovie} from "@/api/apiTypes/requestMovies"
 import {TLanguage} from '@/types'
 
 type TKeyName = 'title'
@@ -23,19 +23,20 @@ const deleteExtraValueFromMovie = (movie: any) => {
 }
 
 export const getCorrectMovieWithLang = (
+    currentMovie: ICorrectMovieWithoutLang,
     movie: ICorrectMovieWithoutLang,
     lang: TLanguage
 ) => {
     const getValueWithLang = (keyName: TKeyName) => {
         if (lang === 'ru-RU') {
             return ({
-                [`${keyName}_en`]: '',
+                [`${keyName}_en`]: currentMovie[keyName],
                 [`${keyName}_ru`]: movie[keyName],
             })
         }
         return ({
             [`${keyName}_en`]: movie[keyName],
-            [`${keyName}_ru`]: '',
+            [`${keyName}_ru`]: currentMovie[keyName],
         })
     }
 

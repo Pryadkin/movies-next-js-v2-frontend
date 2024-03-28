@@ -79,6 +79,7 @@ export const ModelArtistDetails = () => {
             {movieId && movie && (
                 <MovieDetails
                     movie={movie}
+                    onModalShow={setIsShow}
                 />
             )}
         </Modal>

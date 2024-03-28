@@ -28,6 +28,11 @@
   transition: transform 1s;
   transform-style: preserve-3d;
   cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.07);
+  }
 }
 
 .front {
@@ -106,6 +111,7 @@
   font-weight: bold;
 }
 
+// TODO:
 .details {
   position: absolute;
   top: 15px;
@@ -120,3 +126,19 @@
     color: white;
   }
 }
+// .details {
+//   position: absolute;
+//   top: 45px;
+//   right: -39px;
+//   border-radius: 5px 5px 0px 0px;
+//   color: rgb(81, 239, 176);
+//   font-size: 15px;
+//   font-weight: bold;
+//   transform: rotate(90deg);
+//   background-color: rgba(0, 0, 0, 0.5);
+//   padding: 3px 8px 1px 8px;
+
+//   &:hover {
+//     color: white;
+//   }
+// }

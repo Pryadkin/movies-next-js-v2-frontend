@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
@@ -14,6 +15,7 @@ import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 
 import styles from './ModelAddMovie.module.scss'
 
+import {errorMessage} from '@/notification'
 import {deleteMovieDateViewing, setSelectMovie, updateMovieDateViewing} from '@/redux/reducers'
 import {addMovieDateViewing} from '@/redux/reducers/layoutReducer/layoutSlice'
 import {getSelectTags} from '@/redux/selectors'
@@ -51,6 +53,7 @@ export const ModelAddMovie = ({
     const {mutationMovieFetch} = useFetchMulti(anotherLang)
     const data = mutationMovieFetch.data
     const isLoading = mutationMovieFetch.isLoading
+    const [movieWithLang, setMovieWithLang] = useState<ICorrectMovieWithLang | null>(null)
 
     const isAddMovieBtnEnable = !('title' in movie)
 
@@ -62,30 +65,41 @@ export const ModelAddMovie = ({
         })
     }
 
-    const handleAddAnotherLangMovieClick = (mov: ICorrectMovieWithoutLang) => () => {
-        const correctMovieWithLang = getCorrectMovieWithLang(mov, 'ru-RU')
-
-        dispatch(setSelectMovie(correctMovieWithLang))
+    const handleAddAnotherLangMovieClick = (
+        currentMovie: ICorrectMovieWithoutLang | ICorrectMovieWithLang,
+        mov: ICorrectMovieWithoutLang
+    ) => () => {
+        if ((currentMovie as ICorrectMovieWithoutLang).title) {
+            const correctMovieWithLang = getCorrectMovieWithLang(
+                currentMovie as ICorrectMovieWithoutLang,
+                mov,
+                anotherLang
+            )
+            dispatch(setSelectMovie(correctMovieWithLang))
+            setMovieWithLang(correctMovieWithLang)
+        } else {
+            errorMessage(new Error(), 'movie dont have title, maybe movie has ICorrectMovieWithLang type')
+        }
     }
 
     const getAnotherLangMovie = () => {
         if (isLoading) return <div>...Loading</div>
         if (data) {
-            return data.map(movie => {
+            return data.map(searchMovie => {
                 return (
                     <li
-                        key={movie.id}
+                        key={searchMovie.id}
                         className={styles.movieTitle}
-                        onClick={handleAddAnotherLangMovieClick(movie)}
+                        onClick={handleAddAnotherLangMovieClick(movie, searchMovie)}
                     >
                         <div className={styles.titleList}>
-                            <p>{movie.title}</p>
-                            <p>{`Original: ${movie.original_title}`}</p>
+                            <p>{searchMovie.title}</p>
+                            <p>{`Original: ${searchMovie.original_title}`}</p>
                             <p style={{
                                 background: 'lightgray',
                                 borderRadius: 5,
                                 textAlign: 'center'
-                            }}>{movie.release_date}</p>
+                            }}>{searchMovie.release_date}</p>
                         </div>
                     </li>
                 )
@@ -93,8 +107,8 @@ export const ModelAddMovie = ({
         }
     }
 
-    const handleAddMovieBtnClick = (mov: ICorrectMovieWithoutLang | ICorrectMovieWithLang) => () => {
-        mutationSave.mutate(mov)
+    const handleAddMovieBtnClick = () => {
+        movieWithLang && mutationSave.mutate(movieWithLang)
         onModalCancel()
     }
 
@@ -153,7 +167,7 @@ export const ModelAddMovie = ({
                 </div>
 
                 <Button
-                    onClick={handleAddMovieBtnClick(movie)}
+                    onClick={handleAddMovieBtnClick}
                     disabled={!isAddMovieBtnEnable}
                 >
                     Add MOVIE

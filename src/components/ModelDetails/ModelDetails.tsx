@@ -4,15 +4,18 @@ import {useSelector} from 'react-redux'
 import {
     Button,
     Modal,
+    Popconfirm,
 } from 'antd'
+import clsx from 'classnames'
 import {useRouter} from 'next/router'
 
 import {IDetailsMovie, IMovie} from '@/api/apiTypes'
+import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
-import {setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 
 import styles from './ModelDetails.module.scss'
 
+import {setModelContent} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TMovieType} from '@/types'
@@ -31,10 +34,11 @@ export const ModelDetails = ({
     isModalOpen,
     onModalCancel,
 }: Props) => {
-    const {asPath, push} = useRouter()
+    const {push} = useRouter()
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const movieType: TMovieType = movie?.settings?.isTv ? 'tv' : 'movie'
+    const {mutationDelete} = useDeleteMovie()
 
     const {
         data: credits,
@@ -211,6 +215,11 @@ export const ModelDetails = ({
         setIsCreditShow(false)
     }
 
+    const handleRemoveBtnClick = (movieId: number) => () => {
+        mutationDelete.mutate(movieId)
+        push('/movies')
+    }
+
     return (
         <Modal
             className={styles.modalContainer}
@@ -245,16 +254,20 @@ export const ModelDetails = ({
                     Show credits
                 </Button>
 
-                {asPath !== '/movies' && (
+                <Popconfirm
+                    title="Delete the movie"
+                    description="Are you sure to delete this movie?"
+                    onConfirm={handleRemoveBtnClick(movie.id)}
+                    okText="Yes"
+                    cancelText="No"
+                >
                     <Button
                         type="default"
-                        className={styles.btn}
-                        style={{zIndex: 100}}
-                        onClick={() => dispatch(setIsAddMovieModalOpen(true))}
+                        className={clsx(styles.btn, styles.btnRemove)}
                     >
-                        add
+                            remove
                     </Button>
-                )}
+                </Popconfirm>
             </div>
 
             <div

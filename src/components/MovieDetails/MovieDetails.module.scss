@@ -20,12 +20,6 @@ $modalHeight: calc(100vh);
     margin: 10px 0;
 }
 
-.poster {
-    img {
-        width: 100%;
-    }
-}
-
 .info {
     overflow: scroll;
     height: calc(100vh - 300px);
@@ -56,4 +50,14 @@ $modalHeight: calc(100vh);
         margin: 10px;
         border: 1px solid black;
     }
+}
+
+.btnsWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 395px;
+}
+
+.btn {
+    z-index: 100;
 }

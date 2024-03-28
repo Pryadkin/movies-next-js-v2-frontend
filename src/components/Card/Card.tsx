@@ -183,7 +183,16 @@ export const Card = ({
                     {movie?.settings?.isTv && (
                         <div className={styles.tvLabel}>TV</div>
                     )}
-                    <Image
+                    <img
+                        style={{
+                            marginTop: 10
+                        }}
+                        alt={title || ''}
+                        src={posterPath || ''}
+                        width={width}
+                        height={height}
+                    />
+                    {/* <Image
                         style={{
                             marginTop: 10
                         }}
@@ -193,7 +202,7 @@ export const Card = ({
                         height={height}
                         blurDataURL='https://skarblab.com/wp-content/uploads/2015/12/placeholder-2-1000x600.jpg'
                         placeholder="blur"
-                    />
+                    /> */}
                     <p className={styles.title}>
                         {getTitle(title)}
                     </p>
