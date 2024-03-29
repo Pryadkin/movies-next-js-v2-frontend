@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {DrawerProps} from 'antd'
 
-import {IMovie} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithLang, IMovie} from '@/api/apiTypes/requestMovies'
 import {IGenre, ITag, TSortItem} from '@/types'
 
 import {initialState} from './proflieState'
@@ -18,7 +18,7 @@ const profileSlice = createSlice({
             const removeMovie = state.myMovies.filter(movie => movie.id !== action.payload)
             state.myMovies = removeMovie
         },
-        setProfileMovies(state, action: PayloadAction<IMovie[]>) {
+        setProfileMovies(state, action: PayloadAction<ICorrectMovieWithLang[]>) {
             state.myMovies = action.payload
         },
         getIsDrawerMovieTagsOpen(state, action: PayloadAction<DrawerProps['open']>) {

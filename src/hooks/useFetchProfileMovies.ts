@@ -4,14 +4,14 @@ import {API} from "@/api"
 import {setProfileMovies} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
 
-export const useFetchProfileMovies = () => {
+export const useFetchProfileMovies = (numPage: number, size: number) => {
     const dispatch = useAppDispatch()
 
     const fetchMovies = async () => {
-        const res = await API.requestProfileMovies()
+        const res = await API.requestProfileMovies(numPage, size)
 
         if (res) {
-            dispatch(setProfileMovies(res.data))
+            dispatch(setProfileMovies(res.data.moviesPerPage))
 
             return res.data
         }
@@ -23,7 +23,7 @@ export const useFetchProfileMovies = () => {
         data,
         isFetching,
     } = useQuery({
-        queryKey: ['profile-movies'],
+        queryKey: ['profile-movies', numPage, size],
         queryFn: () => fetchMovies(),
         keepPreviousData : true,
     })

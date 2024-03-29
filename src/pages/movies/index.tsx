@@ -1,15 +1,25 @@
+import {useState} from "react"
 import {useSelector} from "react-redux"
+
+import {Pagination} from "antd"
+
 
 import {CardItems} from "@/components/CardItems"
 import {useFetchProfileMovies} from "@/hooks/useFetchProfileMovies"
 import {getFilteredMovies, getSelectSearchMovie} from "@/redux/selectors"
+import {getSelectNumberOfPages} from "@/redux/selectors/profileSelectors"
+
+import styles from './Movies.module.scss'
 
 const Profile = () => {
-    const {data, isFetching} = useFetchProfileMovies()
+    const [pageNum, setPageNum] = useState(1)
+    const [sizePage, setSizePage] = useState(50)
+    const {data, isFetching} = useFetchProfileMovies(pageNum, sizePage)
     const filteredMovies = useSelector(getFilteredMovies)
     const searchMovie = useSelector(getSelectSearchMovie)
+    const numberOfPages = useSelector(getSelectNumberOfPages)
     const movie = searchMovie
-        ? filteredMovies.filter(movie => {
+        ? data?.moviesPerPage.filter(movie => {
             const movieEn = movie.title_en?.toLowerCase()
                 .includes(searchMovie.toLowerCase())
             const movieRu = movie.title_ru?.toLowerCase()
@@ -18,8 +28,26 @@ const Profile = () => {
         })
         : filteredMovies
 
+    const handlePaginationChange = (value: any) => {
+        setPageNum(value)
+    }
+
+    const onShowSizeChange = (current: number, size: number)=> {
+        setSizePage(size)
+    }
+
     return (
-        <>
+        <div className={styles.profileWrapper}>
+            {numberOfPages && (
+                <Pagination
+                    className={styles.pagination}
+                    onShowSizeChange={onShowSizeChange}
+                    defaultCurrent={pageNum}
+                    total={data?.total}
+                    onChange={handlePaginationChange}
+                    showSizeChanger
+                />
+            )}
             {movie
                 ? (
                     <CardItems
@@ -31,7 +59,7 @@ const Profile = () => {
                 : (
                     <h2>The movies is not found</h2>
                 )}
-        </>
+        </div>
     )
 }
 
