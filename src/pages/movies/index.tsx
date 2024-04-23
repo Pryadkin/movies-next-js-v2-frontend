@@ -7,7 +7,6 @@ import {Pagination} from "antd"
 import {CardItems} from "@/components/CardItems"
 import {useFetchProfileMovies} from "@/hooks/useFetchProfileMovies"
 import {getFilteredMovies, getSelectSearchMovie} from "@/redux/selectors"
-import {getSelectNumberOfPages} from "@/redux/selectors/profileSelectors"
 
 import styles from './Movies.module.scss'
 
@@ -17,7 +16,6 @@ const Profile = () => {
     const {data, isFetching} = useFetchProfileMovies(pageNum, sizePage)
     const filteredMovies = useSelector(getFilteredMovies)
     const searchMovie = useSelector(getSelectSearchMovie)
-    const numberOfPages = useSelector(getSelectNumberOfPages)
     const movie = searchMovie
         ? data?.moviesPerPage.filter(movie => {
             const movieEn = movie.title_en?.toLowerCase()
@@ -38,7 +36,7 @@ const Profile = () => {
 
     return (
         <div className={styles.profileWrapper}>
-            {numberOfPages && (
+            {data?.total && (
                 <Pagination
                     className={styles.pagination}
                     onShowSizeChange={onShowSizeChange}
