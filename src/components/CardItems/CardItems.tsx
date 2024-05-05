@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 import {setIsAddMovieModalOpen} from '@/redux/reducers'
 import {useAppDispatch} from '@/redux/store'
 
@@ -10,7 +10,7 @@ import {Spin} from '../Spin'
 
 
 interface Props {
-    data: ICorrectMovieWithoutLang[]
+    data: ICorrectMovieWithoutLang[] | ICorrectMovieWithLang[]
     isFetching: boolean,
     isProfileCard?: boolean,
 }
