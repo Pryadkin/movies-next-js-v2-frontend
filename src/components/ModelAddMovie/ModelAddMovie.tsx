@@ -7,23 +7,23 @@ import {
     Space,
     Typography,
 } from 'antd'
-import {useRouter} from 'next/router'
 
-import {IMovie, IMovieLang} from '@/api/apiTypes'
-import {isIMovie} from '@/helpers'
-import {addContantToMovieLang, addLangToMovie} from '@/helpers/addLangToMovie'
-import {addSettingsToMovie} from '@/helpers/addSettingsToMovie'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {getCorrectMovieWithLang} from '@/helpers/getCorrectMovieWithLang'
+import {useFetchMulti} from '@/hooks/useFetchMulti'
+import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 
 import styles from './ModelAddMovie.module.scss'
 
-import getFullPathForPosters from '@/helpers/getFullPathForPosters'
-import {useAddLangToMovie} from '@/hooks/useAddLangToMovie'
-import {useAddLangToTv} from '@/hooks/useAddLangToTv'
-import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
-import {useUpdateProfileMovie} from '@/hooks/useUpdateProfileMovie'
+import {errorMessage} from '@/notification'
+import {deleteMovieDateViewing, setSelectMovie, updateMovieDateViewing} from '@/redux/reducers'
+import {addMovieDateViewing} from '@/redux/reducers/layoutReducer/layoutSlice'
+import {getSelectTags} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {getSelectMovieType} from '@/redux/selectors/searchSelectors'
+import {useAppDispatch} from '@/redux/store'
 
+import {AddTags} from '../AddTags'
 import {SetMovieDate} from '../SetMovieDate'
 
 enum Text {
@@ -34,7 +34,7 @@ enum Text {
 }
 
 interface Props {
-    movie: IMovie | IMovieLang
+    movie: ICorrectMovieWithoutLang | ICorrectMovieWithLang,
     isModalOpen: boolean,
     onModalCancel: () => void,
 }
@@ -44,90 +44,62 @@ export const ModelAddMovie = ({
     isModalOpen,
     onModalCancel,
 }: Props) => {
-    const {pathname} = useRouter()
-    const isProfilePath = pathname.includes('profile')
+    const dispatch = useAppDispatch()
+    const selectTegs = useSelector(getSelectTags)
     const lang = useSelector(getSelectLanguage)
     const movieType = useSelector(getSelectMovieType)
-    const {mutationSave: mutationSaveMovie} = useSaveProfileMovie()
-    const {mutationUpdate} = useUpdateProfileMovie()
-    const movieWithSettings: any = isIMovie(movie) && addSettingsToMovie(movie)
-    const movieWithLang = isIMovie(movie) ? addLangToMovie(movieWithSettings, lang) : movie
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
-    const correctLang = isProfilePath ? lang : anotherLang
-    const {mutationAddLang} = useAddLangToMovie()
-    const {mutationAddLangTv} = useAddLangToTv()
-    const [newMovie, setNewMovie] = useState<IMovieLang | null>()
+    const {mutationSave} = useSaveProfileMovie()
+    const {mutationMovieFetch} = useFetchMulti(anotherLang)
+    const data = mutationMovieFetch.data
+    const isLoading = mutationMovieFetch.isLoading
+    const [movieWithLang, setMovieWithLang] = useState<ICorrectMovieWithLang | null>(null)
 
-    const isLoading = mutationAddLang.isLoading || mutationAddLangTv.isLoading
-    const data = mutationAddLang.data as IMovie[]
-    || mutationAddLangTv.data as IMovie[]
-
-    const handleUpdateMovieDateViewing = (val: string[]) => {
-        // TODO: add updating date by save movie
-        // const updateMovie: IMovie = {
-        //     ...movieWithLang,
-        //     settings: {
-        //         ...movieWithLang.settings,
-        //         dateViewing: val
-        //     }
-        // }
-    }
-
-    const handleAddMovieDateViewing = (val: string) => {
-        const updateMovie: any = {
-            ...movieWithLang,
-            settings: {
-                ...movieWithLang.settings,
-                dateViewing: [
-                    ...movieWithLang.settings.dateViewing,
-                    val
-                ]
-            }
-        }
-
-        setNewMovie(updateMovie)
-    }
+    const isAddMovieBtnEnable = !('title' in movie)
 
     const handleUploadAnotherLangMovieBtnClick = () => {
-        if (movieType === 'movie') {
-            mutationAddLang.mutate({
-                movieName: movieWithLang.original_title,
-                lang: correctLang
-            })
-        }
-        if (movieType === 'tv')  {
-            mutationAddLangTv.mutate({
-                movieName: movieWithLang.original_title,
-                lang: correctLang
-            })
-        }
+        mutationMovieFetch.mutate({
+            searchName: movie.original_title,
+            movieType,
+            page: '1'
+        })
     }
 
-    const handleAddAnotherLangMovieClick = (movie: IMovie) => () => {
-        const updateMovie = addContantToMovieLang(movie, movieWithLang, correctLang)
-        const updateRes = getFullPathForPosters(updateMovie) as IMovieLang
-
-        setNewMovie(updateRes)
+    const handleAddAnotherLangMovieClick = (
+        currentMovie: ICorrectMovieWithoutLang | ICorrectMovieWithLang,
+        mov: ICorrectMovieWithoutLang
+    ) => () => {
+        if ((currentMovie as ICorrectMovieWithoutLang).title) {
+            const correctMovieWithLang = getCorrectMovieWithLang(
+                currentMovie as ICorrectMovieWithoutLang,
+                mov,
+                anotherLang
+            )
+            dispatch(setSelectMovie(correctMovieWithLang))
+            setMovieWithLang(correctMovieWithLang)
+        } else {
+            errorMessage(new Error(), 'movie dont have title, maybe movie has ICorrectMovieWithLang type')
+        }
     }
 
     const getAnotherLangMovie = () => {
         if (isLoading) return <div>...Loading</div>
         if (data) {
-            return data.map(movie => {
+            return data.map(searchMovie => {
                 return (
                     <li
-                        key={movie.id}
+                        key={searchMovie.id}
                         className={styles.movieTitle}
-                        onClick={handleAddAnotherLangMovieClick(movie)}
+                        onClick={handleAddAnotherLangMovieClick(movie, searchMovie)}
                     >
                         <div className={styles.titleList}>
-                            <p>{movie.title}</p>
-                            <p>{`Original: ${movie.original_title}`}</p>
+                            <p>{searchMovie.title}</p>
+                            <p>{`Original: ${searchMovie.original_title}`}</p>
                             <p style={{
                                 background: 'lightgray',
                                 borderRadius: 5,
                                 textAlign: 'center'
-                            }}>{movie.release_date}</p>
+                            }}>{searchMovie.release_date}</p>
                         </div>
                     </li>
                 )
@@ -136,17 +108,7 @@ export const ModelAddMovie = ({
     }
 
     const handleAddMovieBtnClick = () => {
-        const request = (mov: IMovieLang) => {
-            isProfilePath
-                ? mutationUpdate.mutate(mov)
-                : mutationSaveMovie.mutate(mov)
-        }
-        if (newMovie) {
-            request(newMovie)
-        } else {
-            request(movieWithLang)
-        }
-
+        movieWithLang && mutationSave.mutate(movieWithLang)
         onModalCancel()
     }
 
@@ -168,26 +130,46 @@ export const ModelAddMovie = ({
             <Space
                 direction="vertical"
             >
-                {movieWithLang.title_en || movieWithLang.title_ru}
-                {movieWithLang.release_date}
+                {(movie as ICorrectMovieWithoutLang).title}
+                {movie.release_date}
 
                 <Button onClick={handleUploadAnotherLangMovieBtnClick}>
-                    добавить фильм на {correctLang}
+                    добавить фильм на {anotherLang}
                 </Button>
 
-                <ol>
+                <ol style={{
+                    width: 500,
+                    height: 300,
+                    overflow: 'scroll',
+                    border: '1px solid black',
+                    borderRadius: 5,
+                    padding: 10,
+                    paddingLeft: 30,
+                    paddingRight: 50,
+                }}>
                     {getAnotherLangMovie()}
                 </ol>
 
-                {!isProfilePath && (
+                {movie && (
                     <SetMovieDate
-                        movie={newMovie}
-                        onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
-                        onAddMovieDateViewing={handleAddMovieDateViewing}
+                        movie={movie}
+                        onUpdateMovieDateViewing={val => dispatch(updateMovieDateViewing(val))}
+                        onAddMovieDateViewing={val => dispatch(addMovieDateViewing(val))}
+                        deleteSelectMovieDateViewing={val => dispatch(deleteMovieDateViewing(val))}
                     />
                 )}
 
-                <Button onClick={handleAddMovieBtnClick}>
+                <div className={styles.tagsWrapper}>
+                    <AddTags
+                        movie={movie}
+                        tags={selectTegs}
+                    />
+                </div>
+
+                <Button
+                    onClick={handleAddMovieBtnClick}
+                    disabled={!isAddMovieBtnEnable}
+                >
                     Add MOVIE
                 </Button>
             </Space>

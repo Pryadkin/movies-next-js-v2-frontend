@@ -2,11 +2,12 @@
 
 .header {
   display: grid;
-  grid-template-columns: 100px 200px 200px 1fr;
+  grid-template-columns: 100px auto;
   padding: 0 20px;
-  background-color: colors.$main-color !important;
+  background-color: #4a8abd !important;
   align-items: center;
   height: var(--header-height) !important;
+  z-index: 100;
 }
 
 .logo {
@@ -17,23 +18,26 @@
 }
 
 .menu {
-  background-color: colors.$main-color;
-  padding-left: 50px;
+  background-color: #4a8abd;
   color: white;
-  width: 300px;
   grid-column: 2;
 }
 
 .link {
-  padding: 30px 10px;
+  padding: 24px 10px;
   color: white;
 
   &:hover {
     color: white;
-    background-color: colors.$main-color-hover;
+    background-color: #58a2df;
   }
 }
 
 .rightElems {
   grid-column: 4;
+}
+
+.search {
+  display: flex;
+  justify-content: flex-end;
 }

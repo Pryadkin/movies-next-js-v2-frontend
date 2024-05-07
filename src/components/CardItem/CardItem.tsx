@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Button, Card, Popconfirm} from 'antd'
@@ -11,11 +11,9 @@ import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 
 import styles from './CardItem.module.scss'
 
-import {getIsDrawerMovieTagsOpen, setSelectMovie} from '@/redux/reducers'
+import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
-
-import {ModelAddMovie} from '../ModelAddMovie'
 
 const {Meta} = Card
 
@@ -35,19 +33,17 @@ export const CardItem: FC<Props> = ({
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const {mutationDelete} = useDeleteMovie()
-    const [isAddMovieModalOpen, setIsAddMovieModalOpen] = useState(false)
 
     const handleAddBtnClick = () => {
-        setIsAddMovieModalOpen(true)
+        dispatch(setIsAddMovieModalOpen(true))
     }
 
     const handleRemoveBtnClick = (movieId: number) => () => {
         mutationDelete.mutate(movieId)
     }
 
-    const handleFilterBtnClick = (movieId: number) => () => {
+    const handleFilterBtnClick = () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
-        dispatch(setSelectMovie(movieId))
     }
 
     const getCard = (mov: IMovie | IMovieLang) => {
@@ -71,7 +67,6 @@ export const CardItem: FC<Props> = ({
                 >
                     <Meta
                         title={mov.title}
-                        // description={getMinText(movie.overview)}
                         description={movie.release_date}
                     />
                 </Card>
@@ -103,7 +98,6 @@ export const CardItem: FC<Props> = ({
                 >
                     <Meta
                         title={title}
-                        // description={getMinText(movie.overview)}
                         description={mov.release_date}
                     />
                 </Card>
@@ -146,7 +140,7 @@ export const CardItem: FC<Props> = ({
                     <Button
                         type="default"
                         className={clsx(styles.btn, styles.btnFilter)}
-                        onClick={handleFilterBtnClick(movie.id)}
+                        onClick={handleFilterBtnClick}
                     >
                         SETTINGS
                     </Button>
@@ -177,13 +171,7 @@ export const CardItem: FC<Props> = ({
 
             {addLangButton(movie)}
 
-            {getCard(movie)}
-
-            <ModelAddMovie
-                movie={movie as IMovie}
-                isModalOpen={isAddMovieModalOpen}
-                onModalCancel={() => setIsAddMovieModalOpen(false)}
-            />
+            {movie && getCard(movie)}
         </div>
     )
 }

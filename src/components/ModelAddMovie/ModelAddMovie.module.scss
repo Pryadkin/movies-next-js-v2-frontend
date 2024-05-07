@@ -2,6 +2,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 40px;
+    z-index: 1000;
 
     button:first-child {
         margin-right: 10px;
@@ -52,4 +53,8 @@
     p {
         margin: 0 !important;
     }
+}
+
+.tagsWrapper {
+    height: 200px;
 }

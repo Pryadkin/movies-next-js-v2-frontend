@@ -1,14 +1,16 @@
 /* eslint-disable max-len */
-import {IMovie, IMovieLang, ITvLang} from '@/api/apiTypes'
-
-import {CardItem} from '../CardItem'
-import {CardItemV2} from '../CardItemV2'
-import {Spin} from '../Spin'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {setIsAddMovieModalOpen} from '@/redux/reducers'
+import {useAppDispatch} from '@/redux/store'
 
 import styles from './CardItems.module.scss'
 
+import {Card} from '../Card/Card'
+import {Spin} from '../Spin'
+
+
 interface Props {
-    data: (IMovieLang | IMovie)[]
+    data: ICorrectMovieWithoutLang[] | ICorrectMovieWithLang[]
     isFetching: boolean,
     isProfileCard?: boolean,
 }
@@ -18,6 +20,8 @@ export const CardItems: React.FC<Props> = ({
     isFetching,
     isProfileCard,
 }) => {
+    const dispatch = useAppDispatch()
+
     if (isFetching) return <Spin />
 
     return (
@@ -25,14 +29,15 @@ export const CardItems: React.FC<Props> = ({
             {data
                 ? (
                     data.map(movie => {
-                        const width = 240
-                        const height = 450
+                        const width = 200
+                        const height = 300
                         return (
-                            <CardItem
+                            <Card
                                 key={movie.id}
                                 movie={movie}
                                 width={width}
                                 height={height}
+                                onModalOpen={() => dispatch(setIsAddMovieModalOpen(true))}
                                 isProfileCard={isProfileCard}
                             />
                         )}

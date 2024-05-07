@@ -9,6 +9,7 @@ import {
 import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
+import {ICorrectMovieWithLang} from '@/api/apiTypes/requestMovies'
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 
@@ -16,19 +17,21 @@ import styles from './Layout.module.scss'
 
 import {
     getIsDrawerMovieTagsOpen,
+    setIsAddMovieModalOpen,
     setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
 import {
     getSelectIsDrawerMovieTagsOpen,
-    getSelectMovie,
 } from '@/redux/selectors'
-import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
+import {getIsAddMovieModalOpen, getSelectLanguage, getSelectMovie} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
+import {ModelAddMovie} from '../ModelAddMovie'
+import {ModelArtistDetails} from '../ModelArtistDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
 import {Sidebare} from '../Sidebare'
@@ -56,21 +59,27 @@ const Layout: React.FC<Props> = ({
         data: moviesTree,
         isFetching: isMovieTreeFetching
     } = useFetchMovieTree()
-    const {
-        data: moviesTags,
-        isFetching: isMovieTagsFetching
-    } = useFetchMovieTags()
+
+    const {} = useFetchMovieTags()
 
     const handlesetDrawerMovieTagsOpen = (val: boolean) => {
         dispatch(getIsDrawerMovieTagsOpen(val))
 
         // delete select movie by close drawer
-        dispatch(setSelectMovie(0))
+        dispatch(setSelectMovie(null))
     }
 
     const handleLangChange = (lang: TLanguage) => {
         dispatch(setLanguage(lang))
     }
+
+    const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
+
+    const isSider = asPath === '/movies'
+
+    const title = lang === 'en-EN'
+        ? (selectMovie as ICorrectMovieWithLang)?.title_en
+        : (selectMovie as ICorrectMovieWithLang)?.title_ru
 
     return (
         <LayoutAntd>
@@ -81,7 +90,7 @@ const Layout: React.FC<Props> = ({
             />
 
             <LayoutAntd>
-                {asPath !== '/search' && (
+                { isSider && (
                     <Sider
                         trigger={null}
                         collapsible
@@ -93,7 +102,7 @@ const Layout: React.FC<Props> = ({
                 )}
 
                 <Content className={styles.contant}>
-                    <div>{children}</div>
+                    {children}
                 </Content>
             </LayoutAntd>
 
@@ -107,7 +116,7 @@ const Layout: React.FC<Props> = ({
             </Drawer>
 
             <Drawer
-                title={`SETTINGS: ${lang === 'en-EN' ? selectMovie?.title_en : selectMovie?.title_ru}`}
+                title={`SETTINGS: ${title}`}
                 open={isDrawerMovieTagsOpen}
                 onOpen={handlesetDrawerMovieTagsOpen}
             >
@@ -118,6 +127,16 @@ const Layout: React.FC<Props> = ({
                 isModalOpen={isSettingsModalOpen}
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
+
+            {selectMovie && (
+                <ModelAddMovie
+                    movie={selectMovie}
+                    isModalOpen={isAddMovieModalOpen}
+                    onModalCancel={() => dispatch(setIsAddMovieModalOpen(false))}
+                />
+            )}
+
+            <ModelArtistDetails />
         </LayoutAntd>
     )
 }

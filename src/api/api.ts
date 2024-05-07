@@ -1,5 +1,8 @@
 import {
     requestMovies,
+    requestMulti,
+    requestDetailsMovie,
+    requestDetailsTv,
     requestTv,
     requestSaveMovie,
     requestDeleteMovie,
@@ -13,10 +16,18 @@ import {
     requestUpdateMovieTags,
     requestDeleteMovieTags,
     requestGenres,
-} from './requests.ts'
+    requestPopular,
+    requestTopRated,
+    requestCredits,
+    requestArtistDetails,
+    requestArtistCombinedCredits,
+} from './requests/index'
 
 export const API = {
     requestMovies,
+    requestMulti,
+    requestDetailsMovie,
+    requestDetailsTv,
     requestTv,
     requestSaveMovie,
     requestDeleteMovie,
@@ -30,4 +41,9 @@ export const API = {
     requestUpdateMovieTags,
     requestDeleteMovieTags,
     requestGenres,
+    requestPopular,
+    requestTopRated,
+    requestCredits,
+    requestArtistDetails,
+    requestArtistCombinedCredits,
 }

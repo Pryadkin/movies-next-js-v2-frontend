@@ -1,0 +1,29 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 0.7fr 1fr;
+  gap: 50px;
+}
+
+.creditTitle {
+  position: absolute;
+  background-color: white;
+  border-radius: 5px;
+  top: 20px;
+  left: 20px;
+}
+
+.subTitle {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.img {
+  width: 300px;
+  height: 450px;
+}
+
+.popularity {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+}

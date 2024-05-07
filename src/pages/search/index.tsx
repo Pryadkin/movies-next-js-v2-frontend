@@ -1,15 +1,15 @@
 'client'
-import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Input, Radio, RadioChangeEvent} from 'antd'
 import {Pagination} from 'antd'
 
 import {CardItems} from '@/components/CardItems'
-import {useFetchMovies} from '@/hooks/useFetchMovies'
-import {useFetchTv} from '@/hooks/useFetchTv'
+import {useFetchMulti} from '@/hooks/useFetchMulti'
 import {
-    setMovieName, setMovieType, setPage, setTvName,
+    setMovieName,
+    setMovieType,
+    setPage,
 } from '@/redux/reducers'
 
 import styles from './Search.module.scss'
@@ -27,30 +27,33 @@ const {Search} = Input
 
 const SearchMovies = () => {
     const dispatch = useAppDispatch()
+    const movieType = useSelector(getSelectMovieType)
     const totalPages = useSelector(getSelectTotalPages)
     const movieName = useSelector(getSelectMoviesName)
     const tvName = useSelector(getSelectTvName)
     const lang = useSelector(getSelectLanguage)
-    const movieType = useSelector(getSelectMovieType)
-    const {data, isFetching} = useFetchMovies(lang)
-    const {
-        data: dataTv,
-        isFetching: isTvFetching
-    } = useFetchTv(lang)
+    const {mutationMovieFetch} = useFetchMulti(lang)
+    const data = mutationMovieFetch.data
 
     const isMovieName = movieName || tvName
 
     const handleMoviesSearch = (value: string) => {
-        if (movieType === 'movie') {
-            dispatch(setMovieName(value))
-            dispatch(setTvName(''))
-        } else {
-            dispatch(setTvName(value))
-            dispatch(setMovieName(''))
-        }
+        dispatch(setMovieName(value))
+
+        mutationMovieFetch.mutate({
+            searchName: value,
+            movieType,
+            page: '1'
+        })
     }
     const handlePaginationChange = (value: number) => {
         dispatch(setPage(value))
+
+        mutationMovieFetch.mutate({
+            searchName: movieName,
+            movieType,
+            page: String(value)
+        })
     }
 
     const handleSearchTypeChange = ({target}: RadioChangeEvent) => {
@@ -63,6 +66,10 @@ const SearchMovies = () => {
                 dispatch(setMovieType('tv'))
                 break
             }
+            case "c": {
+                dispatch(setMovieType('multi'))
+                break
+            }
             default: {
                 break
             }
@@ -73,13 +80,14 @@ const SearchMovies = () => {
         <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
                 <Radio.Group
-                    defaultValue="a"
+                    defaultValue="c"
                     buttonStyle="outline"
                     className={styles.radioGroup}
                     onChange={handleSearchTypeChange}
                 >
                     <Radio.Button value="a">Movies</Radio.Button>
                     <Radio.Button value="b">TV</Radio.Button>
+                    <Radio.Button value="c">Multi</Radio.Button>
                 </Radio.Group>
 
                 <Search
@@ -101,20 +109,12 @@ const SearchMovies = () => {
                 />
             )}
 
-            {movieName && data && (
+            {data && (
                 <CardItems
                     data={data}
-                    isFetching={isFetching}
+                    isFetching={false}
                 />
             )}
-
-            {tvName && dataTv && (
-                <CardItems
-                    data={dataTv}
-                    isFetching={isTvFetching}
-                />
-            )}
-
         </div>
     )
 }

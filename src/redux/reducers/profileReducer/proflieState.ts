@@ -1,13 +1,12 @@
 import {DrawerProps} from 'antd'
 
-import {IMovieLang} from "@/api/apiTypes/requestMovies"
+import {ICorrectMovieWithLang} from "@/api/apiTypes/requestMovies"
 import {IGenre, TSortItem, ITag} from '@/types'
 
 export interface State {
     userName: string,
-    myMovies: IMovieLang[],
+    myMovies: ICorrectMovieWithLang[],
     isDrawerMovieTagsOpen: DrawerProps['open'],
-    selectMovie: IMovieLang | undefined | null,
     tags: ITag[],
     selectTags: ITag[],
     selectIgnoreTags: ITag[],
@@ -17,20 +16,21 @@ export interface State {
     selectGenres: IGenre[],
     selectIgnoreGenres: IGenre[],
     searchMovie: string,
+    isWithoutDateInBack: boolean,
 }
 
 export const initialState: State = {
     userName: 'Anton',
     myMovies: [],
     isDrawerMovieTagsOpen: false,
-    selectMovie: null,
     tags: [],
     selectTags: [],
     selectIgnoreTags: [],
-    sortItem: '',
+    sortItem: 'ascDate',
     genres: [],
     genreFlagStatus: true,
     selectGenres: [],
     selectIgnoreGenres: [],
-    searchMovie: ''
+    searchMovie: '',
+    isWithoutDateInBack: true,
 }

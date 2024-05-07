@@ -1,6 +1,7 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {ICorrectMovie} from "@/api/apiTypes/requestMovies"
 import {getMovieFromTv} from "@/helpers/getMovieFromTv"
 import {TLanguage} from "@/types"
 
@@ -18,12 +19,13 @@ export const useAddLangToTv = () => {
 
     const mutationAddLangTv = useMutation({
         mutationFn: ({
-            movieName,
+            movie,
             lang,
         }: {
-            movieName: string,
-            lang: TLanguage
-        }): any => getMovie(movieName, lang),
+            movie: ICorrectMovie,
+            lang: TLanguage,
+            movieType: string
+        }): any => getMovie(movie.original_title, lang),
     })
 
     return {mutationAddLangTv}

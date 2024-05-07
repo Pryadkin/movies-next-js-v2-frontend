@@ -1,0 +1,1 @@
+export {DescriptionPage} from './DescriptionPage'

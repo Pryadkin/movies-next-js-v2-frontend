@@ -30,7 +30,7 @@ const searchSlice = createSlice({
         },
         setMovieType(state, action: PayloadAction<TMovieType>) {
             state.movieType = action.payload
-        }
+        },
     },
 })
 

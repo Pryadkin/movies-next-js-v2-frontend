@@ -1,1 +1,0 @@
-export {CardItemV2} from './CardItemV2'

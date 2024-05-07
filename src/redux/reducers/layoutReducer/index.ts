@@ -1,4 +1,16 @@
 export {
     layoutReducer,
     setLanguage,
+    sestIsModalDetailsOpen,
+    setIsAddMovieModalOpen,
+    setArtistId,
+    setModelContent,
+    deleteModelContent,
+    deleteAllModelContent,
+    setSelectMovie,
+    setTagToSelectMovie,
+    deleteTagFromMovie,
+    updateMovieDateViewing,
+    addMovieDateViewing,
+    deleteMovieDateViewing,
 } from './layoutSlice'

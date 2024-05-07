@@ -2,9 +2,10 @@ import {useSelector} from "react-redux"
 
 import {Button} from "antd"
 
+import {ICorrectMovie} from "@/api/apiTypes/requestMovies"
 import {SetMovieDate} from "@/components/SetMovieDate"
 import {useUpdateProfileMovie} from "@/hooks/useUpdateProfileMovie"
-import {addMovieDateViewing, updateMovieDateViewing} from "@/redux/reducers"
+import {addMovieDateViewing, deleteMovieDateViewing, updateMovieDateViewing} from "@/redux/reducers"
 import {getSelectMovie, getSelectTags} from "@/redux/selectors"
 
 import styles from './MovieSettings.module.scss'
@@ -24,26 +25,26 @@ export const MovieSettings = () => {
             mutationUpdate.mutate(selectMovie)
         }
     }
-    const handleUpdateMovieDateViewing = (val: string[]) => {
-        val && dispatch(updateMovieDateViewing(val))
-    }
 
-    const handleAddMovieDateViewing = (val: string) => {
-        dispatch(addMovieDateViewing(val))
-    }
     return (
         <div className={styles.wrapper}>
-            <AddTags
-                movie={selectMovie}
-                tags={selectTegs}
-            />
-            <SetMovieDate
-                movie={selectMovie}
-                onUpdateMovieDateViewing={handleUpdateMovieDateViewing}
-                onAddMovieDateViewing={handleAddMovieDateViewing}
-            />
+            <div className={styles.tagsWrapper}>
+                <AddTags
+                    movie={selectMovie}
+                    tags={selectTegs}
+                />
+            </div>
+            {selectMovie && (
+                <SetMovieDate
+                    movie={selectMovie as ICorrectMovie}
+                    onUpdateMovieDateViewing={val => dispatch(updateMovieDateViewing(val))}
+                    onAddMovieDateViewing={val => dispatch(addMovieDateViewing(val))}
+                    deleteSelectMovieDateViewing={val => dispatch(deleteMovieDateViewing(val))}
+                />
+            )}
+
             <Button onClick={handleUpdateMovieClick}>
-                    Update movie
+                Update movie
             </Button>
         </div>
     )

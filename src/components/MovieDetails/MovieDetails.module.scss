@@ -1,0 +1,63 @@
+$imageWidth: calc(100vw / 2 - 200px);
+$modalHeight: calc(100vh);
+
+.modalContainer {
+    width: calc(100vw - 200px) !important;
+    top: 10px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
+    position: relative;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    gap: 50px;
+}
+
+.movieDataElem {
+    margin: 10px 0;
+}
+
+.info {
+    overflow: scroll;
+    height: calc(100vh - 300px);
+}
+
+.imageWrapper {
+    img {
+        width: 100%;
+        max-height: calc($modalHeight - 100px);
+    }
+}
+
+.creditWrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: scroll;
+
+    .creditItem {
+        display: flex;
+        flex-direction: row;
+        margin: 20px;
+    }
+
+    img {
+        width: 100px;
+        height: 150px;
+        margin: 10px;
+        border: 1px solid black;
+    }
+}
+
+.btnsWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 395px;
+}
+
+.btn {
+    z-index: 100;
+}

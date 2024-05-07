@@ -8,13 +8,13 @@ import styles from './SetMovieDate.module.scss'
 interface Props {
     dateItem: string,
     onListItemClick: (date: string) => () => void,
-    onListItemClose: (date: string) => () => void,
+    onListItemDelete: () => void,
 }
 
 export const DateListItem: FC<Props> = ({
     dateItem,
     onListItemClick,
-    onListItemClose,
+    onListItemDelete,
 }) => {
     const [isShow, setIsShow] = useState(false)
 
@@ -38,7 +38,7 @@ export const DateListItem: FC<Props> = ({
             </Tag>
             <span
                 style={{paddingLeft: 5}}
-                onClick={onListItemClose(dateItem)}
+                onClick={onListItemDelete}
                 className={styles.closeIcon}
             >
                 {closeIcon}

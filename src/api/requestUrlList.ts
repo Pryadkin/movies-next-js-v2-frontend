@@ -2,9 +2,22 @@ export const enum RequestUrl {
     // movies
     BASE_URL = 'https://api.themoviedb.org/3',
     GET_MOVIES = '/search/movie',
+    GET_MULTI = '/search/multi',
+    GET_MOVIE = '/movie',
+    GET_DETAILS_TV = '/tv',
 
     //TV
     GET_TV = '/search/tv',
+    GET_TOP_RATED = '/top_rated',
+
+    // Popular
+    GET_POPULAR = '/person/popular',
+
+    // Credits
+    GET_CREDITS= '/credits',
+
+    // Person
+    GET_PERSON= '/person',
 
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',

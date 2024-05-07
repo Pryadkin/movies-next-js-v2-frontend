@@ -19,5 +19,5 @@ export const initialState: State = {
     totalPages: null,
     totalResults: null,
     language: 'ru-RU',
-    movieType: 'movie',
+    movieType: 'multi',
 }

@@ -6,7 +6,6 @@ export {
 
 export {
     getSelectIsDrawerMovieTagsOpen,
-    getSelectMovie,
     getSelectMyMovies,
     getSelectTags,
     getSelectGenres,
@@ -15,3 +14,10 @@ export {
     getFilteredMovies,
     getSelectTagsForAntSelect,
 } from './profileSelectors'
+
+export {
+    getIsModalDetailsOpen,
+    getArtistId,
+    getModelContent,
+    getSelectMovie
+} from './layoutSelectors'

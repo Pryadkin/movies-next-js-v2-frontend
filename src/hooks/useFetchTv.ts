@@ -4,8 +4,8 @@ import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
 import {IResponseTv} from "@/api/apiTypes"
+import {getPictureUrlByShortUrl} from "@/helpers"
 import {getMovieFromTv} from "@/helpers/getMovieFromTv"
-import {getPictureUrl} from "@/helpers/getPictureUrl"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {getSelectPage} from "@/redux/selectors"
 import {getSelectTvName} from "@/redux/selectors/searchSelectors"
@@ -32,12 +32,32 @@ export const useFetchTv = (lang: TLanguage) => {
 
         if (res) {
             const result = res.data.results
-            const intoMovie = result.map(item => getMovieFromTv(item))
-            const updateRes = getPictureUrl(intoMovie, true)
 
             setValueToRedux(res.data)
 
-            return updateRes
+            const intoMovie = result.map(item => getMovieFromTv(item))
+
+            const updateMovies = intoMovie.map(elem => {
+                const getImageUrl = (url: string) => {
+                    return url ? getPictureUrlByShortUrl(elem.poster_path, 'w500') : ''
+                }
+
+                const updateRes = {
+                    ...elem,
+                    poster_path: getImageUrl(elem.poster_path),
+                    backdrop_path: elem.backdrop_path ? getImageUrl(elem.backdrop_path) : '',
+                    settings: {
+                        isTv: true,
+                        tags: [],
+                        dateAdd: '',
+                        dateViewing: []
+                    }
+                }
+
+                return updateRes
+            })
+
+            return updateMovies
         }
 
         return []

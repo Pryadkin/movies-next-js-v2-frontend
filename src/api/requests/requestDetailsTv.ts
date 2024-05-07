@@ -3,29 +3,25 @@ import {AxiosResponse} from 'axios'
 import {TLanguage} from '@/types'
 
 import {APIInstance} from '../apiInstance'
-import {IRequestTv, IResponseTv} from '../apiTypes'
+import {IDetailsMovie, IRequestDetailsMovie} from '../apiTypes'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestTv = async (
-    name: string,
-    page: string,
+export const requestDetailsTv = async (
+    tvId: number,
     lang: TLanguage
-): Promise<AxiosResponse<IResponseTv> | undefined> => {
-    const params: IRequestTv = {
+): Promise<AxiosResponse<IDetailsMovie> | undefined> => {
+    const params: IRequestDetailsMovie = {
         api_key: process.env.API_MOVIE_KEY || '',
-        query: name,
-        page: page,
         language: lang,
-        include_adult: false,
     }
 
     try {
         const response = await APIInstance.get(
-            `${RequestUrl.BASE_URL}${RequestUrl.GET_TV}`,
+            `${RequestUrl.BASE_URL}${RequestUrl.GET_DETAILS_TV}/${tvId}`,
             {params}
         )
 
-        return (response as AxiosResponse<IResponseTv>)
+        return (response as AxiosResponse<IDetailsMovie>)
 
     } catch (error) {
         if (error instanceof Error) {

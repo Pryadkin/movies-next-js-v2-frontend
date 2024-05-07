@@ -4,7 +4,7 @@ import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
 import {IResponseMovies} from "@/api/apiTypes/requestMovies"
-import {getPictureUrl} from "@/helpers/getPictureUrl"
+import {getPictureUrlByShortUrl} from "@/helpers"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {getSelectMovieName, getSelectPage} from "@/redux/selectors"
 import {useAppDispatch} from "@/redux/store"
@@ -22,19 +22,37 @@ export const useFetchMovies = (lang: TLanguage) => {
     }
 
     const fetchMovies = async (
-        value: string,
+        name: string,
         page: string,
         lang: TLanguage,
     ) => {
-        const res = value ? await API.requestMovies(value, page, lang) : null
+        const res = name ? await API.requestMovies(name, page, lang) : null
 
         if (res && res.data.results) {
             const result =res.data.results
-            const updateRes = getPictureUrl(result, true)
+
+            const updateMovies = result.map(elem => {
+                const getImageUrl = (url: string) => {
+                    return url ? getPictureUrlByShortUrl(elem.poster_path, 'w500') : ''
+                }
+
+                const updateRes = {
+                    ...elem,
+                    poster_path: getImageUrl(elem.poster_path),
+                    backdrop_path: elem.backdrop_path ? getImageUrl(elem.backdrop_path) : '',
+                    settings: {
+                        tags: [],
+                        dateAdd: '',
+                        dateViewing: []
+                    }
+                }
+
+                return updateRes
+            })
 
             setValueToRedux(res.data)
 
-            return updateRes
+            return updateMovies
         }
 
         return []

@@ -1,0 +1,14 @@
+.content {
+  overflow: scroll;
+  height: calc(100vh - 170px);
+}
+
+.poster {
+  img {
+    height: calc(100vh - 160px);
+  }
+}
+
+.movieDataElem {
+  margin: 10px 0;
+}
