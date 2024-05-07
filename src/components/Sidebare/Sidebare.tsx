@@ -5,6 +5,7 @@ import {CheckOutlined, CloseOutlined} from '@ant-design/icons'
 import type {CollapseProps} from 'antd'
 import {
     Button,
+    Checkbox,
     Collapse,
     Switch,
     Tag,
@@ -22,6 +23,7 @@ import {
     removeSelectIgnoreTags,
     removeSelectTags,
     setGenreFlagStatus,
+    setMovieIsWithoutDateInBack,
     setSortMovies
 } from "@/redux/reducers"
 import {
@@ -34,6 +36,7 @@ import styles from './Sidebare.module.scss'
 
 import {
     getSelectIgnoreGenres,
+    getSelectMovieIsWithoutDateInBack,
     getSelectSelIgnoreTags,
     getSelectSelTags,
     getSelectSortItem
@@ -56,6 +59,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const sortMoviesType= useSelector(getSelectSortItem)
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
     const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
+    const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
 
     const {
         genresData,
@@ -313,6 +317,13 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                 >
                     Viewing date desc
                 </Button>
+                <Checkbox
+                    style={{marginTop: '20px'}}
+                    value={movieIsWithoutDateInBack}
+                    defaultChecked={movieIsWithoutDateInBack}
+                    onChange={() => dispatch(setMovieIsWithoutDateInBack(!movieIsWithoutDateInBack))}>
+                        without date in back
+                </Checkbox>
             </div>,
         },
     ]
@@ -330,7 +341,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
             <Collapse
                 className={styles.collapse}
                 items={items}
-                defaultActiveKey={['1', '2', '3']}
+                defaultActiveKey={['1', '2', '3', '4']}
                 size="small"
             />
         </div>

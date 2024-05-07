@@ -16,6 +16,7 @@ export interface State {
     selectGenres: IGenre[],
     selectIgnoreGenres: IGenre[],
     searchMovie: string,
+    isWithoutDateInBack: boolean,
 }
 
 export const initialState: State = {
@@ -25,10 +26,11 @@ export const initialState: State = {
     tags: [],
     selectTags: [],
     selectIgnoreTags: [],
-    sortItem: 'ascReleaseDate',
+    sortItem: 'ascDate',
     genres: [],
     genreFlagStatus: true,
     selectGenres: [],
     selectIgnoreGenres: [],
-    searchMovie: ''
+    searchMovie: '',
+    isWithoutDateInBack: true,
 }

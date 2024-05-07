@@ -19,4 +19,5 @@ export {
     removeSelectGenres,
     removeSelectIgnoreGenres,
     setSearchMovie,
+    setMovieIsWithoutDateInBack,
 } from './profileSlice'

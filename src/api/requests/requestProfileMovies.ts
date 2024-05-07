@@ -1,10 +1,26 @@
 import {AxiosResponse} from 'axios'
 
+import {TSortItem} from '@/types'
+
 import {APIInstance} from '../apiInstance'
 import {ICorrectMovieWithLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-const setParams = (numberPage: number, limit: number, movieName: string): string => {
+interface Props {
+    numPage: number,
+    size: number,
+    filterByMovieName: string,
+    filterByMovieWithoutDate: boolean,
+    sortItem: TSortItem,
+}
+
+const setParams = (
+    numberPage: number,
+    limit: number,
+    movieName: string,
+    filterByMovieWithoutDate: boolean,
+    sortItem: TSortItem,
+): string => {
     const url = new URL(
         `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_PROFILE_MOVIES}`,
     )
@@ -12,17 +28,27 @@ const setParams = (numberPage: number, limit: number, movieName: string): string
     url.searchParams.set('numberPage', `${numberPage}`)
     url.searchParams.set('limit', `${limit}`)
     url.searchParams.set('filterByMovieName', movieName)
+    url.searchParams.set('sortItem', sortItem)
+    url.searchParams.set('filterByMovieWithoutDate', String(filterByMovieWithoutDate))
 
     return url.href
 }
 
-export const requestProfileMovies = async (
-    numPage: number,
-    size: number,
-    filterByMovieName: string,
-):
+export const requestProfileMovies = async ({
+    numPage,
+    size,
+    filterByMovieName,
+    filterByMovieWithoutDate,
+    sortItem,
+}: Props):
 Promise<AxiosResponse<{moviesPerPage: ICorrectMovieWithLang[], total: number}> | undefined> => {
-    const taskUrl = setParams(numPage, size, filterByMovieName)
+    const taskUrl = setParams(
+        numPage,
+        size,
+        filterByMovieName,
+        filterByMovieWithoutDate,
+        sortItem,
+    )
 
     try {
         const response = await APIInstance.get(taskUrl)

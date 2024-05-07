@@ -90,6 +90,9 @@ const profileSlice = createSlice({
         },
         setSearchMovie(state, action: PayloadAction<string>) {
             state.searchMovie = action.payload
+        },
+        setMovieIsWithoutDateInBack(state, action: PayloadAction<boolean>) {
+            state.isWithoutDateInBack = action.payload
         }
     },
 })
@@ -116,4 +119,5 @@ export const {
     removeSelectGenres,
     removeSelectIgnoreGenres,
     setSearchMovie,
+    setMovieIsWithoutDateInBack,
 } = profileSlice.actions

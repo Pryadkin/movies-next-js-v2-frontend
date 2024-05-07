@@ -29,6 +29,7 @@ export {
     removeSelectGenres,
     removeSelectIgnoreGenres,
     setSearchMovie,
+    setMovieIsWithoutDateInBack,
 } from './profileReducer'
 export {
     layoutReducer,
