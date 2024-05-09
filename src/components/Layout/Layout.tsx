@@ -59,7 +59,6 @@ const Layout: React.FC<Props> = ({
         data: moviesTree,
         isFetching: isMovieTreeFetching
     } = useFetchMovieTree()
-
     const {} = useFetchMovieTags()
 
     const handlesetDrawerMovieTagsOpen = (val: boolean) => {

@@ -39,6 +39,9 @@ export const enum RequestUrl {
     // genres
     GET_GENRES = '/genres/get_genres',
 
+    // filters
+    BY_GENRE_FILTER = '/filters/by-genre',
+
     // localBackend
     BASE_URL_LOCAL = 'http://localhost:4001',
 }

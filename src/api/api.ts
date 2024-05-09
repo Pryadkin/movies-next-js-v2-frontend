@@ -21,9 +21,11 @@ import {
     requestCredits,
     requestArtistDetails,
     requestArtistCombinedCredits,
+    requestSetGenre,
 } from './requests/index'
 
 export const API = {
+    requestSetGenre,
     requestMovies,
     requestMulti,
     requestDetailsMovie,

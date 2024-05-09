@@ -1,7 +1,7 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {ICorrectMovie} from "@/api/apiTypes/requestMovies"
+import {ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
 import {getMovieFromTv} from "@/helpers/getMovieFromTv"
 import {TLanguage} from "@/types"
 
@@ -22,7 +22,7 @@ export const useAddLangToTv = () => {
             movie,
             lang,
         }: {
-            movie: ICorrectMovie,
+            movie: ICorrectMovieWithoutLang,
             lang: TLanguage,
             movieType: string
         }): any => getMovie(movie.original_title, lang),

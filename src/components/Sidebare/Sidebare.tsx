@@ -13,8 +13,8 @@ import {
 
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
+import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
 import {
-    addSelectGenres,
     addSelectIgnoreGenres,
     addSelectIgnoreTags,
     addSelectTags,
@@ -26,14 +26,14 @@ import {
     setMovieIsWithoutDateInBack,
     setSortMovies
 } from "@/redux/reducers"
+
+import styles from './Sidebare.module.scss'
+
 import {
     getSelectGenreFlagStatus,
     getSelectGenres,
     getSelectTags
 } from "@/redux/selectors"
-
-import styles from './Sidebare.module.scss'
-
 import {
     getSelectIgnoreGenres,
     getSelectMovieIsWithoutDateInBack,
@@ -57,6 +57,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
     const sortMoviesType= useSelector(getSelectSortItem)
+    const {mutationSetGenreFilter} = useSetGenreFilter()
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
     const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
     const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
@@ -93,16 +94,18 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     }
 
     const handleGenreTagClick = (value: IGenre) => () => {
-        const isGenreExist = selectGenres.find(genre => genre.id === value.id)
-        const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.id === value.id)
+        mutationSetGenreFilter.mutate(value)
 
-        if (isGenreExist) {
-            dispatch(removeSelectGenres(value))
-        } else {
-            dispatch(addSelectGenres(value))
+        // const isGenreExist = selectGenres.find(genre => genre.id === value.id)
+        // const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.id === value.id)
 
-            isGenreIgnoreExist && dispatch(removeSelectIgnoreGenres(value))
-        }
+        // if (isGenreExist) {
+        //     dispatch(removeSelectGenres(value))
+        // } else {
+        //     dispatch(addSelectGenres(value))
+
+        //     isGenreIgnoreExist && dispatch(removeSelectIgnoreGenres(value))
+        // }
     }
 
     const handleGenreIgnoreTagClick = (value: IGenre) => () => {
@@ -289,6 +292,13 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
             key: '4',
             label: 'Sort',
             children: <div className={styles.dateWrapper}>
+                <Checkbox
+                    style={{marginBottom: '10px'}}
+                    value={movieIsWithoutDateInBack}
+                    defaultChecked={movieIsWithoutDateInBack}
+                    onChange={() => dispatch(setMovieIsWithoutDateInBack(!movieIsWithoutDateInBack))}>
+                        without date in back
+                </Checkbox>
                 <Button
                     size="small"
                     type={isAscSorted === 'ascReleaseDate' ? 'primary' : 'default'}
@@ -317,13 +327,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                 >
                     Viewing date desc
                 </Button>
-                <Checkbox
-                    style={{marginTop: '20px'}}
-                    value={movieIsWithoutDateInBack}
-                    defaultChecked={movieIsWithoutDateInBack}
-                    onChange={() => dispatch(setMovieIsWithoutDateInBack(!movieIsWithoutDateInBack))}>
-                        without date in back
-                </Checkbox>
+
             </div>,
         },
     ]
