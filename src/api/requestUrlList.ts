@@ -41,6 +41,7 @@ export const enum RequestUrl {
 
     // filters
     BY_GENRE_FILTER = '/filters/by-genre',
+    BY_TAG_FILTER = '/filters/by-tag',
 
     // localBackend
     BASE_URL_LOCAL = 'http://localhost:4001',

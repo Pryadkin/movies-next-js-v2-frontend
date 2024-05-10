@@ -15,6 +15,7 @@ import {
     requestUpdateTags,
     requestUpdateMovieTags,
     requestDeleteMovieTags,
+    requestSetTag,
     requestGenres,
     requestPopular,
     requestTopRated,
@@ -25,6 +26,7 @@ import {
 } from './requests/index'
 
 export const API = {
+    requestSetTag,
     requestSetGenre,
     requestMovies,
     requestMulti,

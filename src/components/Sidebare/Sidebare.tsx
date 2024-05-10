@@ -14,10 +14,13 @@ import {
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
 import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
+
+import styles from './Sidebare.module.scss'
+
+import {useSetTagFilter} from "@/hooks/useSetTagFilter"
 import {
     addSelectIgnoreGenres,
     addSelectIgnoreTags,
-    addSelectTags,
     removeSelectGenres,
     removeSelectIgnoreGenres,
     removeSelectIgnoreTags,
@@ -26,19 +29,14 @@ import {
     setMovieIsWithoutDateInBack,
     setSortMovies
 } from "@/redux/reducers"
-
-import styles from './Sidebare.module.scss'
-
 import {
     getSelectGenreFlagStatus,
-    getSelectGenres,
     getSelectTags
 } from "@/redux/selectors"
 import {
     getSelectIgnoreGenres,
     getSelectMovieIsWithoutDateInBack,
     getSelectSelIgnoreTags,
-    getSelectSelTags,
     getSelectSortItem
 } from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
@@ -51,14 +49,14 @@ interface Props {
 export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const dispatch = useAppDispatch()
     const tags = useSelector(getSelectTags)
-    const selectTags = useSelector(getSelectSelTags)
     const selectIgnoreTags = useSelector(getSelectSelIgnoreTags)
-    // const selectGenres = useSelector(getSelectGenres)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
     const sortMoviesType= useSelector(getSelectSortItem)
+    const {mutationSetTagFilter} = useSetTagFilter()
     const {mutationSetGenreFilter} = useSetGenreFilter()
     const selectGenres = mutationSetGenreFilter.data || []
+    const selectTags = mutationSetTagFilter.data || []
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
     const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
     const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
@@ -69,16 +67,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     } = useFetchGenres()
 
     const handleCustomTagClick = (value: ITag) => () => {
-        const isTagExist = selectTags.find(tag => tag.tagName === value.tagName)
-        const isTagIgnoreExist = selectIgnoreTags.find(tag => tag.tagName === value.tagName)
-
-        if (isTagExist) {
-            dispatch(removeSelectTags(value))
-        } else {
-            dispatch(addSelectTags(value))
-
-            isTagIgnoreExist && dispatch(removeSelectIgnoreTags(value))
-        }
+        mutationSetTagFilter.mutate(value)
     }
 
     const handleCustomTagIgnoreClick = (value: ITag) => () => {
@@ -96,17 +85,6 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
 
     const handleGenreTagClick = (value: IGenre) => () => {
         mutationSetGenreFilter.mutate(value)
-
-        // const isGenreExist = selectGenres.find(genre => genre.id === value.id)
-        // const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.id === value.id)
-
-        // if (isGenreExist) {
-        //     dispatch(removeSelectGenres(value))
-        // } else {
-        //     dispatch(addSelectGenres(value))
-
-        //     isGenreIgnoreExist && dispatch(removeSelectIgnoreGenres(value))
-        // }
     }
 
     const handleGenreIgnoreTagClick = (value: IGenre) => () => {
