@@ -40,7 +40,7 @@ export const useFetchProfileMovies = (
         isFetching,
     } = useQuery({
         queryKey: [
-            'profile-movies',
+            RequestUrl.GET_PROFILE_MOVIES,
             numPage,
             size,
             filterByMovieName,

@@ -53,11 +53,12 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const tags = useSelector(getSelectTags)
     const selectTags = useSelector(getSelectSelTags)
     const selectIgnoreTags = useSelector(getSelectSelIgnoreTags)
-    const selectGenres = useSelector(getSelectGenres)
+    // const selectGenres = useSelector(getSelectGenres)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
     const sortMoviesType= useSelector(getSelectSortItem)
     const {mutationSetGenreFilter} = useSetGenreFilter()
+    const selectGenres = mutationSetGenreFilter.data || []
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
     const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
     const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
@@ -109,8 +110,8 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     }
 
     const handleGenreIgnoreTagClick = (value: IGenre) => () => {
-        const isGenreExist = selectGenres.find(genre => genre.id === value.id)
-        const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.id === value.id)
+        const isGenreExist = selectGenres.find(genre => genre.genreId === value.genreId)
+        const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.genreId === value.genreId)
 
         if (isGenreIgnoreExist) {
             dispatch(removeSelectIgnoreGenres(value))
@@ -207,9 +208,9 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                         ? genresData?.map(genre => {
                             return (
                                 <Tag
-                                    key={genre.id}
+                                    key={genre.genreId}
                                     className={styles.tag}
-                                    color={selectGenres.find(item => item.id === genre.id) ? 'cyan' : 'default'}
+                                    color={selectGenres.find(item => item.genreId === genre.genreId) ? 'cyan' : 'default'}
                                     onClick={handleGenreTagClick(genre)}
                                 >
                                     {genre.name}
@@ -229,9 +230,9 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                     ? genresData?.map(genre => {
                         return (
                             <Tag
-                                key={genre.id}
+                                key={genre.genreId}
                                 className={styles.tag}
-                                color={selectIgnoreGenres.find(item => item.id === genre.id) ? 'volcano' : 'blue'}
+                                color={selectIgnoreGenres.find(item => item.genreId === genre.genreId) ? 'volcano' : 'blue'}
                                 onClick={handleGenreIgnoreTagClick(genre)}
                             >
                                 {genre.name}

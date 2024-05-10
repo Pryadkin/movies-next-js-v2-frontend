@@ -6,7 +6,7 @@ import {IGenre} from '@/types'
 import {APIInstance} from '../apiInstance'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestSetGenre = async (genre: IGenre): Promise<AxiosResponse<IGenre> | undefined> => {
+export const requestSetGenre = async (genre: IGenre): Promise<AxiosResponse<IGenre[]> | undefined> => {
     try {
         const response = await APIInstance.post(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.BY_GENRE_FILTER}`,
@@ -14,7 +14,7 @@ export const requestSetGenre = async (genre: IGenre): Promise<AxiosResponse<IGen
 
         )
 
-        return (response as AxiosResponse<IGenre>)
+        return (response as AxiosResponse<IGenre[]>)
 
     } catch (error) {
         if (error instanceof Error) {

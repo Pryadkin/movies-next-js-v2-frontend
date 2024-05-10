@@ -1,6 +1,7 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {RequestUrl} from "@/api/requestUrlList"
 import {IGenre} from "@/types"
 
 export const useSetGenreFilter = () => {
@@ -19,7 +20,7 @@ export const useSetGenreFilter = () => {
         mutationFn: setGenres,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['profile-movies'],
+                queryKey: [RequestUrl.GET_PROFILE_MOVIES],
             })
         }
     })
