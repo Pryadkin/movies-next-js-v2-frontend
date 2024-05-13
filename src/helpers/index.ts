@@ -1,12 +1,10 @@
-import {IMovie} from "@/api/apiTypes"
+import {TMovie} from '@/api/apiTypes'
+import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 
-export const isIMovie = (obj: any): obj is IMovie => {
-    return obj?.poster_path !== undefined
+
+export const isMovieWithoutLang = (movie: TMovie): movie is ICorrectMovieWithoutLang => {
+    return !!(movie as ICorrectMovieWithoutLang).title
 }
-
-// export const isIMovieLang = (obj: any): obj is IMovieLang => {
-//     return obj.poster_path_en !== undefined
-// }
 
 export {getPictureUrlByShortUrl} from './getPictureUrlByShortUrl'
 export {getCorrectPrice} from './getCorrectPrice/getCorrectPrice'

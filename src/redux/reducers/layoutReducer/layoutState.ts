@@ -1,4 +1,4 @@
-import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
+import {TMovie} from "@/api/apiTypes/requestMovies"
 import {TLanguage} from "@/types"
 
 export interface State {
@@ -10,7 +10,7 @@ export interface State {
         type: 'movie' | 'tv' | 'artist',
         id: number
     }[],
-    selectMovie: ICorrectMovieWithLang | ICorrectMovieWithoutLang | undefined | null,
+    selectMovie: TMovie| undefined | null,
 }
 
 export const initialState: State = {

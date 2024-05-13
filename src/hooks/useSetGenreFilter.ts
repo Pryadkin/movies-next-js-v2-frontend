@@ -22,6 +22,9 @@ export const useSetGenreFilter = () => {
             queryClient.invalidateQueries({
                 queryKey: [RequestUrl.GET_PROFILE_MOVIES],
             })
+            queryClient.invalidateQueries({
+                queryKey: [RequestUrl.GET_SELECT_GENRES],
+            })
         }
     })
 

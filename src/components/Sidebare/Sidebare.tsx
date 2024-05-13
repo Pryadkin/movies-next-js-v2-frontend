@@ -13,10 +13,12 @@ import {
 
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
-import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
+import {useFetchSelectGenres} from "@/hooks/useFetchSelectGenres"
 
 import styles from './Sidebare.module.scss'
 
+import {useFetchSelectTags} from "@/hooks/useFetchSelectTags"
+import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
 import {useSetTagFilter} from "@/hooks/useSetTagFilter"
 import {
     addSelectIgnoreGenres,
@@ -53,10 +55,10 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
     const sortMoviesType= useSelector(getSelectSortItem)
-    const {mutationSetTagFilter} = useSetTagFilter()
+    const {selectGenres} = useFetchSelectGenres()
+    const {selectTags} = useFetchSelectTags()
     const {mutationSetGenreFilter} = useSetGenreFilter()
-    const selectGenres = mutationSetGenreFilter.data || []
-    const selectTags = mutationSetTagFilter.data || []
+    const {mutationSetTagFilter} = useSetTagFilter()
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
     const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
     const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
@@ -71,7 +73,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     }
 
     const handleCustomTagIgnoreClick = (value: ITag) => () => {
-        const isTagExist = selectTags.find(tag => tag.tagName === value.tagName)
+        const isTagExist = selectTags?.find(tag => tag.tagName === value.tagName)
         const isTagIgnoreExist = selectIgnoreTags.find(tag => tag.tagName === value.tagName)
 
         if (isTagIgnoreExist) {
@@ -88,7 +90,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
     }
 
     const handleGenreIgnoreTagClick = (value: IGenre) => () => {
-        const isGenreExist = selectGenres.find(genre => genre.genreId === value.genreId)
+        const isGenreExist = selectGenres?.find(genre => genre.genreId === value.genreId)
         const isGenreIgnoreExist = selectIgnoreGenres.find(genre => genre.genreId === value.genreId)
 
         if (isGenreIgnoreExist) {
@@ -118,7 +120,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                             <Tag
                                 key={tag.tagName}
                                 className={styles.tag}
-                                color={selectTags.find(item => item.tagName === tag.tagName) ? 'cyan' : 'default'}
+                                color={selectTags?.find(item => item.tagName === tag.tagName) ? 'cyan' : 'default'}
                                 onClick={handleCustomTagClick(tag)}
                             >
                                 {tag.tagName}
@@ -149,7 +151,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                             <Tag
                                 key={tag.tagName}
                                 className={styles.tag}
-                                color={selectTags.find(item => item.tagName === tag.tagName) ? 'cyan' : 'default'}
+                                color={selectTags?.find(item => item.tagName === tag.tagName) ? 'cyan' : 'default'}
                                 onClick={handleCustomTagClick(tag)}
                             >
                                 {tag.tagName}
@@ -188,7 +190,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                                 <Tag
                                     key={genre.genreId}
                                     className={styles.tag}
-                                    color={selectGenres.find(item => item.genreId === genre.genreId) ? 'cyan' : 'default'}
+                                    color={selectGenres?.find(item => item.genreId === genre.genreId) ? 'cyan' : 'default'}
                                     onClick={handleGenreTagClick(genre)}
                                 >
                                     {genre.name}

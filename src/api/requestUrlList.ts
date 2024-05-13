@@ -40,6 +40,8 @@ export const enum RequestUrl {
     GET_GENRES = '/genres/get_genres',
 
     // filters
+    GET_SELECT_GENRES = '/filters/get-select-genres',
+    GET_SELECT_TAGS = '/filters/get-select-tags',
     BY_GENRE_FILTER = '/filters/by-genre',
     BY_TAG_FILTER = '/filters/by-tag',
 

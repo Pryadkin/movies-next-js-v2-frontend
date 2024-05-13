@@ -2,7 +2,7 @@ import {FC, useState} from "react"
 
 import {Space, Tag} from "antd"
 
-import {IMovieLang} from "@/api/apiTypes"
+import {TMovie} from "@/api/apiTypes"
 import {errorMessage} from "@/notification"
 import {
     deleteTagFromMovie, setTagToSelectMovie,
@@ -16,7 +16,7 @@ import {ITag} from "@/types"
 import {useColorToTag} from "./useColorToTag"
 
 interface Props {
-    movie: IMovieLang | undefined | null,
+    movie: TMovie | undefined | null,
     tags: ITag[],
 }
 

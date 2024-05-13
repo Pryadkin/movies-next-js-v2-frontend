@@ -1,12 +1,11 @@
 export type {
     IRequestMovies,
     IErrorResponse,
-    IMovie,
+    TMovie,
     IDetailsMovie,
     IRequestDetailsMovie,
 } from './requestMovies'
 export type {
-    IResponseTv,
     IRequestTv,
     ITv,
 } from './requestTv'

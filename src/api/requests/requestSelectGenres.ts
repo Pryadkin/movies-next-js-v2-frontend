@@ -6,10 +6,10 @@ import {IGenre} from '@/types'
 import {APIInstance} from '../apiInstance'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestGenres = async (): Promise<AxiosResponse<IGenre[]> | undefined> => {
+export const requestSelectGenres = async (): Promise<AxiosResponse<IGenre[]> | undefined> => {
     try {
         const response = await APIInstance.get(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_GENRES}`,
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_SELECT_GENRES}`,
         )
 
         return (response as AxiosResponse<IGenre[]>)

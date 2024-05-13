@@ -5,20 +5,20 @@ import {Button, Card, Popconfirm} from 'antd'
 import clsx from 'clsx'
 import Image from 'next/image'
 
-import {IMovie, IMovieLang} from '@/api/apiTypes'
-import {isIMovie, isIMovieLang} from "@/helpers"
-import {useDeleteMovie} from '@/hooks/useDeleteMovie'
+import {TMovie} from '@/api/apiTypes'
+import {isMovieWithoutLang} from "@/helpers"
 
 import styles from './CardItem.module.scss'
 
-import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen, setSelectMovie} from '@/redux/reducers'
+import {useDeleteMovie} from '@/hooks/useDeleteMovie'
+import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 
 const {Meta} = Card
 
 interface Props {
-    movie: IMovieLang | IMovie,
+    movie: TMovie,
     width: number,
     height: number,
     isProfileCard?: boolean,
@@ -46,9 +46,9 @@ export const CardItem: FC<Props> = ({
         dispatch(getIsDrawerMovieTagsOpen(true))
     }
 
-    const getCard = (mov: IMovie | IMovieLang) => {
+    const getCard = (mov: TMovie) => {
 
-        if (isIMovie(mov)) {
+        if (isMovieWithoutLang(mov)) {
             return (
                 <Card
                     className={styles.card}
@@ -73,7 +73,7 @@ export const CardItem: FC<Props> = ({
             )
         }
 
-        if (isIMovieLang(mov)) {
+        if (isMovieWithoutLang(mov)) {
             const isEnglish = lang === 'en-EN'
             const title = isEnglish ? mov.title_en : mov.title_ru
             const poster_path = isEnglish
@@ -105,8 +105,8 @@ export const CardItem: FC<Props> = ({
         }
     }
 
-    const addLangButton = (mov: IMovie | IMovieLang) => {
-        if (isIMovieLang(mov)) {
+    const addLangButton = (mov: TMovie) => {
+        if (isMovieWithoutLang(mov)) {
             return <Button
                 type="default"
                 size='small'
