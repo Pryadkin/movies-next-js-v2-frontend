@@ -1,4 +1,5 @@
-import {useState} from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
@@ -8,16 +9,16 @@ import {
     Typography,
 } from 'antd'
 
-import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {ICorrectMovieWithLang, ICorrectMovieWithoutLang, TMovie} from '@/api/apiTypes/requestMovies'
+import {isMovieWithoutLang} from '@/helpers'
 import {getCorrectMovieWithLang} from '@/helpers/getCorrectMovieWithLang'
 import {useFetchMulti} from '@/hooks/useFetchMulti'
 import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 
 import styles from './ModelAddMovie.module.scss'
 
-import {errorMessage} from '@/notification'
 import {deleteMovieDateViewing, setSelectMovie, updateMovieDateViewing} from '@/redux/reducers'
-import {addMovieDateViewing} from '@/redux/reducers/layoutReducer/layoutSlice'
+import {IUpdateDate, addMovieDateViewing} from '@/redux/reducers/layoutReducer/layoutSlice'
 import {getSelectTags} from '@/redux/selectors'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {getSelectMovieType} from '@/redux/selectors/searchSelectors'
@@ -34,7 +35,7 @@ enum Text {
 }
 
 interface Props {
-    movie: ICorrectMovieWithoutLang | ICorrectMovieWithLang,
+    movie: TMovie,
     isModalOpen: boolean,
     onModalCancel: () => void,
 }
@@ -51,46 +52,65 @@ export const ModelAddMovie = ({
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
     const {mutationSave} = useSaveProfileMovie()
     const {mutationMovieFetch} = useFetchMulti(anotherLang)
-    const data = mutationMovieFetch.data
+    const {data: anotherLangMovie} = mutationMovieFetch
     const isLoading = mutationMovieFetch.isLoading
-    const [movieWithLang, setMovieWithLang] = useState<ICorrectMovieWithLang | null>(null)
+    const [anotherLangMovieState, setAnotherLangMovieState] = useState<ICorrectMovieWithoutLang | null>(null)
+    const movieTitle = (movie as ICorrectMovieWithoutLang).title || (movie as ICorrectMovieWithLang).title_ru
 
-    const isAddMovieBtnEnable = !('title' in movie)
+    const [correctMovieId, setCorrectMovieId] = useState<number | string>()
+    const [isSelectAnotherLangMovie, setIsSelectAnotherLangMovie] = useState(false)
 
-    const handleUploadAnotherLangMovieBtnClick = () => {
-        mutationMovieFetch.mutate({
-            searchName: movie.original_title,
-            movieType,
-            page: '1'
-        })
-    }
+    useEffect(() => {
+        if (isModalOpen && movie) {
+            mutationMovieFetch.mutate({
+                searchName: movie.original_title,
+                movieType,
+                page: '1'
+            })
+        }
+
+        return () => {
+            setAnotherLangMovieState(null)
+            setIsSelectAnotherLangMovie(false)
+        }
+
+    }, [isModalOpen])
 
     const handleAddAnotherLangMovieClick = (
-        currentMovie: ICorrectMovieWithoutLang | ICorrectMovieWithLang,
-        mov: ICorrectMovieWithoutLang
-    ) => () => {
-        if ((currentMovie as ICorrectMovieWithoutLang).title) {
-            const correctMovieWithLang = getCorrectMovieWithLang(
-                currentMovie as ICorrectMovieWithoutLang,
-                mov,
-                anotherLang
-            )
-            dispatch(setSelectMovie(correctMovieWithLang))
-            setMovieWithLang(correctMovieWithLang)
-        } else {
-            errorMessage(new Error(), 'movie dont have title, maybe movie has ICorrectMovieWithLang type')
-        }
+        currentMovie: ICorrectMovieWithoutLang,
+        movWithAnotherLang: ICorrectMovieWithoutLang
+    ): ICorrectMovieWithLang => {
+        const correctMovieWithLang = getCorrectMovieWithLang(
+            currentMovie,
+            movWithAnotherLang,
+            anotherLang
+        )
+
+        dispatch(setSelectMovie(correctMovieWithLang))
+
+        return correctMovieWithLang
     }
 
-    const getAnotherLangMovie = () => {
+    const getAnotherLangMovie = (
+        anotherLangMovies: ICorrectMovieWithoutLang[] | undefined,
+    ) => {
         if (isLoading) return <div>...Loading</div>
-        if (data) {
-            return data.map(searchMovie => {
+        if (anotherLangMovies) {{
+            return anotherLangMovies.map(searchMovie => {
+                const isCorrectMovie = isSelectAnotherLangMovie && correctMovieId === searchMovie.id
                 return (
                     <li
                         key={searchMovie.id}
+                        style={{
+                            backgroundColor: isCorrectMovie ? 'aquamarine' : '',
+                            borderRadius: '5px',
+                        }}
                         className={styles.movieTitle}
-                        onClick={handleAddAnotherLangMovieClick(movie, searchMovie)}
+                        onClick={() => {
+                            setAnotherLangMovieState(searchMovie)
+                            setCorrectMovieId(searchMovie.id)
+                            setIsSelectAnotherLangMovie(true)
+                        }}
                     >
                         <div className={styles.titleList}>
                             <p>{searchMovie.title}</p>
@@ -105,9 +125,22 @@ export const ModelAddMovie = ({
                 )
             })
         }
+        }
+    }
+
+    const handleAddMovieDate = (value: string) => {
+        dispatch(addMovieDateViewing(value))
+    }
+
+    const handleUpdateMovieDate = (value: IUpdateDate) => {
+        dispatch(updateMovieDateViewing(value))
     }
 
     const handleAddMovieBtnClick = () => {
+        const movieWithLang = anotherLangMovieState
+        && isMovieWithoutLang(movie)
+        && handleAddAnotherLangMovieClick(movie, anotherLangMovieState)
+
         movieWithLang && mutationSave.mutate(movieWithLang)
         onModalCancel()
     }
@@ -130,12 +163,10 @@ export const ModelAddMovie = ({
             <Space
                 direction="vertical"
             >
-                {(movie as ICorrectMovieWithoutLang).title}
+                {movieTitle}
                 {movie.release_date}
 
-                <Button onClick={handleUploadAnotherLangMovieBtnClick}>
-                    добавить фильм на {anotherLang}
-                </Button>
+                <p className={styles.p}>Выберите фильм на другом языке</p>
 
                 <ol style={{
                     width: 500,
@@ -147,14 +178,14 @@ export const ModelAddMovie = ({
                     paddingLeft: 30,
                     paddingRight: 50,
                 }}>
-                    {getAnotherLangMovie()}
+                    {getAnotherLangMovie(anotherLangMovie)}
                 </ol>
 
                 {movie && (
                     <SetMovieDate
                         movie={movie}
-                        onUpdateMovieDateViewing={val => dispatch(updateMovieDateViewing(val))}
-                        onAddMovieDateViewing={val => dispatch(addMovieDateViewing(val))}
+                        onUpdateMovieDateViewing={handleUpdateMovieDate}
+                        onAddMovieDateViewing={handleAddMovieDate}
                         deleteSelectMovieDateViewing={val => dispatch(deleteMovieDateViewing(val))}
                     />
                 )}
@@ -168,7 +199,7 @@ export const ModelAddMovie = ({
 
                 <Button
                     onClick={handleAddMovieBtnClick}
-                    disabled={!isAddMovieBtnEnable}
+                    disabled={!anotherLangMovieState?.id}
                 >
                     Add MOVIE
                 </Button>

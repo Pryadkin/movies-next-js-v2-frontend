@@ -8,7 +8,7 @@ import {
 import {IDetailsMovie} from '@/api/apiTypes'
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
-import {getIsDrawerMovieTagsOpen, setModelContent} from '@/redux/reducers'
+import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 
 import styles from './MovieDetails.module.scss'
 
@@ -48,6 +48,10 @@ export const MovieDetails = ({
     const handleFilterBtnClick = () => {
         dispatch(getIsDrawerMovieTagsOpen(true))
         onModalShow(false)
+    }
+
+    const handleOpenAddMovieModel = () => {
+        dispatch(setIsAddMovieModalOpen(true))
     }
 
     return (
@@ -111,6 +115,13 @@ export const MovieDetails = ({
                     onClick={handleFilterBtnClick}
                 >
                     settings
+                </Button>
+
+                <Button
+                    className={styles.btn}
+                    onClick={handleOpenAddMovieModel}
+                >
+                    add movie
                 </Button>
             </div>
 

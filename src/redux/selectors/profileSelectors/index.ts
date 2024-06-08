@@ -89,7 +89,7 @@ export const getFilteredMovies = createSelector(
         }
 
         for (let i = 0; i < selectGenres.length; i++) {
-            if (selectGenres[i].id === 0) {
+            if (selectGenres[i].genreId === 0) {
                 filteredMovies = filteredMovies.filter(movie => {
                     return movie.settings.isTv
                 })
@@ -97,8 +97,8 @@ export const getFilteredMovies = createSelector(
 
             filteredMovies = filteredMovies.filter(movie => {
                 return movie.genre_ids.find(genreId => {
-                    if (selectGenres[i].id !== 0) {
-                        return genreId === selectGenres[i].id
+                    if (selectGenres[i].genreId !== 0) {
+                        return genreId === selectGenres[i].genreId
                     }
                     return true
                 })
@@ -106,7 +106,7 @@ export const getFilteredMovies = createSelector(
         }
 
         for (let i = 0; i < selectIgnoreGenres.length; i++) {
-            if (selectIgnoreGenres[i].id === 0) {
+            if (selectIgnoreGenres[i].genreId === 0) {
                 filteredMovies = filteredMovies.filter(movie => {
                     return !movie.settings.isTv
                 })
@@ -114,8 +114,8 @@ export const getFilteredMovies = createSelector(
 
             filteredMovies = filteredMovies.filter(movie => {
                 return !movie.genre_ids.find(genreId => {
-                    if (selectIgnoreGenres[i].id !== 0) {
-                        return genreId === selectIgnoreGenres[i].id
+                    if (selectIgnoreGenres[i].genreId !== 0) {
+                        return genreId === selectIgnoreGenres[i].genreId
                     }
                     return false
                 })

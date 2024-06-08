@@ -1,0 +1,32 @@
+.searchWrapper {
+  width: 100%;
+  min-height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  background-color: #dbdbdb;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.radioGroup {
+  margin-right: 10px;
+}
+
+.searchInput {
+  width: 500px;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pagination {
+  margin-top: 20px;
+}

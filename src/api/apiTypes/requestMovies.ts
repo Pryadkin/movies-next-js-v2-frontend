@@ -75,58 +75,34 @@ export interface IRequestMovies {
     primary_release_year?: number
 }
 
-export interface IMovie {
-    id: number
-    popularity: number
-    vote_count: number
-    video: false
-    poster_path: string,
-    adult: boolean
-    backdrop_path: string | null
-    original_language: string
-    original_title: string
-    genre_ids: Array<number>
-    title: string
-    vote_average: number
-    overview: string
-    release_date: string,
-    settings: {
-        tags: {
-            tagName: string,
-            color: string,
-        }[],
-        dateAdd: string,
-        dateViewing: string[],
-        isTv: boolean,
-    }
-}
+export type TMovie = ICorrectMovieWithoutLang | ICorrectMovieWithLang
 
 export interface ICorrectMovieWithoutLang {
-    id: number
-    popularity: number
-    vote_count: number
-    poster_path: string,
     adult: boolean
     backdrop_path: string | null
-    original_language: string
-    genre_ids: Array<number>
-    vote_average: number
-    overview: string
-    title: string
-    original_title: string
-    release_date: string,
     first_air_date?: string,
+    genre_ids: Array<number>
+    id: number
     media_type?: string,
-    video?: false
+    original_language: string
+    original_title: string
+    overview: string
+    popularity: number
+    poster_path: string,
+    release_date: string,
     settings: {
+        dateAdd: string,
+        dateViewing: string[],
+        isTv: boolean,
         tags: {
             tagName: string,
             color: string,
         }[],
-        dateAdd: string,
-        dateViewing: string[],
-        isTv: boolean,
     }
+    title: string
+    video?: false
+    vote_average: number
+    vote_count: number
 }
 
 export interface ICorrectMovieWithLang {

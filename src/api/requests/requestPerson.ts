@@ -3,23 +3,24 @@ import {AxiosResponse} from 'axios'
 import {TLanguage} from '@/types'
 
 import {APIInstance} from '../apiInstance'
-import {IRequestPopular} from '../apiTypes/requestMovies'
 import {IRequestPerson} from '../apiTypes/requestPerson'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestPopular = async (
+export const requestPerson = async (
+    name: string,
     page: string,
     lang: TLanguage
 ): Promise<AxiosResponse<IRequestPerson> | undefined> => {
-    const params: IRequestPopular = {
+    const params = {
         api_key: process.env.API_MOVIE_KEY || '',
+        query: name,
         page: page,
         language: lang,
     }
 
     try {
         const response = await APIInstance.get(
-            `${RequestUrl.BASE_URL}${RequestUrl.GET_POPULAR}`,
+            `${RequestUrl.BASE_URL}${RequestUrl.GET_SEARCH_PERSON}`,
             {params}
         )
 

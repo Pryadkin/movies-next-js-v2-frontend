@@ -3,7 +3,7 @@ import {useSelector} from "react-redux"
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {IResponsePopular} from "@/api/apiTypes/requestPopular"
+import {IRequestPerson} from "@/api/apiTypes/requestPerson"
 import {getPictureUrlByShortUrl} from "@/helpers"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {getSelectPage} from "@/redux/selectors"
@@ -14,7 +14,7 @@ export const useFetchPopular = (lang: TLanguage) => {
     const dispatch = useAppDispatch()
     const page = useSelector(getSelectPage)
 
-    const setValueToRedux = (data: IResponsePopular) => {
+    const setValueToRedux = (data: IRequestPerson) => {
         data.page && dispatch(setPage(data.page))
         data.total_pages && dispatch(setTotalPages(data.total_pages))
         data.total_results && dispatch(setTotalResults(data.total_results))

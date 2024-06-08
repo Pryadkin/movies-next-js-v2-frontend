@@ -2,7 +2,6 @@ import {useSelector} from "react-redux"
 
 import {Button} from "antd"
 
-import {ICorrectMovie} from "@/api/apiTypes/requestMovies"
 import {SetMovieDate} from "@/components/SetMovieDate"
 import {useUpdateProfileMovie} from "@/hooks/useUpdateProfileMovie"
 import {addMovieDateViewing, deleteMovieDateViewing, updateMovieDateViewing} from "@/redux/reducers"
@@ -36,7 +35,7 @@ export const MovieSettings = () => {
             </div>
             {selectMovie && (
                 <SetMovieDate
-                    movie={selectMovie as ICorrectMovie}
+                    movie={selectMovie}
                     onUpdateMovieDateViewing={val => dispatch(updateMovieDateViewing(val))}
                     onAddMovieDateViewing={val => dispatch(addMovieDateViewing(val))}
                     deleteSelectMovieDateViewing={val => dispatch(deleteMovieDateViewing(val))}

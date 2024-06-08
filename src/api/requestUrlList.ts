@@ -3,6 +3,7 @@ export const enum RequestUrl {
     BASE_URL = 'https://api.themoviedb.org/3',
     GET_MOVIES = '/search/movie',
     GET_MULTI = '/search/multi',
+    GET_SEARCH_PERSON= '/search/person',
     GET_MOVIE = '/movie',
     GET_DETAILS_TV = '/tv',
 
@@ -38,6 +39,12 @@ export const enum RequestUrl {
 
     // genres
     GET_GENRES = '/genres/get_genres',
+
+    // filters
+    GET_SELECT_GENRES = '/filters/get-select-genres',
+    GET_SELECT_TAGS = '/filters/get-select-tags',
+    BY_GENRE_FILTER = '/filters/by-genre',
+    BY_TAG_FILTER = '/filters/by-tag',
 
     // localBackend
     BASE_URL_LOCAL = 'http://localhost:4001',

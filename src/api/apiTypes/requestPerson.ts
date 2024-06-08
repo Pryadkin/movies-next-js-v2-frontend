@@ -1,13 +1,15 @@
-import {IMultiMovie} from "./requestMovies"
+import {ICorrectMovieWithoutLang} from "./requestMovies"
 
-export interface IResponsePopular {
-    page: number
-    results: IPopular[]
-    total_pages: number
-    total_results: number
+export interface IRequestPerson {
+    page: number,
+    results: IPerson[],
+    total_pages: number,
+    total_results: number,
 }
 
-export interface IPopular {
+type TMoviesWithoutSettings = Omit<ICorrectMovieWithoutLang, 'settings'>
+
+export interface IPerson {
     adult: boolean
     gender: number
     id: number
@@ -16,19 +18,19 @@ export interface IPopular {
     original_name: string
     popularity: number
     profile_path: string
-    known_for: IMultiMovie[]
+    known_for: TMoviesWithoutSettings[]
 }
 
-// export interface IMultiMovie {
-//     adult: boolean
+// export interface IKnownFor {
 //     backdrop_path: string
 //     id: number
-//     title: string
-//     original_language: string
 //     original_title: string
 //     overview: string
 //     poster_path: string
 //     media_type: string
+//     adult: boolean
+//     title: string
+//     original_language: string
 //     genre_ids: number[]
 //     popularity: number
 //     release_date: string

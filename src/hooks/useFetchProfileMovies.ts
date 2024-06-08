@@ -3,6 +3,7 @@ import {useSelector} from "react-redux"
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {RequestUrl} from "@/api/requestUrlList"
 import {setProfileMovies} from "@/redux/reducers"
 import {getSelectMovieIsWithoutDateInBack, getSelectSortItem} from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
@@ -39,7 +40,7 @@ export const useFetchProfileMovies = (
         isFetching,
     } = useQuery({
         queryKey: [
-            'profile-movies',
+            RequestUrl.GET_PROFILE_MOVIES,
             numPage,
             size,
             filterByMovieName,

@@ -26,7 +26,8 @@ const Header: FC<Props> = ({
     const dispatch = useAppDispatch()
     const navigation = [
         {id: 1, title: 'Profile', path: '/movies'},
-        {id: 2, title: 'Search', path: '/search'},
+        {id: 2, title: 'Search movies', path: '/search'},
+        {id: 2, title: 'Search persons', path: '/search/persons'},
         {id: 3, title: 'Popular', path: '/popular'},
         {id: 4, title: 'Top Rated', path: '/top-rated'},
     ]
@@ -62,7 +63,6 @@ const Header: FC<Props> = ({
                     </Link>
                 ))}
             </div>
-
 
             <Search
                 className={styles.search}

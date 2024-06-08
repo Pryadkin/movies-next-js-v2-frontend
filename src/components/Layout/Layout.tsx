@@ -11,10 +11,10 @@ import {useRouter} from 'next/router'
 
 import {ICorrectMovieWithLang} from '@/api/apiTypes/requestMovies'
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
-import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 
 import styles from './Layout.module.scss'
 
+import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {
     getIsDrawerMovieTagsOpen,
     setIsAddMovieModalOpen,
@@ -37,6 +37,7 @@ import {MovieSettings} from '../MovieSettings'
 import {Sidebare} from '../Sidebare'
 
 const {Sider, Content} = LayoutAntd
+
 interface Props {
     children: React.ReactNode
 }
@@ -49,7 +50,6 @@ const Layout: React.FC<Props> = ({
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
     const selectMovie = useSelector(getSelectMovie)
-
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
@@ -59,7 +59,6 @@ const Layout: React.FC<Props> = ({
         data: moviesTree,
         isFetching: isMovieTreeFetching
     } = useFetchMovieTree()
-
     const {} = useFetchMovieTags()
 
     const handlesetDrawerMovieTagsOpen = (val: boolean) => {

@@ -5,7 +5,7 @@ export interface ITag {
 }
 
 export interface IGenre {
-    id: number,
+    genreId: number,
     name: string
 }
 
