@@ -8,7 +8,7 @@ import {CardItems} from "@/components/CardItems"
 import {useFetchProfileMovies} from "@/hooks/useFetchProfileMovies"
 import {getSelectSearchMovie} from "@/redux/selectors"
 
-import styles from './Movies.module.scss'
+import styles from './Profile.module.scss'
 
 const Profile = () => {
     const [pageNum, setPageNum] = useState(1)

@@ -1,4 +1,5 @@
 'client'
+import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Input, Radio, RadioChangeEvent} from 'antd'
@@ -34,6 +35,10 @@ const SearchMovies = () => {
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
     const data = mutationMovieFetch.data
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
     const isMovieName = movieName || tvName
 

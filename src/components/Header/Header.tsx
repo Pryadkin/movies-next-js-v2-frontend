@@ -4,11 +4,11 @@ import {Button} from 'antd'
 import Search from 'antd/es/input/Search'
 import {Header as HeaderAntd} from 'antd/es/layout/layout'
 import Link from 'next/link'
-
-import {setSearchMovie} from '@/redux/reducers'
+import {useRouter} from 'next/router'
 
 import styles from './Header.module.scss'
 
+import {setSearchMovie} from '@/redux/reducers'
 import {useAppDispatch} from '@/redux/store'
 import {TLanguage} from '@/types'
 
@@ -23,10 +23,12 @@ const Header: FC<Props> = ({
     onDrawerMovieListOpen,
     onLangChange,
 }) => {
+    const {asPath} = useRouter()
     const dispatch = useAppDispatch()
+    const isProfile = asPath === '/profile'
     const navigation = [
-        {id: 1, title: 'Profile', path: '/movies'},
-        {id: 2, title: 'Search movies', path: '/search'},
+        {id: 1, title: 'Profile', path: '/profile'},
+        {id: 2, title: 'Search movies', path: '/search/movies'},
         {id: 2, title: 'Search persons', path: '/search/persons'},
         {id: 3, title: 'Popular', path: '/popular'},
         {id: 4, title: 'Top Rated', path: '/top-rated'},
@@ -64,29 +66,34 @@ const Header: FC<Props> = ({
                 ))}
             </div>
 
-            <Search
-                className={styles.search}
-                size='small'
-                value={searchMovieInput}
-                onSearch={handleSearchMovieClick}
-                onChange={handleSearchMovieChange}
-            />
+            {isProfile && (
+                <>
+                    <Search
+                        className={styles.search}
+                        size='small'
+                        value={searchMovieInput}
+                        onSearch={handleSearchMovieClick}
+                        onChange={handleSearchMovieChange}
+                    />
 
-            <div className={styles.rightElems}>
-                <Button
-                    size="small"
-                    onClick={handleLangClick}
-                >
-                    {lang}
-                </Button>
+                    <div className={styles.rightElems}>
+                        <Button
+                            size="small"
+                            onClick={handleLangClick}
+                        >
+                            {lang}
+                        </Button>
 
-                <Button
-                    size="small"
-                    onClick={onDrawerMovieListOpen}
-                >
-                    MovieList
-                </Button>
-            </div>
+                        <Button
+                            size="small"
+                            onClick={onDrawerMovieListOpen}
+                        >
+                        MovieList
+                        </Button>
+                    </div>
+                </>
+            )}
+
         </HeaderAntd>
     )
 }
