@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'client'
 import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
@@ -37,8 +38,12 @@ const SearchMovies = () => {
     const data = mutationMovieFetch.data
 
     useEffect(() => {
-        console.log(data)
-    }, [data])
+        mutationMovieFetch.mutate({
+            searchName: movieName,
+            movieType,
+            page: '1'
+        })
+    }, [])
 
     const isMovieName = movieName || tvName
 
@@ -96,6 +101,7 @@ const SearchMovies = () => {
                 </Radio.Group>
 
                 <Search
+                    defaultValue={movieName}
                     className={styles.searchInput}
                     placeholder="input movie name"
                     allowClear

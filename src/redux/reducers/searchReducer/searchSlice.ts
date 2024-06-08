@@ -1,7 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
-import {IResponseMovies} from '@/api/apiTypes/requestMovies'
 import {TMovieType} from '@/types'
 
 import {initialState} from './searchState'
@@ -10,9 +9,6 @@ const searchSlice = createSlice({
     name: 'search',
     initialState,
     reducers: {
-        setMovies(state, action: PayloadAction<IResponseMovies>) {
-            state.movies = action.payload.results
-        },
         setPage(state, action: PayloadAction<number>) {
             state.page = action.payload
         },
@@ -24,6 +20,9 @@ const searchSlice = createSlice({
         },
         setMovieName(state, action: PayloadAction<string>) {
             state.movieName = action.payload
+        },
+        setPersonName(state, action: PayloadAction<string>) {
+            state.personName = action.payload
         },
         setTvName(state, action: PayloadAction<string>) {
             state.tvName = action.payload
@@ -37,8 +36,8 @@ const searchSlice = createSlice({
 export const searchReducer = searchSlice.reducer
 
 export const {
-    setMovies,
     setMovieName,
+    setPersonName,
     setTvName,
     setPage,
     setTotalPages,
