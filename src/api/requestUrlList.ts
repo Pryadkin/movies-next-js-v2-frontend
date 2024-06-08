@@ -28,6 +28,10 @@ export const enum RequestUrl {
     UPDATE_MOVIE_TAGS = '/profile/update_movie_tags',
     DELETE_MOVIE_TAGS = '/profile/delete_movie_tags',
 
+    GET_PROFILE_PERSONS = '/profile/get_persons',
+    ADD_PROFILE_PERSON = '/profile/add_person',
+    DELETE_PROFILE_PERSON = '/profile/delete_person',
+
     // movie tags
     GET_MOVIE_TAGS = '/movie_tags/get_movie_tags',
     ADD_MOVIE_TAG = '/movie_tags/add_movie_tag',

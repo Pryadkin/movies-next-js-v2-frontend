@@ -1,9 +1,11 @@
 import {useState} from 'react'
+import {useDispatch} from 'react-redux'
 
 import {Button} from 'antd'
 
 import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
+import {setIsAddPersonModalOpen} from '@/redux/reducers'
 import {ChartElement} from '@/ui-kit'
 
 import styles from './ArtistDetails.module.scss'
@@ -20,10 +22,15 @@ export const ArtistDetails = ({
     cast,
     crew
 }: Props) => {
+    const dispatch = useDispatch()
     const popularity = Math.round(artist.popularity)
 
     const [isCreditCastShow, setIsCreditCastShow] = useState(false)
     const [isCreditCrewShow, setIsCreditCrewShow] = useState(false)
+
+    const handleOpenAddPersonModel = () => {
+        dispatch(setIsAddPersonModalOpen(true))
+    }
 
     return (
         <div className={styles.container}>
@@ -83,7 +90,7 @@ export const ArtistDetails = ({
                         setIsCreditCrewShow(false)
                     }}
                 >
-                    Show credits cast
+                    Credits cast
                 </Button>
                 <Button
                     type="default"
@@ -94,7 +101,14 @@ export const ArtistDetails = ({
                         setIsCreditCrewShow(!isCreditCrewShow)
                     }}
                 >
-                    Show credits crew
+                    Credits crew
+                </Button>
+
+                <Button
+                    className={styles.btn}
+                    onClick={handleOpenAddPersonModel}
+                >
+                    add person
                 </Button>
             </div>
 

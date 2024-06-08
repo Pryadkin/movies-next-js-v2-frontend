@@ -1,0 +1,1 @@
+export {ModelAddPerson} from './ModelAddPerson'

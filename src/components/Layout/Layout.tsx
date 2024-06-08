@@ -18,19 +18,27 @@ import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {
     getIsDrawerMovieTagsOpen,
     setIsAddMovieModalOpen,
+    setIsAddPersonModalOpen,
     setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
 import {
     getSelectIsDrawerMovieTagsOpen,
 } from '@/redux/selectors'
-import {getIsAddMovieModalOpen, getSelectLanguage, getSelectMovie} from '@/redux/selectors/layoutSelectors'
+import {
+    getIsAddMovieModalOpen,
+    getIsAddPersonModalOpen,
+    getSelectLanguage,
+    getSelectMovie,
+    getSelectPerson
+} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
 import {ModelAddMovie} from '../ModelAddMovie'
+import {ModelAddPerson} from '../ModelAddPerson'
 import {ModelArtistDetails} from '../ModelArtistDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
@@ -50,6 +58,7 @@ const Layout: React.FC<Props> = ({
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
     const selectMovie = useSelector(getSelectMovie)
+    const selectPerson = useSelector(getSelectPerson)
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
@@ -73,6 +82,7 @@ const Layout: React.FC<Props> = ({
     }
 
     const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
+    const isAddPersonModalOpen = useSelector(getIsAddPersonModalOpen)
 
     const isSider = asPath === '/profile'
 
@@ -126,6 +136,14 @@ const Layout: React.FC<Props> = ({
                 isModalOpen={isSettingsModalOpen}
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
+
+            {selectPerson && (
+                <ModelAddPerson
+                    person={selectPerson}
+                    isModalOpen={isAddPersonModalOpen}
+                    onModalCancel={() => dispatch(setIsAddPersonModalOpen(false))}
+                />
+            )}
 
             {selectMovie && (
                 <ModelAddMovie

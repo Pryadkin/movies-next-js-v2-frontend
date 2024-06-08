@@ -1,12 +1,12 @@
-import {IPerson} from '@/api/apiTypes/requestPerson'
+import {IPerson, IPersonWithoutLang} from '@/api/apiTypes/requestPerson'
 
 import {getPictureUrlByShortUrl} from './getPictureUrlByShortUrl'
 
 export const getCorrectPersonWithoutLang = (
     data: IPerson[],
-): IPerson[] => {
+): IPersonWithoutLang[] => {
     const resWithPicturs = data.filter(elem => elem.profile_path)
-    const updatePersons: IPerson[] = resWithPicturs.map(elem => {
+    const updatePersons: IPersonWithoutLang[] = resWithPicturs.map(elem => {
         const getImageUrl = (url: string) => {
             return url ? getPictureUrlByShortUrl(elem.profile_path, 'w500') : ''
         }
