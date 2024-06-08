@@ -25,9 +25,11 @@ import {
     requestSetGenre,
     requestSelectGenres,
     requestSelectTags,
+    requestPerson,
 } from './requests/index'
 
 export const API = {
+    requestPerson,
     requestSelectTags,
     requestSelectGenres,
     requestSetTag,

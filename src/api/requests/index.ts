@@ -1,5 +1,6 @@
 export {requestMovies} from './requestMovies'
 export {requestMulti} from './requestMulti'
+export {requestPerson} from './requestPerson'
 export {requestDetailsMovie} from './requestDetailsMovie'
 export {requestDetailsTv} from './requestDetailsTv'
 export {requestTv} from './requestTv'

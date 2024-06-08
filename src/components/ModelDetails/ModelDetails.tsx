@@ -9,7 +9,7 @@ import {
 import clsx from 'classnames'
 import {useRouter} from 'next/router'
 
-import {IDetailsMovie, IMovie} from '@/api/apiTypes'
+import {IDetailsMovie} from '@/api/apiTypes'
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
 

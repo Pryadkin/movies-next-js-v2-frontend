@@ -40,7 +40,6 @@ export const useFetchMulti = (lang: TLanguage) => {
         const res = await getMovie()
 
         if (res && res.data.results) {
-
             const currectMovieWithoutLang = getCorrectMovieWithoutLang(res.data.results, lang)
 
             setValueToRedux(res.data)

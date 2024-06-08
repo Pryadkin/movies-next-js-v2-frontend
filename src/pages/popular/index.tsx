@@ -1,7 +1,7 @@
 import {useSelector} from "react-redux"
 
 import {useFetchPopular} from "@/hooks/useFetchPopular"
-import {setArtistId, setModelContent} from "@/redux/reducers"
+import {setModelContent} from "@/redux/reducers"
 import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {useAppDispatch} from "@/redux/store"
 
