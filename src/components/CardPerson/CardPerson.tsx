@@ -1,38 +1,50 @@
 import {useDispatch} from "react-redux"
 
-import {IPersonWithoutLang} from "@/api/apiTypes/requestPerson"
+import {IPerson} from "@/api/apiTypes/requestPerson"
+import {IArtistDetails, IPersonDetailsWithLang} from "@/api/apiTypes/responseArtistDetails"
 import {setModelContent, setSelectPerson} from "@/redux/reducers"
 
 import styles from './CardPerson.module.scss'
 
 interface Props {
-    data: IPersonWithoutLang
+    person: IPersonDetailsWithLang | IArtistDetails | IPerson,
+    width: number,
+    height: number
 }
 
-export const CardPerson = ({data}: Props) => {
+export const CardPerson = ({
+    person,
+    width,
+    height
+}: Props) => {
     const dispatch = useDispatch()
+
+    console.log('person', person)
 
     const handleCardClick = () => {
         dispatch(setModelContent({
             type: 'artist',
-            id: data.id
+            id: person.id
         }))
-        dispatch(setSelectPerson(data))
+        dispatch(setSelectPerson(person))
     }
+
+    const name = (person as IArtistDetails)?.name || (person as IPersonDetailsWithLang)?.name_ru
 
     return (
         <div
-            key={data.id}
+            key={person.id}
             className={styles.item}
             onClick={handleCardClick}
+            style={{width, height}}
         >
             <img
                 className={styles.image}
-                src={data.profile_path}
-                alt={data.name}
+                src={person.profile_path}
+                alt={name}
             />
             <h3 className={styles.name}>
-                {data.name}
+                {name}
             </h3>
         </div>
     )

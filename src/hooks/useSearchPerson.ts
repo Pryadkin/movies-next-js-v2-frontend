@@ -1,7 +1,7 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {IRequestPerson} from "@/api/apiTypes/requestPerson"
+import {IPerson, IRequestPerson} from "@/api/apiTypes/requestPerson"
 import {getPictureUrlByShortUrl} from "@/helpers"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"
@@ -45,7 +45,7 @@ export const useSearchPerson = (lang: TLanguage) => {
 
             setValueToRedux(res.data)
 
-            return resultsWithCorrectUrl
+            return resultsWithCorrectUrl as IPerson[]
         }
 
         return []

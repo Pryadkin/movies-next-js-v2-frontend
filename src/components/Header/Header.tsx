@@ -27,7 +27,7 @@ const Header: FC<Props> = ({
     const dispatch = useAppDispatch()
     const isProfile = asPath === '/profile'
     const navigation = [
-        {id: 1, title: 'Profile', path: '/profile'},
+        {id: 1, title: 'Profile', path: '/profile-movies'},
         {id: 2, title: 'Search movies', path: '/search/movies'},
         {id: 2, title: 'Search persons', path: '/search/persons'},
         {id: 3, title: 'Popular', path: '/popular'},

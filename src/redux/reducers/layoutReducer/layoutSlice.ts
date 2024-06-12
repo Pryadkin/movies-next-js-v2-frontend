@@ -2,9 +2,11 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {IPerson} from '@/api/apiTypes/requestPerson'
 import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
 import {ITag, TLanguage} from '@/types'
 
+import {IPersonDetailsWithLang} from './../../../api/apiTypes/responseArtistDetails'
 import {initialState} from './layoutState'
 
 interface IModelContant {
@@ -52,7 +54,7 @@ const layoutSlice = createSlice({
         >) {
             state.selectMovie = action.payload
         },
-        setSelectPerson(state, action: PayloadAction<IArtistDetails | null
+        setSelectPerson(state, action: PayloadAction<IArtistDetails | IPersonDetailsWithLang | IPerson | null
         >) {
             state.selectPerson = action.payload
         },

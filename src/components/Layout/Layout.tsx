@@ -84,7 +84,7 @@ const Layout: React.FC<Props> = ({
     const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
     const isAddPersonModalOpen = useSelector(getIsAddPersonModalOpen)
 
-    const isSider = asPath === '/profile'
+    const isSider = asPath === '/profile-movies' || asPath === '/profile-persons'
 
     const title = lang === 'en-EN'
         ? (selectMovie as ICorrectMovieWithLang)?.title_en

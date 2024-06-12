@@ -1,6 +1,7 @@
 import {FC, useState} from "react"
 import {useSelector} from "react-redux"
 
+
 import {CheckOutlined, CloseOutlined} from '@ant-design/icons'
 import type {CollapseProps} from 'antd'
 import {
@@ -10,6 +11,7 @@ import {
     Switch,
     Tag,
 } from "antd"
+import {useRouter} from 'next/router'
 
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
@@ -50,6 +52,7 @@ interface Props {
 
 export const Sidebare: FC<Props> = ({onModalOpen}) => {
     const dispatch = useAppDispatch()
+    const {push} = useRouter()
     const tags = useSelector(getSelectTags)
     const selectIgnoreTags = useSelector(getSelectSelIgnoreTags)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
@@ -198,7 +201,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                             )
                         })
                         : (
-                            <div>Loading..</div>
+                            <div>Loading...</div>
                         )}
                 </div>
             )
@@ -220,7 +223,7 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                         )
                     })
                     : (
-                        <div>Loading..</div>
+                        <div>Loading...</div>
                     )}
             </div>
         )
@@ -315,6 +318,22 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
 
     return (
         <div className={styles.wrapper}>
+            <Button
+                className={styles.btn}
+                size="small"
+                onClick={() => push('profile-movies')}
+            >
+                MOVIES
+            </Button>
+
+            <Button
+                className={styles.btn}
+                size="small"
+                onClick={() => push('profile-persons')}
+            >
+                PERSONS
+            </Button>
+
             <Button
                 className={styles.btn}
                 size="small"

@@ -87,7 +87,9 @@ const SearchPerson = () => {
                 {data && data.map(person => (
                     <CardPerson
                         key={person.id}
-                        data={person}
+                        person={person}
+                        width={200}
+                        height={350}
                     />
                 )) }
             </div>

@@ -27,6 +27,7 @@ import {
     requestSelectGenres,
     requestSelectTags,
     requestPerson,
+    requestProfilePersons,
 } from './requests/index'
 
 export const API = {
@@ -58,4 +59,5 @@ export const API = {
     requestCredits,
     requestArtistDetails,
     requestArtistCombinedCredits,
+    requestProfilePersons,
 }

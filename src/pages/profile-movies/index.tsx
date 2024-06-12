@@ -10,21 +10,11 @@ import {getSelectSearchMovie} from "@/redux/selectors"
 
 import styles from './Profile.module.scss'
 
-const Profile = () => {
+const ProfileMovies = () => {
     const [pageNum, setPageNum] = useState(1)
     const [sizePage, setSizePage] = useState(50)
     const searchMovieName = useSelector(getSelectSearchMovie)
     const {data, isFetching} = useFetchProfileMovies(pageNum, sizePage, searchMovieName)
-    // const filteredMovies = useSelector(getFilteredMovies)
-    // const movie = searchMovie
-    //     ? data?.moviesPerPage.filter(movie => {
-    //         const movieEn = movie.title_en?.toLowerCase()
-    //             .includes(searchMovie.toLowerCase())
-    //         const movieRu = movie.title_ru?.toLowerCase()
-    //             .includes(searchMovie.toLowerCase())
-    //         return movieEn || movieRu
-    //     })
-    //     : filteredMovies
 
     const handlePaginationChange = (value: any) => {
         setPageNum(value)
@@ -63,4 +53,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default ProfileMovies

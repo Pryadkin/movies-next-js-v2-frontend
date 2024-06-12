@@ -1,5 +1,6 @@
 import {TMovie} from "@/api/apiTypes/requestMovies"
-import {IArtistDetails} from "@/api/apiTypes/responseArtistDetails"
+import {IPerson} from "@/api/apiTypes/requestPerson"
+import {IArtistDetails, IPersonDetailsWithLang} from "@/api/apiTypes/responseArtistDetails"
 import {TLanguage} from "@/types"
 
 export interface State {
@@ -13,7 +14,7 @@ export interface State {
         id: number
     }[],
     selectMovie: TMovie| undefined | null,
-    selectPerson: IArtistDetails | undefined | null,
+    selectPerson: IArtistDetails | IPersonDetailsWithLang | IPerson | undefined | null,
 }
 
 export const initialState: State = {

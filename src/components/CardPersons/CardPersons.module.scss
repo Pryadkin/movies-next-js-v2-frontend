@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: scroll;
+  height: calc(100vh - 70px);
+  padding-bottom: 50px;
+}
+
+.spinWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100vw - 255px);
+  height: calc(100vh - 60px);
+
+  span {
+    width: 200px;
+  }
+}
