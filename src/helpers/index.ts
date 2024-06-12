@@ -1,14 +1,15 @@
 import {TMovie} from '@/api/apiTypes'
 import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
-import {IPersonWithoutLang, TPersonState} from '@/api/apiTypes/requestPerson'
+
+import {IArtistDetails, IPersonDetailsWithLang} from './../api/apiTypes/responseArtistDetails'
 
 
 export const isMovieWithoutLang = (movie: TMovie): movie is ICorrectMovieWithoutLang => {
     return !!(movie as ICorrectMovieWithoutLang).title
 }
 
-export const isPersonWithoutLang = (person: TPersonState): person is IPersonWithoutLang => {
-    return !!(person as IPersonWithoutLang).name
+export const isPersonWithoutLang = (person: IArtistDetails | IPersonDetailsWithLang): person is IArtistDetails => {
+    return !!(person as IArtistDetails).name
 }
 
 export {getPictureUrlByShortUrl} from './getPictureUrlByShortUrl'

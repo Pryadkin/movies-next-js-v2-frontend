@@ -1,10 +1,15 @@
+import {useDispatch} from 'react-redux'
+
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {IArtistDetails} from "@/api/apiTypes/responseArtistDetails"
 import {getPictureUrlByShortUrl} from "@/helpers"
+import {setSelectPerson} from '@/redux/reducers'
 import {TLanguage} from "@/types"
 
 export const useFetchArtistDetails = (artistId: number | null, lang: TLanguage) => {
+    const dispatch = useDispatch()
     const getImageUrl = (url: string) => {
         return url ? getPictureUrlByShortUrl(url, 'w500') : ''
     }
@@ -18,12 +23,14 @@ export const useFetchArtistDetails = (artistId: number | null, lang: TLanguage) 
         if (res) {
             const result = res.data
 
-            const updateRes = {
+            const resultsWithCorrectUrl: IArtistDetails = {
                 ...result,
                 profile_path: getImageUrl(result.profile_path),
             }
 
-            return updateRes
+            dispatch(setSelectPerson(resultsWithCorrectUrl))
+
+            return resultsWithCorrectUrl
         }
 
         return null

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {useSelector} from 'react-redux'
 
 import {
@@ -9,15 +9,14 @@ import {
     Typography,
 } from 'antd'
 
-import {IPerson, IPersonWithLang, IPersonWithoutLang, TPersonState} from '@/api/apiTypes/requestPerson'
-import {isPersonWithoutLang} from '@/helpers'
-import {getCorrectPersonWithLang} from '@/helpers/getCorrectPersonWithLang'
-import {useSaveProfilePerson} from '@/hooks/useSaveProfilePerson'
+import {IPersonWithLang} from '@/api/apiTypes/requestPerson'
+import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
+import {getPersonArtistsWithLang} from '@/helpers/getPersonArtistsWithLang'
+import {useFetchArtistDetails} from '@/hooks/useFetchArtistDetails'
 
 import styles from './ModelAddPerson.module.scss'
 
-import {useSearchPerson} from '@/hooks/useSearchPerson'
-import {setSelectPerson} from '@/redux/reducers/layoutReducer/layoutSlice'
+import {useSaveProfilePerson} from '@/hooks/useSaveProfilePerson'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 
@@ -29,7 +28,7 @@ enum Text {
 }
 
 interface Props {
-    person: TPersonState,
+    person: IArtistDetails,
     isModalOpen: boolean,
     onModalCancel: () => void,
 }
@@ -39,84 +38,62 @@ export const ModelAddPerson = ({
     isModalOpen,
     onModalCancel,
 }: Props) => {
-    const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
     const {mutationSavePerson} = useSaveProfilePerson()
-    const {mutationPersonSearch} = useSearchPerson(anotherLang)
-    const {data: anotherLangPerson} = mutationPersonSearch
-    const isLoading = mutationPersonSearch.isLoading
-    const [anotherLangPersonState, setAnotherLangPersonState] = useState<IPersonWithoutLang | null>(null)
-    const personName = (person as IPerson).name || (person as IPersonWithLang).name_ru
+    const {data: anotherLangPerson, isFetching} = useFetchArtistDetails(person.id, anotherLang)
+    const [anotherLangPersonState, setAnotherLangPersonState] = useState<IArtistDetails | null>(null)
+    const personName = (person as IArtistDetails).name
 
     const [correctMovieId, setCorrectMovieId] = useState<number | string>()
     const [isSelectAnotherLangMovie, setIsSelectAnotherLangMovie] = useState(false)
 
-    useEffect(() => {
-        if (isModalOpen && person) {
-            mutationPersonSearch.mutate({
-                searchName: person.original_name,
-                page: '1'
-            })
-        }
-
-        return () => {
-            setAnotherLangPersonState(null)
-            setIsSelectAnotherLangMovie(false)
-        }
-
-    }, [isModalOpen])
-
     const handleAddAnotherLangPersonClick = (
-        currentPerson: IPersonWithoutLang,
-        personWithAnotherLang: IPersonWithoutLang
+        currentPerson: IArtistDetails,
+        personWithAnotherLang: IArtistDetails
     ): IPersonWithLang => {
-        const correctPersonWithLang = getCorrectPersonWithLang(
+        const correctPersonWithLang = getPersonArtistsWithLang(
             currentPerson,
             personWithAnotherLang,
             anotherLang
         )
 
-        dispatch(setSelectPerson(correctPersonWithLang))
-
         return correctPersonWithLang
     }
 
     const getAnotherLangPerson = (
-        anotherLangPerson: IPersonWithoutLang[] | undefined,
+        anotherLangPerson: IArtistDetails | undefined | null,
     ) => {
-        if (isLoading) return <div>...Loading</div>
+        if (isFetching) return <div>...Loading</div>
         if (anotherLangPerson) {{
-            return anotherLangPerson.map(searchPerson => {
-                const isCorrectMovie = isSelectAnotherLangMovie && correctMovieId === searchPerson.id
-                return (
-                    <li
-                        key={searchPerson.id}
-                        style={{
-                            backgroundColor: isCorrectMovie ? 'aquamarine' : '',
-                            borderRadius: '5px',
-                        }}
-                        className={styles.movieTitle}
-                        onClick={() => {
-                            setAnotherLangPersonState(searchPerson)
-                            setCorrectMovieId(searchPerson.id)
-                            setIsSelectAnotherLangMovie(true)
-                        }}
-                    >
-                        <div className={styles.titleList}>
-                            <p>{searchPerson.name}</p>
-                            <p>{`Original: ${searchPerson.original_name}`}</p>
-                        </div>
-                    </li>
-                )
-            })
+            const isCorrectMovie = isSelectAnotherLangMovie && correctMovieId === anotherLangPerson.id
+            return (
+                <li
+                    key={anotherLangPerson.id}
+                    style={{
+                        backgroundColor: isCorrectMovie ? 'aquamarine' : '',
+                        borderRadius: '5px',
+                    }}
+                    className={styles.movieTitle}
+                    onClick={() => {
+                        setAnotherLangPersonState(anotherLangPerson)
+                        setCorrectMovieId(anotherLangPerson.id)
+                        setIsSelectAnotherLangMovie(true)
+                    }}
+                >
+                    <div className={styles.titleList}>
+                        <p>{anotherLangPerson.name}</p>
+                        <p>{`Original: ${anotherLangPerson.name}`}</p>
+                    </div>
+                </li>
+            )
+
         }
         }
     }
 
     const handleAddPersonBtnClick = () => {
         const personWithLang = anotherLangPersonState
-        && isPersonWithoutLang(person)
         && handleAddAnotherLangPersonClick(person, anotherLangPersonState)
 
         personWithLang && mutationSavePerson.mutate(personWithLang)

@@ -42,7 +42,7 @@ export interface IPersonWithLang {
     adult: boolean
     gender: number
     id: number
-    known_for_department: string
+    known_for_department: 'Acting' | 'Directior'
     name_ru: string
     name_en: string
     original_name: string

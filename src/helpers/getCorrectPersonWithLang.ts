@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {IPersonWithLang, IPersonWithoutLang} from "@/api/apiTypes/requestPerson"
+import {IPersonWithoutLang} from "@/api/apiTypes/requestPerson"
 import {TLanguage} from '@/types'
 
 type TKeyName = 'name'
@@ -37,7 +37,7 @@ export const getCorrectPersonWithLang = (
         settings: currentPerson.settings,
     }
 
-    const correctPersonWithLang = deleteExtraValueFromPerson(addLangValueToPerson) as IPersonWithLang
+    const correctPersonWithLang = deleteExtraValueFromPerson(addLangValueToPerson) as IPersonWithoutLang
 
     return correctPersonWithLang
 }
