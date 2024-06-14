@@ -1,30 +1,43 @@
 import {AxiosResponse} from 'axios'
 
 import {APIInstance} from '../apiInstance'
+import {TGender, TPersonKnownDepartment, TPopularitySort} from '../apiTypes/requestPerson'
 import {IPersonDetailsWithLang} from '../apiTypes/responseArtistDetails'
 import {RequestUrl} from '../requestUrlList'
 
 interface Props {
-    popularitySort: 'asc' | 'desc'
+    popularitySort?: TPopularitySort
+    genderFilter?: TGender
+    knownDepartmentFilter?: TPersonKnownDepartment
 }
 
-const setParams = (
-    popularitySort: 'asc' | 'desc',
-): string => {
+const setParams = ({
+    popularitySort,
+    genderFilter,
+    knownDepartmentFilter,
+}: Props): string => {
     const url = new URL(
         `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.GET_PROFILE_PERSONS}`,
     )
 
-    url.searchParams.set('popularitySort', popularitySort)
+    popularitySort && url.searchParams.set('popularitySort', popularitySort)
+    knownDepartmentFilter && url.searchParams.set('knownDepartmentFilter', knownDepartmentFilter)
+    genderFilter && url.searchParams.set('filterByGender', genderFilter.toString())
 
     return url.href
 }
 
 export const requestProfilePersons = async ({
-    popularitySort
+    popularitySort,
+    genderFilter,
+    knownDepartmentFilter,
 }: Props):
 Promise<AxiosResponse<IPersonDetailsWithLang[]> | undefined> => {
-    const personUrl = setParams(popularitySort)
+    const personUrl = setParams({
+        popularitySort,
+        genderFilter,
+        knownDepartmentFilter,
+    })
 
     try {
         const response = await APIInstance.get(personUrl)

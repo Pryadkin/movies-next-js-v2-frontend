@@ -7,6 +7,10 @@ export interface IRequestPerson {
     total_results: number,
 }
 
+export type TGender = 0 | 1 | 2
+
+export type TPersonKnownDepartment = 'Acting' | 'Directing' | 'All'
+
 export type TPopularitySort = 'asc' | 'desc'
 
 type TMoviesWithoutSettings = Omit<ICorrectMovieWithoutLang, 'settings'>

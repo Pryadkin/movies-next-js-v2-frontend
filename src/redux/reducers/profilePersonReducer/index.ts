@@ -1,3 +1,5 @@
 export {
-    setPopularitySort
+    setPopularitySort,
+    setGenderFilter,
+    setKnownDepartmentFilter
 } from './profilePersonSlice'

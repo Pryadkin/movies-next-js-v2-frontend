@@ -1,18 +1,28 @@
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {TPopularitySort} from "@/api/apiTypes/requestPerson"
+import {TGender, TPersonKnownDepartment, TPopularitySort} from "@/api/apiTypes/requestPerson"
 import {RequestUrl} from "@/api/requestUrlList"
 
-export const useFetchProfilePersons = (popularitySort: TPopularitySort) => {
+interface Props {
+    popularitySort?: TPopularitySort
+    genderFilter?: TGender,
+    knownDepartmentFilter?: TPersonKnownDepartment
+}
+
+export const useFetchProfilePersons = ({
+    popularitySort,
+    genderFilter,
+    knownDepartmentFilter,
+}: Props) => {
     const fetchMovies = async () => {
         const res = await API.requestProfilePersons({
-            popularitySort
+            popularitySort,
+            genderFilter,
+            knownDepartmentFilter,
         })
 
         if (res) {
-            // dispatch(setProfileMovies(res.data.moviesPerPage))
-
             return res.data
         }
 
@@ -28,6 +38,8 @@ export const useFetchProfilePersons = (popularitySort: TPopularitySort) => {
         queryKey: [
             RequestUrl.GET_PROFILE_PERSONS,
             popularitySort,
+            genderFilter,
+            knownDepartmentFilter
         ],
         queryFn: fetchMovies,
         keepPreviousData : true,

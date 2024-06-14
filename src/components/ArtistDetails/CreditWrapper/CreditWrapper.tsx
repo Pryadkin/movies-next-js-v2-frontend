@@ -17,8 +17,6 @@ export const CreditWrapper = ({
     isCreditCastShow,
     isCreditCrewShow
 }: Props) => {
-
-
     return (
         <>
             {isCreditCastShow ? <h2>Cast</h2> : isCreditCrewShow && <h2>Crew</h2>}

@@ -34,7 +34,9 @@ export {
 } from './profileReducer'
 
 export {
-    setPopularitySort
+    setPopularitySort,
+    setGenderFilter,
+    setKnownDepartmentFilter
 } from './profilePersonReducer'
 
 export {

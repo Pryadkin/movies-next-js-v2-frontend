@@ -28,6 +28,8 @@ export const ArtistDetails = ({
     const [isCreditCastShow, setIsCreditCastShow] = useState(false)
     const [isCreditCrewShow, setIsCreditCrewShow] = useState(false)
 
+    const sortByPopularityCast = cast && [...cast].sort((a, b) => b.popularity - a.popularity)
+
     const handleOpenAddPersonModel = () => {
         dispatch(setIsAddPersonModalOpen(true))
     }
@@ -112,9 +114,9 @@ export const ArtistDetails = ({
                 </Button>
             </div>
 
-            {cast && crew && (
+            {sortByPopularityCast && crew && (
                 <CreditWrapper
-                    cast={cast}
+                    cast={sortByPopularityCast}
                     crew={crew}
                     isCreditCastShow={isCreditCastShow}
                     isCreditCrewShow={isCreditCrewShow}
