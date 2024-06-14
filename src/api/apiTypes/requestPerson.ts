@@ -7,6 +7,8 @@ export interface IRequestPerson {
     total_results: number,
 }
 
+export type TPopularitySort = 'asc' | 'desc'
+
 type TMoviesWithoutSettings = Omit<ICorrectMovieWithoutLang, 'settings'>
 
 export interface IPerson {

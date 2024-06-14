@@ -18,7 +18,6 @@ import styles from './ModelAddPerson.module.scss'
 
 import {useSaveProfilePerson} from '@/hooks/useSaveProfilePerson'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
-import {useAppDispatch} from '@/redux/store'
 
 enum Text {
     TITLE = 'ADD MOVIE',

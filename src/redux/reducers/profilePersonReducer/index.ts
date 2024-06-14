@@ -1,0 +1,3 @@
+export {
+    setPopularitySort
+} from './profilePersonSlice'

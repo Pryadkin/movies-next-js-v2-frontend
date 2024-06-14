@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px;
+  overflow: scroll;
+  height: calc(100vh - 50px);
+}
+
+.tag {
+  margin: 2px;
+  cursor: pointer;
+}
+
+.addTagWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.collapse {
+  margin-top: 15px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.btn {
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.dateWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.genreWrapper {
+  position: relative;
+}
+
+.switch {
+  position: absolute;
+  top: -42px;
+  right: 0px;
+}

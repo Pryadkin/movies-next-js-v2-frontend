@@ -1,17 +1,22 @@
 import {useQuery} from "@tanstack/react-query"
 
 import {API} from "@/api"
+import {TPopularitySort} from "@/api/apiTypes/requestPerson"
 import {RequestUrl} from "@/api/requestUrlList"
 
-export const useFetchProfilePersons = () => {
+export const useFetchProfilePersons = (popularitySort: TPopularitySort) => {
     const fetchMovies = async () => {
-        const res = await API.requestProfilePersons()
+        const res = await API.requestProfilePersons({
+            popularitySort
+        })
 
         if (res) {
             // dispatch(setProfileMovies(res.data.moviesPerPage))
 
             return res.data
         }
+
+        return []
     }
 
     const {
@@ -22,8 +27,9 @@ export const useFetchProfilePersons = () => {
     } = useQuery({
         queryKey: [
             RequestUrl.GET_PROFILE_PERSONS,
+            popularitySort,
         ],
-        queryFn: () => fetchMovies(),
+        queryFn: fetchMovies,
         keepPreviousData : true,
     })
 

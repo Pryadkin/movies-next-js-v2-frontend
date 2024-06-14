@@ -7,12 +7,14 @@ import {
     profileReducer,
     layoutReducer,
 } from '../reducers'
+import {profilePersonReducer} from '../reducers/profilePersonReducer/profilePersonSlice'
 
 import {store} from './store'
 
 const rootReducer = combineReducers({
     searchReducer,
     profileReducer,
+    profilePersonReducer,
     layoutReducer
 })
 

@@ -20,3 +20,7 @@ export {
     getModelContent,
     getSelectMovie
 } from './layoutSelectors'
+
+export {
+    getPopularitySort
+} from './profilePersonsSelectors'

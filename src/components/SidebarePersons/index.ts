@@ -1,0 +1,1 @@
+export {SidebarePersons} from './SidebarePersons'

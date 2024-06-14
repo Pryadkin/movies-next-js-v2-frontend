@@ -25,7 +25,7 @@ const Header: FC<Props> = ({
 }) => {
     const {asPath} = useRouter()
     const dispatch = useAppDispatch()
-    const isProfile = asPath === '/profile'
+    const isProfile = asPath === '/profile-movies'
     const navigation = [
         {id: 1, title: 'Profile', path: '/profile-movies'},
         {id: 2, title: 'Search movies', path: '/search/movies'},
@@ -88,7 +88,7 @@ const Header: FC<Props> = ({
                             size="small"
                             onClick={onDrawerMovieListOpen}
                         >
-                        MovieList
+                            MovieList
                         </Button>
                     </div>
                 </>

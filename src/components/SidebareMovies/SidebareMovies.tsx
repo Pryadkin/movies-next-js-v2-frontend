@@ -17,7 +17,7 @@ import {useRouter} from 'next/router'
 import {useFetchGenres} from "@/hooks/useFetchGenres"
 import {useFetchSelectGenres} from "@/hooks/useFetchSelectGenres"
 
-import styles from './Sidebare.module.scss'
+import styles from './SidebareMovies.module.scss'
 
 import {useFetchSelectTags} from "@/hooks/useFetchSelectTags"
 import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
@@ -50,7 +50,7 @@ interface Props {
     onModalOpen: (value: boolean) => void
 }
 
-export const Sidebare: FC<Props> = ({onModalOpen}) => {
+export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
     const dispatch = useAppDispatch()
     const {push} = useRouter()
     const tags = useSelector(getSelectTags)
@@ -311,7 +311,6 @@ export const Sidebare: FC<Props> = ({onModalOpen}) => {
                 >
                     Viewing date desc
                 </Button>
-
             </div>,
         },
     ]

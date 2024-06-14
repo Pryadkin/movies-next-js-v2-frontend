@@ -8,6 +8,7 @@ export {
     setTotalResults,
     setMovieType,
 } from './searchReducer'
+
 export {
     profileReducer,
     setMovie,
@@ -31,6 +32,11 @@ export {
     setSearchMovie,
     setMovieIsWithoutDateInBack,
 } from './profileReducer'
+
+export {
+    setPopularitySort
+} from './profilePersonReducer'
+
 export {
     layoutReducer,
     setLanguage,

@@ -19,8 +19,6 @@ export const CardPerson = ({
 }: Props) => {
     const dispatch = useDispatch()
 
-    console.log('person', person)
-
     const handleCardClick = () => {
         dispatch(setModelContent({
             type: 'artist',
@@ -43,9 +41,16 @@ export const CardPerson = ({
                 src={person.profile_path}
                 alt={name}
             />
+
             <h3 className={styles.name}>
                 {name}
             </h3>
+
+            <div className={styles.popularity}>
+                <div className={styles.number}>
+                    {Math.floor(person.popularity)}
+                </div>
+            </div>
         </div>
     )
 }

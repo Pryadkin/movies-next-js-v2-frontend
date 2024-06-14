@@ -42,7 +42,8 @@ import {ModelAddPerson} from '../ModelAddPerson'
 import {ModelArtistDetails} from '../ModelArtistDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
-import {Sidebare} from '../Sidebare'
+import {SidebareMovies} from '../SidebareMovies'
+import {SidebarePersons} from '../SidebarePersons'
 
 const {Sider, Content} = LayoutAntd
 
@@ -53,7 +54,7 @@ interface Props {
 const Layout: React.FC<Props> = ({
     children
 }) => {
-    const {asPath} = useRouter()
+    const {pathname, asPath} = useRouter()
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
@@ -62,6 +63,9 @@ const Layout: React.FC<Props> = ({
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+
+    const isMoviePage = pathname === '/profile-movies'
+    const isPersonPage = pathname === '/profile-persons'
 
     // useFetch
     const {
@@ -106,7 +110,12 @@ const Layout: React.FC<Props> = ({
                         width={250}
                         style={{background: 'white'}}
                     >
-                        <Sidebare onModalOpen={setIsSettingsModalOpen}/>
+                        {isMoviePage && (
+                            <SidebareMovies onModalOpen={setIsSettingsModalOpen}/>
+                        )}
+                        {isPersonPage && (
+                            <SidebarePersons onModalOpen={setIsSettingsModalOpen}/>
+                        )}
                     </Sider>
                 )}
 
