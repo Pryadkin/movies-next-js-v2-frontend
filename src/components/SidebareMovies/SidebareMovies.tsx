@@ -1,4 +1,4 @@
-import {FC, useState} from "react"
+import {FC, SyntheticEvent, useState} from "react"
 import {useSelector} from "react-redux"
 
 
@@ -11,14 +11,15 @@ import {
     Switch,
     Tag,
 } from "antd"
+import Search from "antd/es/input/Search"
 import {useRouter} from 'next/router'
 
 
 import {useFetchGenres} from "@/hooks/useFetchGenres"
-import {useFetchSelectGenres} from "@/hooks/useFetchSelectGenres"
 
 import styles from './SidebareMovies.module.scss'
 
+import {useFetchSelectGenres} from "@/hooks/useFetchSelectGenres"
 import {useFetchSelectTags} from "@/hooks/useFetchSelectTags"
 import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
 import {useSetTagFilter} from "@/hooks/useSetTagFilter"
@@ -30,13 +31,16 @@ import {
     removeSelectIgnoreTags,
     removeSelectTags,
     setGenreFlagStatus,
+    setLanguage,
     setMovieIsWithoutDateInBack,
+    setSearchMovie,
     setSortMovies
 } from "@/redux/reducers"
 import {
     getSelectGenreFlagStatus,
     getSelectTags
 } from "@/redux/selectors"
+import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {
     getSelectIgnoreGenres,
     getSelectMovieIsWithoutDateInBack,
@@ -53,6 +57,7 @@ interface Props {
 export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
     const dispatch = useAppDispatch()
     const {push} = useRouter()
+    const lang = useSelector(getSelectLanguage)
     const tags = useSelector(getSelectTags)
     const selectIgnoreTags = useSelector(getSelectSelIgnoreTags)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
@@ -229,6 +234,17 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
         )
     }
 
+    const [searchMovieInput, setSearchMovieInput] = useState('')
+
+    const handleSearchMovieChange = ({target}: SyntheticEvent) => {
+        const targetInputElement: HTMLInputElement = target as HTMLInputElement
+        setSearchMovieInput(targetInputElement.value)
+    }
+
+    const handleSearchMovieClick = () => {
+        dispatch(setSearchMovie(searchMovieInput))
+    }
+
     const items: CollapseProps['items'] = [
         {
             key: '1',
@@ -315,8 +331,32 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
         },
     ]
 
+    const handleLangClick = () => {
+        const correctLang = lang === 'ru-RU' ? 'en-EN' : 'ru-RU'
+        dispatch(setLanguage(correctLang))
+    }
+
     return (
         <div className={styles.wrapper}>
+            <Button
+                style={{width: '100px', marginBottom: '10px'}}
+                size="small"
+                type='primary'
+                onClick={handleLangClick}
+            >
+                {lang}
+            </Button>
+
+            <Search
+                className={styles.search}
+                size='small'
+                value={searchMovieInput}
+                onSearch={handleSearchMovieClick}
+                onChange={handleSearchMovieChange}
+            />
+
+            <hr />
+
             <Button
                 className={styles.btn}
                 size="small"
@@ -333,6 +373,8 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
                 PERSONS
             </Button>
 
+            <hr />
+
             <Button
                 className={styles.btn}
                 size="small"
@@ -344,7 +386,7 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
             <Collapse
                 className={styles.collapse}
                 items={items}
-                defaultActiveKey={['1', '2', '3', '4']}
+                defaultActiveKey={['4']}
                 size="small"
             />
         </div>

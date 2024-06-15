@@ -10,16 +10,16 @@ import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
 import {ICorrectMovieWithLang} from '@/api/apiTypes/requestMovies'
-import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
+import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
 
 import styles from './Layout.module.scss'
 
+import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {
     getIsDrawerMovieTagsOpen,
     setIsAddMovieModalOpen,
     setIsAddPersonModalOpen,
-    setLanguage,
     setSelectMovie
 } from '@/redux/reducers'
 import {
@@ -33,7 +33,6 @@ import {
     getSelectPerson
 } from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
-import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
@@ -56,16 +55,28 @@ const Layout: React.FC<Props> = ({
 }) => {
     const {pathname, asPath} = useRouter()
     const dispatch = useAppDispatch()
+
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
+    const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
+    const isAddPersonModalOpen = useSelector(getIsAddPersonModalOpen)
     const selectMovie = useSelector(getSelectMovie)
     const selectPerson = useSelector(getSelectPerson)
+
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
 
+    const isSider = asPath === '/profile-movies' || asPath === '/profile-persons'
+
+    const title = lang === 'en-EN'
+        ? (selectMovie as ICorrectMovieWithLang)?.title_en
+        : (selectMovie as ICorrectMovieWithLang)?.title_ru
+
     const isMoviePage = pathname === '/profile-movies'
     const isPersonPage = pathname === '/profile-persons'
+
+    const isPersonDetailes = Boolean((selectPerson as IArtistDetails)?.birthday)
 
     // useFetch
     const {
@@ -81,26 +92,9 @@ const Layout: React.FC<Props> = ({
         dispatch(setSelectMovie(null))
     }
 
-    const handleLangChange = (lang: TLanguage) => {
-        dispatch(setLanguage(lang))
-    }
-
-    const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
-    const isAddPersonModalOpen = useSelector(getIsAddPersonModalOpen)
-
-    const isSider = asPath === '/profile-movies' || asPath === '/profile-persons'
-
-    const title = lang === 'en-EN'
-        ? (selectMovie as ICorrectMovieWithLang)?.title_en
-        : (selectMovie as ICorrectMovieWithLang)?.title_ru
-
     return (
         <LayoutAntd>
-            <Header
-                lang={lang}
-                onLangChange={handleLangChange}
-                onDrawerMovieListOpen={() => setIsDrawerMovieTreeOpen(!isDrawerMovieTreeOpen)}
-            />
+            <Header />
 
             <LayoutAntd>
                 { isSider && (
@@ -146,9 +140,9 @@ const Layout: React.FC<Props> = ({
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
 
-            {selectPerson && (
+            {selectPerson && isPersonDetailes &&(
                 <ModelAddPerson
-                    person={selectPerson}
+                    person={selectPerson as IArtistDetails}
                     isModalOpen={isAddPersonModalOpen}
                     onModalCancel={() => dispatch(setIsAddPersonModalOpen(false))}
                 />
