@@ -28,6 +28,7 @@ import {
     requestSelectTags,
     requestPerson,
     requestProfilePersons,
+    requestMovieIds,
 } from './requests/index'
 
 export const API = {
@@ -60,4 +61,5 @@ export const API = {
     requestArtistDetails,
     requestArtistCombinedCredits,
     requestProfilePersons,
+    requestMovieIds,
 }

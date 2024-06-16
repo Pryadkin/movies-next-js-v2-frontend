@@ -31,6 +31,7 @@ export const CardItems: React.FC<Props> = ({
                     data.map(movie => {
                         const width = 200
                         const height = 300
+
                         return (
                             <Card
                                 key={movie.id}

@@ -45,8 +45,6 @@ export const CreditWrapper = ({
         ? cast
         : [...cast].sort((a, b) => b[selectSortValue] - a[selectSortValue])
 
-
-
     const getFilterMovie = (val: number[]) => {
         return val?.length !== 0
             ? val.reduce((sum: ICorrectMovieWithoutLang[], item) => {
@@ -92,7 +90,6 @@ export const CreditWrapper = ({
                             marginBottom: 50
                         }}
                     >
-
                         {filterMovie
                             .map(credit => (
                                 <Credit

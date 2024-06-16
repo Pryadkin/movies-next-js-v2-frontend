@@ -27,6 +27,7 @@ export const enum RequestUrl {
     DELETE_PROFILE_MOVIE = '/profile/delete_movie',
     UPDATE_MOVIE_TAGS = '/profile/update_movie_tags',
     DELETE_MOVIE_TAGS = '/profile/delete_movie_tags',
+    GET_PROFILE_MOVIE_IDS = '/profile/get_movie_ids',
 
     GET_PROFILE_PERSONS = '/profile/get_persons',
     ADD_PROFILE_PERSON = '/profile/add_person',

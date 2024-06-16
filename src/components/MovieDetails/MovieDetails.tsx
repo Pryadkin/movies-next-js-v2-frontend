@@ -8,6 +8,7 @@ import {
 import {IDetailsMovie} from '@/api/apiTypes'
 import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 import {useFetchCredits} from '@/hooks/useFetchCredits'
+import {useFetchMovieIds} from '@/hooks/useFetchMovieIds'
 import {getIsDrawerMovieTagsOpen, setIsAddMovieModalOpen, setModelContent} from '@/redux/reducers'
 
 import styles from './MovieDetails.module.scss'
@@ -32,6 +33,9 @@ export const MovieDetails = ({
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const {mutationDelete} = useDeleteMovie()
+
+    const {movieIdsData} = useFetchMovieIds()
+    const isOldMovie = movieIdsData?.includes(movie.id)
 
     const {
         data: credits,
@@ -117,12 +121,14 @@ export const MovieDetails = ({
                     settings
                 </Button>
 
-                <Button
-                    className={styles.btn}
-                    onClick={handleOpenAddMovieModel}
-                >
+                {isOldMovie || (
+                    <Button
+                        className={styles.btn}
+                        onClick={handleOpenAddMovieModel}
+                    >
                     add movie
-                </Button>
+                    </Button>
+                )}
             </div>
 
             {isCreditCastShow ? <h2>Cast</h2> : isCreditCrewShow && <h2>Crew</h2>}
