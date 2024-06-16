@@ -1,12 +1,12 @@
 import {IResponseSearchMovieResult, IResponseSearchMultiResult, IResponseSearchTvResult} from "./requestMovies"
 
+export type TResponseSearchMovie =
+    |  IResponseSearchMovieResult[]
+    |  IResponseSearchTvResult[]
+    |  IResponseSearchMultiResult[]
 export interface IArtistCombinedCredits {
-    cast: IResponseSearchMovieResult[] |
-    IResponseSearchTvResult[] |
-    IResponseSearchMultiResult[]
-    crew: IResponseSearchMovieResult[] |
-    IResponseSearchTvResult[] |
-    IResponseSearchMultiResult[]
+    cast: TResponseSearchMovie
+    crew: TResponseSearchMovie
     id: number
 }
 

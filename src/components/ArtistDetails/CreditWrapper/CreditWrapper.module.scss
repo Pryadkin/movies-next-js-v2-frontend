@@ -3,3 +3,11 @@
   width: 100%;
   grid-template-columns: repeat(auto-fill, 180px);
 }
+
+.selectWrapper {
+  margin-bottom: 10px;
+
+  .leftSelect {
+    margin-right: 20px;
+  }
+}
