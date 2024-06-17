@@ -24,7 +24,7 @@ export const CreditWrapper = ({
 }: Props) => {
     const [selectSortValue, setSelectSortValue] = useState<TSortValue>('default')
     const [selectFilterValue, setSelectFilterValue] = useState<number[]>([
-        99, 10762, 10763, 10764, 10765, 10766, 10767, 10768
+        99, 10762, 10763, 10764, 10766, 10767, 10768
     ])
 
     const getSelecSorttOptions = (opt: string[]) => {

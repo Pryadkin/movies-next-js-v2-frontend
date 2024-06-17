@@ -28,6 +28,7 @@ export const Credit = ({credit}: {credit: ICorrectMovieWithoutLang}) => {
                 src={credit.poster_path}
                 alt={credit.title}
             />
+            <div className={styles.title}>{credit.title}</div>
         </div>
     )
 }
