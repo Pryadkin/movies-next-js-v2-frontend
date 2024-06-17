@@ -1,7 +1,7 @@
 export {
     searchReducer,
-    setMovies,
     setMovieName,
+    setPersonName,
     setTvName,
     setPage,
     setTotalPages,

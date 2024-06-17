@@ -3,14 +3,14 @@ import {useSelector} from 'react-redux'
 
 import {Button, Popconfirm} from 'antd'
 import clsx from 'clsx'
-import Image from 'next/image'
 import {useRouter} from 'next/router'
 
 import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {useDeleteMovie} from '@/hooks/useDeleteMovie'
 
 import styles from './Card.module.scss'
 
-import {useDeleteMovie} from '@/hooks/useDeleteMovie'
+import {useFetchMovieIds} from '@/hooks/useFetchMovieIds'
 import {getIsDrawerMovieTagsOpen, setModelContent, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
@@ -33,6 +33,9 @@ export const Card = ({
     const cardRef = useRef<HTMLDivElement>(null)
     const [isRotate, setIsRotate] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
+
+    const {movieIdsData} = useFetchMovieIds()
+    const isOldMovie = router.pathname !== '/profile-movies' ? movieIdsData?.includes(movie.id) : false
 
     useEffect(() => {
         const handleClickOutside = ({target}: MouseEvent) => {
@@ -83,7 +86,6 @@ export const Card = ({
         router.push(`/movies/${movieType}/${mov.id}`)
     }
 
-
     const button = () => {
         if (isProfileCard) {
             return (
@@ -120,6 +122,7 @@ export const Card = ({
                 </>
             )
         }
+        if (isOldMovie) return null
         return (
             <Button
                 type="default"
@@ -169,7 +172,7 @@ export const Card = ({
             <>
                 <div
                     data-title={getTitle(title)}
-                    className={styles.front}
+                    className={clsx(styles.front, isOldMovie && styles.oldMovie)}
                 >
                     {isMouseOver && (
                         <div

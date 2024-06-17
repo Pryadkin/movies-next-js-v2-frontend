@@ -1,5 +1,4 @@
 export {
-    getSelectMovies,
     getSelectMovieName,
     getSelectPage,
 } from './searchSelectors'
@@ -21,3 +20,7 @@ export {
     getModelContent,
     getSelectMovie
 } from './layoutSelectors'
+
+export {
+    getPopularitySort
+} from './profilePersonsSelectors'

@@ -1,13 +1,14 @@
 export {
     searchReducer,
-    setMovies,
     setMovieName,
+    setPersonName,
     setTvName,
     setPage,
     setTotalPages,
     setTotalResults,
     setMovieType,
 } from './searchReducer'
+
 export {
     profileReducer,
     setMovie,
@@ -31,16 +32,25 @@ export {
     setSearchMovie,
     setMovieIsWithoutDateInBack,
 } from './profileReducer'
+
+export {
+    setPopularitySort,
+    setGenderFilter,
+    setKnownDepartmentFilter
+} from './profilePersonReducer'
+
 export {
     layoutReducer,
     setLanguage,
     sestIsModalDetailsOpen,
     setIsAddMovieModalOpen,
+    setIsAddPersonModalOpen,
     setArtistId,
     setModelContent,
     deleteModelContent,
     deleteAllModelContent,
     setSelectMovie,
+    setSelectPerson,
     setTagToSelectMovie,
     deleteTagFromMovie,
     updateMovieDateViewing,

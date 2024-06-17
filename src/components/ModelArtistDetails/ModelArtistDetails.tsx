@@ -10,10 +10,10 @@ import {useFetchArtistCombinedCredits} from '@/hooks/useFetchArtistCombinedCredi
 import {useFetchArtistDetails} from '@/hooks/useFetchArtistDetails'
 import {useFetchDetailsMovie} from '@/hooks/useFetchDetailsMovie'
 import {deleteAllModelContent, deleteModelContent} from '@/redux/reducers'
-import {getModelContent, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 
 import styles from './ModelArtistDetails.module.scss'
 
+import {getModelContent, getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
 
 import {ArtistDetails} from '../ArtistDetails'

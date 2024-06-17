@@ -2,8 +2,11 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
+import {IPerson} from '@/api/apiTypes/requestPerson'
+import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
 import {ITag, TLanguage} from '@/types'
 
+import {IPersonDetailsWithLang} from './../../../api/apiTypes/responseArtistDetails'
 import {initialState} from './layoutState'
 
 interface IModelContant {
@@ -29,6 +32,9 @@ const layoutSlice = createSlice({
         setIsAddMovieModalOpen(state, action: PayloadAction<boolean>) {
             state.isAddMovieModalOpen = action.payload
         },
+        setIsAddPersonModalOpen(state, action: PayloadAction<boolean>) {
+            state.isAddPersonModalOpen = action.payload
+        },
         setArtistId(state, action: PayloadAction<number | null>) {
             state.artistId = action.payload
         },
@@ -47,6 +53,10 @@ const layoutSlice = createSlice({
         | null
         >) {
             state.selectMovie = action.payload
+        },
+        setSelectPerson(state, action: PayloadAction<IArtistDetails | IPersonDetailsWithLang | IPerson | null
+        >) {
+            state.selectPerson = action.payload
         },
         setTagToSelectMovie(state, action: PayloadAction<ITag>) {
             state.selectMovie?.settings?.tags.push(action.payload)
@@ -98,12 +108,14 @@ export const layoutReducer = layoutSlice.reducer
 export const {
     setLanguage,
     sestIsModalDetailsOpen,
+    setIsAddPersonModalOpen,
     setIsAddMovieModalOpen,
     setArtistId,
     setModelContent,
     deleteModelContent,
     deleteAllModelContent,
     setSelectMovie,
+    setSelectPerson,
     setTagToSelectMovie,
     deleteTagFromMovie,
     updateMovieDateViewing,

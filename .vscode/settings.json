@@ -37,7 +37,7 @@
   "editor.formatOnPaste": false,
 
   "editor.wordWrap": "bounded",
-  // "editor.wordWrapColumn": 100,
+  "editor.wordWrapColumn": 130,
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   }

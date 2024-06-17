@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'client'
+import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Input} from 'antd'
@@ -7,15 +9,15 @@ import {Pagination} from 'antd'
 import {CardPerson} from '@/components/CardPerson'
 import {useSearchPerson} from '@/hooks/useSearchPerson'
 import {
-    setMovieName,
     setPage,
+    setPersonName,
 } from '@/redux/reducers'
 
 import styles from './Search.module.scss'
 
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {
-    getSelectMoviesName,
+    getSelectPersonName,
     getSelectTotalPages,
     getSelectTvName
 } from '@/redux/selectors/searchSelectors'
@@ -26,16 +28,23 @@ const {Search} = Input
 const SearchPerson = () => {
     const dispatch = useAppDispatch()
     const totalPages = useSelector(getSelectTotalPages)
-    const movieName = useSelector(getSelectMoviesName)
+    const personName = useSelector(getSelectPersonName)
     const tvName = useSelector(getSelectTvName)
     const lang = useSelector(getSelectLanguage)
     const {mutationPersonSearch} = useSearchPerson(lang)
     const data = mutationPersonSearch.data
 
-    const isMovieName = movieName || tvName
+    const isPersonName = personName || tvName
 
-    const handleMoviesSearch = (value: string) => {
-        dispatch(setMovieName(value))
+    useEffect(() => {
+        mutationPersonSearch.mutate({
+            searchName: personName,
+            page: '1'
+        })
+    }, [])
+
+    const handlePersonSearch = (value: string) => {
+        dispatch(setPersonName(value))
 
         mutationPersonSearch.mutate({
             searchName: value,
@@ -46,7 +55,7 @@ const SearchPerson = () => {
         dispatch(setPage(value))
 
         mutationPersonSearch.mutate({
-            searchName: movieName,
+            searchName: personName,
             page: String(value)
         })
     }
@@ -55,15 +64,16 @@ const SearchPerson = () => {
         <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
                 <Search
+                    defaultValue={personName}
                     className={styles.searchInput}
                     placeholder="input person name"
                     allowClear
                     enterButton="Search"
-                    onSearch={handleMoviesSearch}
+                    onSearch={handlePersonSearch}
                 />
             </div>
 
-            {totalPages && isMovieName && (
+            {totalPages && isPersonName && (
                 <Pagination
                     className={styles.pagination}
                     defaultCurrent={1}
@@ -77,7 +87,9 @@ const SearchPerson = () => {
                 {data && data.map(person => (
                     <CardPerson
                         key={person.id}
-                        data={person}
+                        person={person}
+                        width={200}
+                        height={350}
                     />
                 )) }
             </div>

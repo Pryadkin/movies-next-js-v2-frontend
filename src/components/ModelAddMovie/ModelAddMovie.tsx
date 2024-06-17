@@ -46,7 +46,7 @@ export const ModelAddMovie = ({
     onModalCancel,
 }: Props) => {
     const dispatch = useAppDispatch()
-    const selectTegs = useSelector(getSelectTags)
+    const selectTags = useSelector(getSelectTags)
     const lang = useSelector(getSelectLanguage)
     const movieType = useSelector(getSelectMovieType)
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
@@ -193,7 +193,7 @@ export const ModelAddMovie = ({
                 <div className={styles.tagsWrapper}>
                     <AddTags
                         movie={movie}
-                        tags={selectTegs}
+                        tags={selectTags}
                     />
                 </div>
 

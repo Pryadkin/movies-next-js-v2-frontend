@@ -10,31 +10,39 @@ import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
 import {ICorrectMovieWithLang} from '@/api/apiTypes/requestMovies'
-import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
+import {IArtistDetails} from '@/api/apiTypes/responseArtistDetails'
 
 import styles from './Layout.module.scss'
 
+import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
 import {
     getIsDrawerMovieTagsOpen,
     setIsAddMovieModalOpen,
-    setLanguage,
+    setIsAddPersonModalOpen,
     setSelectMovie
 } from '@/redux/reducers'
 import {
     getSelectIsDrawerMovieTagsOpen,
 } from '@/redux/selectors'
-import {getIsAddMovieModalOpen, getSelectLanguage, getSelectMovie} from '@/redux/selectors/layoutSelectors'
+import {
+    getIsAddMovieModalOpen,
+    getIsAddPersonModalOpen,
+    getSelectLanguage,
+    getSelectMovie,
+    getSelectPerson
+} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
-import {TLanguage} from '@/types'
 
 import {Drawer} from '../Drawer'
 import {ListTree} from '../ListTree'
 import {ModelAddMovie} from '../ModelAddMovie'
+import {ModelAddPerson} from '../ModelAddPerson'
 import {ModelArtistDetails} from '../ModelArtistDetails'
 import {ModelSettings} from '../ModelSettings'
 import {MovieSettings} from '../MovieSettings'
-import {Sidebare} from '../Sidebare'
+import {SidebareMovies} from '../SidebareMovies'
+import {SidebarePersons} from '../SidebarePersons'
 
 const {Sider, Content} = LayoutAntd
 
@@ -45,14 +53,30 @@ interface Props {
 const Layout: React.FC<Props> = ({
     children
 }) => {
-    const {asPath} = useRouter()
+    const {pathname, asPath} = useRouter()
     const dispatch = useAppDispatch()
+
     const lang = useSelector(getSelectLanguage)
     const isDrawerMovieTagsOpen = useSelector(getSelectIsDrawerMovieTagsOpen)
+    const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
+    const isAddPersonModalOpen = useSelector(getIsAddPersonModalOpen)
     const selectMovie = useSelector(getSelectMovie)
+    const selectPerson = useSelector(getSelectPerson)
+
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+
+    const isSider = asPath === '/profile-movies' || asPath === '/profile-persons'
+
+    const title = lang === 'en-EN'
+        ? (selectMovie as ICorrectMovieWithLang)?.title_en
+        : (selectMovie as ICorrectMovieWithLang)?.title_ru
+
+    const isMoviePage = pathname === '/profile-movies'
+    const isPersonPage = pathname === '/profile-persons'
+
+    const isPersonDetailes = Boolean((selectPerson as IArtistDetails)?.birthday)
 
     // useFetch
     const {
@@ -68,25 +92,9 @@ const Layout: React.FC<Props> = ({
         dispatch(setSelectMovie(null))
     }
 
-    const handleLangChange = (lang: TLanguage) => {
-        dispatch(setLanguage(lang))
-    }
-
-    const isAddMovieModalOpen = useSelector(getIsAddMovieModalOpen)
-
-    const isSider = asPath === '/movies'
-
-    const title = lang === 'en-EN'
-        ? (selectMovie as ICorrectMovieWithLang)?.title_en
-        : (selectMovie as ICorrectMovieWithLang)?.title_ru
-
     return (
         <LayoutAntd>
-            <Header
-                lang={lang}
-                onLangChange={handleLangChange}
-                onDrawerMovieListOpen={() => setIsDrawerMovieTreeOpen(!isDrawerMovieTreeOpen)}
-            />
+            <Header />
 
             <LayoutAntd>
                 { isSider && (
@@ -96,7 +104,12 @@ const Layout: React.FC<Props> = ({
                         width={250}
                         style={{background: 'white'}}
                     >
-                        <Sidebare onModalOpen={setIsSettingsModalOpen}/>
+                        {isMoviePage && (
+                            <SidebareMovies onModalOpen={setIsSettingsModalOpen}/>
+                        )}
+                        {isPersonPage && (
+                            <SidebarePersons onModalOpen={setIsSettingsModalOpen}/>
+                        )}
                     </Sider>
                 )}
 
@@ -126,6 +139,14 @@ const Layout: React.FC<Props> = ({
                 isModalOpen={isSettingsModalOpen}
                 onModalCancel={() => setIsSettingsModalOpen(false)}
             />
+
+            {selectPerson && isPersonDetailes &&(
+                <ModelAddPerson
+                    person={selectPerson as IArtistDetails}
+                    isModalOpen={isAddPersonModalOpen}
+                    onModalCancel={() => dispatch(setIsAddPersonModalOpen(false))}
+                />
+            )}
 
             {selectMovie && (
                 <ModelAddMovie

@@ -1,8 +1,7 @@
 import {useMutation} from "@tanstack/react-query"
 
 import {API} from "@/api"
-import {IResponseTv} from "@/api/apiTypes"
-import {IResponseMovies} from "@/api/apiTypes/requestMovies"
+import {IResponseMovies, IResponseTv} from "@/api/apiTypes/requestMovies"
 import {getCorrectMovieWithoutLang} from "@/helpers/getCorrectMovieWithoutLang"
 import {setPage, setTotalPages, setTotalResults} from "@/redux/reducers"
 import {useAppDispatch} from "@/redux/store"

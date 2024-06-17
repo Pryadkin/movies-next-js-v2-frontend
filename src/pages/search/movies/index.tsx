@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'client'
+import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 
 import {Input, Radio, RadioChangeEvent} from 'antd'
@@ -34,6 +36,14 @@ const SearchMovies = () => {
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
     const data = mutationMovieFetch.data
+
+    useEffect(() => {
+        mutationMovieFetch.mutate({
+            searchName: movieName,
+            movieType,
+            page: '1'
+        })
+    }, [])
 
     const isMovieName = movieName || tvName
 
@@ -91,6 +101,7 @@ const SearchMovies = () => {
                 </Radio.Group>
 
                 <Search
+                    defaultValue={movieName}
                     className={styles.searchInput}
                     placeholder="input movie name"
                     allowClear

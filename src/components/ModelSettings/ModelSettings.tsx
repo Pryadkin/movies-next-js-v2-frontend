@@ -9,15 +9,16 @@ import {
     Space,
     Typography,
 } from 'antd'
+import Link from 'next/link'
 
 import {useDeleteMovieTags} from '@/hooks/useDeleteMovieTags'
 import {useDeleteTag} from '@/hooks/useDeleteTag'
 import {useSaveNewTag} from '@/hooks/useSaveNewTag'
 import {useUpdateMovieTags} from '@/hooks/useUpdateMovieTags'
-import {useUpdateTags} from '@/hooks/useUpdateTags'
 
 import styles from './ModelSettings.module.scss'
 
+import {useUpdateTags} from '@/hooks/useUpdateTags'
 import {getSelectTagsForAntSelect} from '@/redux/selectors'
 
 enum Text {
@@ -92,6 +93,11 @@ export const ModelSettings = ({
             onCancel={onModalCancel}
             footer={[]}
         >
+            <Link
+                href={'https://www.themoviedb.org/'}
+                target="_blank">
+                www.themoviedb.org
+            </Link>
             <Space
                 direction="vertical"
             >

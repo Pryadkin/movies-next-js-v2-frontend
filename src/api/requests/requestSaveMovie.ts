@@ -4,10 +4,12 @@ import {errorMessage, successMessage} from '@/notification'
 
 import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
-import {IMovieLang} from '../apiTypes/requestMovies'
+import {ICorrectMovieWithLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestSaveMovie = async (movie: IMovieLang):Promise<AxiosResponse<IMovieLang> | undefined> => {
+export const requestSaveMovie = async (
+    movie: ICorrectMovieWithLang
+):Promise<AxiosResponse<ICorrectMovieWithLang> | undefined> => {
     try {
         const response = await APIInstance.post(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.ADD_PROFILE_MOVIE}`,
@@ -15,7 +17,7 @@ export const requestSaveMovie = async (movie: IMovieLang):Promise<AxiosResponse<
         )
 
         successMessage('movie added successfully')
-        return (response as AxiosResponse<IMovieLang>)
+        return (response as AxiosResponse<ICorrectMovieWithLang>)
 
     } catch (error) {
         if (axios.isAxiosError(error))  {

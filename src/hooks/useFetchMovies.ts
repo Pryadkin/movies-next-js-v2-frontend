@@ -29,7 +29,7 @@ export const useFetchMovies = (lang: TLanguage) => {
         const res = name ? await API.requestMovies(name, page, lang) : null
 
         if (res && res.data.results) {
-            const result =res.data.results
+            const result = res.data.results
 
             const updateMovies = result.map(elem => {
                 const getImageUrl = (url: string) => {

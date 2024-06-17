@@ -5,6 +5,7 @@ import {
     requestDetailsTv,
     requestTv,
     requestSaveMovie,
+    requestSavePerson,
     requestDeleteMovie,
     requestProfileMovies,
     requestMovieTags,
@@ -26,6 +27,8 @@ import {
     requestSelectGenres,
     requestSelectTags,
     requestPerson,
+    requestProfilePersons,
+    requestMovieIds,
 } from './requests/index'
 
 export const API = {
@@ -40,6 +43,7 @@ export const API = {
     requestDetailsTv,
     requestTv,
     requestSaveMovie,
+    requestSavePerson,
     requestDeleteMovie,
     requestProfileMovies,
     requestMovieTags,
@@ -56,4 +60,6 @@ export const API = {
     requestCredits,
     requestArtistDetails,
     requestArtistCombinedCredits,
+    requestProfilePersons,
+    requestMovieIds,
 }

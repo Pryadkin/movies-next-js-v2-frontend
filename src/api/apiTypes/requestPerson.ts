@@ -7,6 +7,12 @@ export interface IRequestPerson {
     total_results: number,
 }
 
+export type TGender = 0 | 1 | 2
+
+export type TPersonKnownDepartment = 'Acting' | 'Directing' | 'All'
+
+export type TPopularitySort = 'asc' | 'desc'
+
 type TMoviesWithoutSettings = Omit<ICorrectMovieWithoutLang, 'settings'>
 
 export interface IPerson {
@@ -15,6 +21,36 @@ export interface IPerson {
     id: number
     known_for_department: string
     name: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    known_for: TMoviesWithoutSettings[]
+}
+
+export type TPersonState = IPersonWithoutLang | IPersonWithLang
+
+export interface IPersonWithoutLang {
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    known_for: TMoviesWithoutSettings[]
+    settings: {
+        tags: string[]
+    }
+}
+
+export interface IPersonWithLang {
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: 'Acting' | 'Directior'
+    name_ru: string
+    name_en: string
     original_name: string
     popularity: number
     profile_path: string
