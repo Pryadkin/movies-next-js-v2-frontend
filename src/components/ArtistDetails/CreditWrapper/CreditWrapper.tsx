@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-import {Select} from 'antd'
+import {Button, Select} from 'antd'
 
 import {ICorrectMovieWithoutLang} from '@/api/apiTypes/requestMovies'
 
@@ -22,12 +22,13 @@ export const CreditWrapper = ({
     isCreditCastShow,
     isCreditCrewShow
 }: Props) => {
-    const [selectSortValue, setSelectSortValue] = useState<TSortValue>('default')
+    const [selectSortValue, setSelectSortValue] = useState<TSortValue>('release_date')
     const [selectFilterValue, setSelectFilterValue] = useState<number[]>([
         99, 10762, 10763, 10764, 10766, 10767, 10768
     ])
+    const [sortType, setSortType] = useState<'asc' | 'desc'>('desc')
 
-    const getSelecSorttOptions = (opt: string[]) => {
+    const getSelectSortOptions = (opt: string[]) => {
         return opt.map(elem => ({
             label: elem,
             value: elem,
@@ -41,9 +42,18 @@ export const CreditWrapper = ({
         }))
     }
 
-    const sortMovie = selectSortValue === 'default'
-        ? cast
-        : [...cast].sort((a, b) => b[selectSortValue] - a[selectSortValue])
+    const getSortNumber = (a: number, b: number) => sortType === 'desc' ? b - a : a - b
+    // const getSortString = (a: string, b: string) => sortType === 'desc' ? b.localeCompare(a) : a.localeCompare(b)
+
+    const sortMovie = selectSortValue === 'release_date'
+        ? [...cast].sort((a, b) => {
+            const aSort = new Date(a.release_date)
+                .getTime()
+            const bSort = new Date(b.release_date)
+                .getTime()
+            return getSortNumber(aSort, bSort)
+        })
+        : [...cast].sort((a, b) => getSortNumber(a[selectSortValue], b[selectSortValue]))
 
     const getFilterMovie = (val: number[]) => {
         return val?.length !== 0
@@ -55,6 +65,11 @@ export const CreditWrapper = ({
     }
 
     const filterMovie = getFilterMovie(selectFilterValue)
+
+    const handleSortTypeClick = () => {
+        const sortT = sortType === 'asc' ? 'desc' : 'asc'
+        setSortType(sortT)
+    }
 
     return (
         <>
@@ -69,10 +84,13 @@ export const CreditWrapper = ({
                         <Select
                             className={styles.leftSelect}
                             value={selectSortValue}
-                            options={getSelecSorttOptions(sortOptions)}
+                            options={getSelectSortOptions(sortOptions)}
                             placeholder={'sort'}
                             onChange={setSelectSortValue}
                         />
+                        <Button onClick={handleSortTypeClick}>{sortType}</Button>
+                        <br/>
+                        <br />
                         <Select
                             className={styles.rightSelect}
                             value={selectFilterValue}

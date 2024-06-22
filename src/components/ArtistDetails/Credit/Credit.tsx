@@ -10,11 +10,11 @@ import styles from './Credit.module.scss'
 export const Credit = ({credit}: {credit: ICorrectMovieWithoutLang}) => {
     const dispatch = useAppDispatch()
     const {movieIdsData} = useFetchMovieIds()
-    const isOldMovie = movieIdsData?.includes(credit.id)
+    const isProfileMovie = movieIdsData?.includes(credit.id)
 
     return (
         <div
-            className={cn(styles.creditItem, isOldMovie && styles.oldMovies)}
+            className={cn(styles.creditItem, isProfileMovie && styles.oldMovies)}
             title={credit.title}
             onClick={() => {
                 dispatch(setModelContent({
@@ -29,6 +29,7 @@ export const Credit = ({credit}: {credit: ICorrectMovieWithoutLang}) => {
                 alt={credit.title}
             />
             <div className={styles.title}>{credit.title}</div>
+            <div className={styles.title}>{credit.release_date}</div>
         </div>
     )
 }

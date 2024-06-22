@@ -3,14 +3,14 @@ import {ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
 export type TCastSortMovieElems = Pick<ICorrectMovieWithoutLang,
 | 'vote_average'
 | 'popularity'
+| 'release_date'
 >
-type TMovieWithoutLangKey = keyof TCastSortMovieElems
-export type TSortValue = TMovieWithoutLangKey | 'default'
+export type TSortValue = keyof TCastSortMovieElems
 
 export const sortOptions: TSortValue[] = [
     'vote_average',
     'popularity',
-    'default'
+    'release_date',
 ]
 export  const filterOptions = [
     {
