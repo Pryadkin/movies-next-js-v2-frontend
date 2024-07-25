@@ -15,7 +15,7 @@ export const enum RequestUrl {
     GET_POPULAR = '/person/popular',
 
     // Credits
-    GET_CREDITS= '/credits',
+    GET_CREDITS= 'credits',
 
     // Person
     GET_PERSON= '/person',

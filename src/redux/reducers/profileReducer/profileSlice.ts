@@ -3,7 +3,8 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 import {DrawerProps} from 'antd'
 
 import {ICorrectMovieWithLang, IMovie} from '@/api/apiTypes/requestMovies'
-import {IGenre, ITag, TSortItem} from '@/types'
+import {TSortName} from '@/components/SidebareMovies/types'
+import {IGenre, ITag} from '@/types'
 
 import {initialState} from './proflieState'
 
@@ -63,7 +64,7 @@ const profileSlice = createSlice({
 
             state.selectIgnoreTags = updateFilters
         },
-        setSortMovies(state, action: PayloadAction<TSortItem>) {
+        setSortMovies(state, action: PayloadAction<{name: TSortName, type: string}>) {
             state.sortItem = action.payload
         },
         getGenres(state, action: PayloadAction<IGenre[]>) {
@@ -91,8 +92,8 @@ const profileSlice = createSlice({
         setSearchMovie(state, action: PayloadAction<string>) {
             state.searchMovie = action.payload
         },
-        setMovieIsWithoutDateInBack(state, action: PayloadAction<boolean>) {
-            state.isWithoutDateInBack = action.payload
+        setMovieIsWithDateOfViewing(state, action: PayloadAction<boolean>) {
+            state.isWithDateOfViewing = action.payload
         }
     },
 })
@@ -119,5 +120,5 @@ export const {
     removeSelectGenres,
     removeSelectIgnoreGenres,
     setSearchMovie,
-    setMovieIsWithoutDateInBack,
+    setMovieIsWithDateOfViewing,
 } = profileSlice.actions

@@ -1,7 +1,8 @@
 import {DrawerProps} from 'antd'
 
 import {ICorrectMovieWithLang} from "@/api/apiTypes/requestMovies"
-import {IGenre, TSortItem, ITag} from '@/types'
+import {TSortName} from '@/components/SidebareMovies/types'
+import {IGenre, ITag} from '@/types'
 
 export interface State {
     userName: string,
@@ -10,13 +11,13 @@ export interface State {
     tags: ITag[],
     selectTags: ITag[],
     selectIgnoreTags: ITag[],
-    sortItem: TSortItem,
+    sortItem: {name: TSortName, type: 'asc' | 'desc'},
     genres: IGenre[],
     genreFlagStatus: boolean;
     selectGenres: IGenre[],
     selectIgnoreGenres: IGenre[],
     searchMovie: string,
-    isWithoutDateInBack: boolean,
+    isWithDateOfViewing: boolean,
 }
 
 export const initialState: State = {
@@ -26,11 +27,14 @@ export const initialState: State = {
     tags: [],
     selectTags: [],
     selectIgnoreTags: [],
-    sortItem: 'ascDate',
+    sortItem: {
+        name: 'date_of_viewing',
+        type: 'asc'
+    },
     genres: [],
     genreFlagStatus: true,
     selectGenres: [],
     selectIgnoreGenres: [],
     searchMovie: '',
-    isWithoutDateInBack: true,
+    isWithDateOfViewing: true,
 }

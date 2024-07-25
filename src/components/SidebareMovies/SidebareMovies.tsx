@@ -8,17 +8,18 @@ import {
     Button,
     Checkbox,
     Collapse,
+    Select,
     Switch,
     Tag,
 } from "antd"
+import ButtonGroup from "antd/es/button/button-group"
 import Search from "antd/es/input/Search"
 import {useRouter} from 'next/router'
 
 
-import {useFetchGenres} from "@/hooks/useFetchGenres"
-
 import styles from './SidebareMovies.module.scss'
 
+import {useFetchGenres} from "@/hooks/useFetchGenres"
 import {useFetchSelectGenres} from "@/hooks/useFetchSelectGenres"
 import {useFetchSelectTags} from "@/hooks/useFetchSelectTags"
 import {useSetGenreFilter} from "@/hooks/useSetGenreFilter"
@@ -32,10 +33,10 @@ import {
     removeSelectTags,
     setGenreFlagStatus,
     setLanguage,
-    setMovieIsWithoutDateInBack,
     setSearchMovie,
     setSortMovies
 } from "@/redux/reducers"
+import {setMovieIsWithDateOfViewing} from "@/redux/reducers/profileReducer/profileSlice"
 import {
     getSelectGenreFlagStatus,
     getSelectTags
@@ -43,12 +44,14 @@ import {
 import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {
     getSelectIgnoreGenres,
-    getSelectMovieIsWithoutDateInBack,
+    getSelectMovieIsWithDateOfViewing,
     getSelectSelIgnoreTags,
-    getSelectSortItem
+    getSelectSortItem,
 } from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
-import {IGenre, ITag, TSortItem} from "@/types"
+import {IGenre, ITag} from "@/types"
+
+import {ISelectSort, TSortName, sortOptions} from "./types"
 
 interface Props {
     onModalOpen: (value: boolean) => void
@@ -62,14 +65,28 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
     const selectIgnoreTags = useSelector(getSelectSelIgnoreTags)
     const selectIgnoreGenres = useSelector(getSelectIgnoreGenres)
     const genreFlagStatus = useSelector(getSelectGenreFlagStatus)
-    const sortMoviesType= useSelector(getSelectSortItem)
     const {selectGenres} = useFetchSelectGenres()
     const {selectTags} = useFetchSelectTags()
     const {mutationSetGenreFilter} = useSetGenreFilter()
     const {mutationSetTagFilter} = useSetTagFilter()
     const [tagFlagStatus, setTagFlagStatus] = useState(true)
-    const [isAscSorted, setIsAscSorted] = useState(sortMoviesType)
-    const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
+    const movieIsWithDateOfViewing = useSelector(getSelectMovieIsWithDateOfViewing)
+    const sortType = useSelector(getSelectSortItem)
+    const [selectSortValue, setSelectSortValue] = useState<TSortName>('date_of_viewing')
+
+    const handleSortTypeClick = (val: 'asc' | 'desc') => () => {
+        dispatch(setSortMovies({
+            name: selectSortValue,
+            type: val
+        }))
+    }
+
+    const getSelectSortOptions = (opt: ISelectSort[]) => {
+        return opt.map(elem => ({
+            label: elem.title,
+            value: elem.name,
+        }))
+    }
 
     const {
         genresData,
@@ -108,11 +125,6 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
 
             isGenreExist && dispatch(removeSelectGenres(value))
         }
-    }
-
-    const handleSortedMovieBtnClick = (value: TSortItem) => () => {
-        dispatch(setSortMovies(value))
-        setIsAscSorted(value)
     }
 
     const handleGenreSwitchChange = (val: boolean) => {
@@ -294,39 +306,36 @@ export const SidebareMovies: FC<Props> = ({onModalOpen}) => {
             children: <div className={styles.dateWrapper}>
                 <Checkbox
                     style={{marginBottom: '10px'}}
-                    value={movieIsWithoutDateInBack}
-                    defaultChecked={movieIsWithoutDateInBack}
-                    onChange={() => dispatch(setMovieIsWithoutDateInBack(!movieIsWithoutDateInBack))}>
-                        without date in back
+                    value={movieIsWithDateOfViewing}
+                    defaultChecked={movieIsWithDateOfViewing}
+                    onChange={() => dispatch(setMovieIsWithDateOfViewing(!movieIsWithDateOfViewing))}>
+                        with date of viewing
                 </Checkbox>
-                <Button
-                    size="small"
-                    type={isAscSorted === 'ascReleaseDate' ? 'primary' : 'default'}
-                    onClick={handleSortedMovieBtnClick('ascReleaseDate')}
-                >
-                    Viewing release date asc
-                </Button>
-                <Button
-                    size="small"
-                    type={isAscSorted === 'descReleaseDate' ? 'primary' : 'default'}
-                    onClick={handleSortedMovieBtnClick('descReleaseDate')}
-                >
-                    Viewing release date desc
-                </Button>
-                <Button
-                    size="small"
-                    type={isAscSorted === 'ascDate' ? 'primary' : 'default'}
-                    onClick={handleSortedMovieBtnClick('ascDate')}
-                >
-                    Viewing date asc
-                </Button>
-                <Button
-                    size="small"
-                    type={isAscSorted === 'descDate' ? 'primary' : 'default'}
-                    onClick={handleSortedMovieBtnClick('descDate')}
-                >
-                    Viewing date desc
-                </Button>
+                <div className={styles.sortWrapper}>
+                    <Select
+                        size="small"
+                        className={styles.select}
+                        value={selectSortValue}
+                        options={getSelectSortOptions(sortOptions)}
+                        placeholder={'sort'}
+                        onChange={setSelectSortValue}
+                    />
+                    <br />
+                    <ButtonGroup>
+                        <Button
+                            size="small"
+                            type={sortType.type === 'asc' ? 'primary' : 'default'}
+                            onClick={handleSortTypeClick('asc')}>
+                        ASC
+                        </Button>
+                        <Button
+                            size="small"
+                            type={sortType.type === 'desc' ? 'primary' : 'default'}
+                            onClick={handleSortTypeClick('desc')}>
+                        DESC
+                        </Button>
+                    </ButtonGroup>
+                </div>
             </div>,
         },
     ]

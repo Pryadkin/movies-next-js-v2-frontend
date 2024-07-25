@@ -5,7 +5,7 @@ import {useQuery} from "@tanstack/react-query"
 import {API} from "@/api"
 import {RequestUrl} from "@/api/requestUrlList"
 import {setProfileMovies} from "@/redux/reducers"
-import {getSelectMovieIsWithoutDateInBack, getSelectSortItem} from "@/redux/selectors/profileSelectors"
+import {getSelectMovieIsWithDateOfViewing, getSelectSortItem} from "@/redux/selectors/profileSelectors"
 import {useAppDispatch} from "@/redux/store"
 
 export const useFetchProfileMovies = (
@@ -15,14 +15,14 @@ export const useFetchProfileMovies = (
 ) => {
     const dispatch = useAppDispatch()
     const sortItem = useSelector(getSelectSortItem)
-    const movieIsWithoutDateInBack = useSelector(getSelectMovieIsWithoutDateInBack)
+    const movieIsWithDateOfViewing = useSelector(getSelectMovieIsWithDateOfViewing)
 
     const fetchMovies = async () => {
         const res = await API.requestProfileMovies({
             numPage,
             size,
             filterByMovieName,
-            filterByMovieWithoutDate: movieIsWithoutDateInBack,
+            isWithDateOfViewing: movieIsWithDateOfViewing,
             sortItem,
         })
 
@@ -44,8 +44,9 @@ export const useFetchProfileMovies = (
             numPage,
             size,
             filterByMovieName,
-            sortItem,
-            movieIsWithoutDateInBack,
+            sortItem.name,
+            sortItem.type,
+            movieIsWithDateOfViewing,
         ],
         queryFn: () => fetchMovies(),
         keepPreviousData : true,
