@@ -23,7 +23,7 @@ export const getCorrectMovieWithoutLang = (
 
         const isMovieResult = Boolean((elem as IResponseSearchMovieResult).title)
         const isTvResult = Boolean((elem as IResponseSearchTvResult).name)
-        const isMultiResult = Boolean((elem as IResponseSearchMultiResult).media_type)
+        // const isMultiResult = Boolean((elem as IResponseSearchMultiResult).media_type)
 
         const getImageUrl = (url: string) => {
             return url ? getPictureUrlByShortUrl(elem.poster_path, 'w500') : ''
@@ -32,7 +32,7 @@ export const getCorrectMovieWithoutLang = (
         const movieResult = elem as IResponseSearchMovieResult | IResponseSearchMultiResult
         const tvResult = elem as IResponseSearchTvResult
 
-        const title = isMovieResult && isMultiResult
+        const title = isMovieResult && movieResult.title
             ? movieResult.title
             : tvResult.name
         const poster_path_ru = lang === 'ru-RU'
