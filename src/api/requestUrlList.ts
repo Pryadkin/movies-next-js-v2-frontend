@@ -10,6 +10,8 @@ export const enum RequestUrl {
     //TV
     GET_TV = '/search/tv',
     GET_TOP_RATED = '/top_rated',
+    GET_NOW_PLAYING = '/now_playing',
+    GET_POPULAR_MOVIES= '/popular',
 
     // Popular
     GET_POPULAR = '/person/popular',

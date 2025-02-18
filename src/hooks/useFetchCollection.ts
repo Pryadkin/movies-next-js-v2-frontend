@@ -4,13 +4,14 @@ import {API} from "@/api"
 import {getCorrectMovieWithoutLang} from "@/helpers/getCorrectMovieWithoutLang"
 import {TLanguage, TMovieType} from "@/types"
 
-export const useFetchTopRated = (lang: TLanguage) => {
-    const fetchTopRated = async (
+export const useFetchCollection = (lang: TLanguage) => {
+    const fetchCollection = async (
         page: string,
         typeMovie: TMovieType,
         lang: TLanguage,
+        requestUrl: string,
     ) => {
-        const res = await API.requestTopRated(page, typeMovie, lang)
+        const res = await API.requestCollection(page, typeMovie, lang, requestUrl)
 
         if (res && res.data) {
             const multiMovie = getCorrectMovieWithoutLang(res.data.results, lang)
@@ -32,11 +33,13 @@ export const useFetchTopRated = (lang: TLanguage) => {
     const mutationMovieFetch = useMutation({
         mutationFn: ({
             page,
-            typeMovie
+            typeMovie,
+            requestUrl,
         }: {
             page: string,
-            typeMovie: TMovieType
-        }) => fetchTopRated(String(page), typeMovie, lang),
+            typeMovie: TMovieType,
+            requestUrl: string,
+        }) => fetchCollection(String(page), typeMovie, lang, requestUrl),
     })
 
     return {mutationMovieFetch}

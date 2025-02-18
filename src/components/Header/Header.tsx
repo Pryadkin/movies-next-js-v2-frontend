@@ -14,8 +14,11 @@ const Header: FC = () => {
         {id: 1, title: 'Profile', path: '/profile-movies'},
         {id: 2, title: 'Search movies', path: '/search/movies'},
         {id: 2, title: 'Search persons', path: '/search/persons'},
-        {id: 3, title: 'Popular', path: '/popular'},
+        {id: 3, title: 'Popular people', path: '/popular-people'},
         {id: 4, title: 'Top Rated', path: '/top-rated'},
+        {id: 4, title: 'Now Playing', path: '/now-playing'},
+        {id: 4, title: 'Popular', path: '/popular-movies'},
+        {id: 5, title: 'Movie Collection', path: '/movie-collection'},
     ]
 
     return (

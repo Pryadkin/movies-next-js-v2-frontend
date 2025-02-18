@@ -1,16 +1,18 @@
 import {AxiosResponse} from 'axios'
 
-import {TLanguage, TMovieType} from '@/types'
 
 import {APIInstance} from '../apiInstance'
 import {IResponseTv} from '../apiTypes'
 import {IRequestPopular, IResponseMovies} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestTopRated = async (
+import {TLanguage, TMovieType} from '@/types'
+
+export const requestCollection = async (
     page: string,
     typeMovie: TMovieType,
-    lang: TLanguage
+    lang: TLanguage,
+    requestUrl: string
 ): Promise<AxiosResponse<IResponseTv | IResponseMovies> | undefined> => {
     const params: IRequestPopular = {
         api_key: process.env.API_MOVIE_KEY || '',
@@ -20,7 +22,7 @@ export const requestTopRated = async (
 
     try {
         const response = await APIInstance.get(
-            `${RequestUrl.BASE_URL}/${typeMovie}${RequestUrl.GET_TOP_RATED}`,
+            `${RequestUrl.BASE_URL}/${typeMovie}${requestUrl}`,
             {params}
         )
 

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import {useSelector} from "react-redux"
 
-import styles from './TopRated.module.scss'
+import styles from './PopularMovies.module.scss'
 
 import {Pagination, Radio} from "antd"
 
@@ -15,8 +15,7 @@ import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {useAppDispatch} from "@/redux/store"
 import {TMovieType} from "@/types"
 
-
-const TopRated = () => {
+const PopularMovies = () => {
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const page = useSelector(getSelectPage)
@@ -33,7 +32,7 @@ const TopRated = () => {
         mutationMovieFetch.mutate({
             page: `${value}`,
             typeMovie,
-            requestUrl: RequestUrl.GET_TOP_RATED
+            requestUrl: RequestUrl.GET_POPULAR_MOVIES
         })
     }
 
@@ -45,7 +44,7 @@ const TopRated = () => {
                 mutationMovieFetch.mutate({
                     page: '1',
                     typeMovie: 'movie',
-                    requestUrl: RequestUrl.GET_TOP_RATED
+                    requestUrl: RequestUrl.GET_POPULAR_MOVIES
                 })
                 break
             }
@@ -55,7 +54,7 @@ const TopRated = () => {
                 mutationMovieFetch.mutate({
                     page: '1',
                     typeMovie: 'tv',
-                    requestUrl: RequestUrl.GET_TOP_RATED
+                    requestUrl: RequestUrl.GET_POPULAR_MOVIES
                 })
                 break
             }
@@ -69,12 +68,13 @@ const TopRated = () => {
         mutationMovieFetch.mutate({
             page: String(page),
             typeMovie,
-            requestUrl: RequestUrl.GET_TOP_RATED
+            requestUrl: RequestUrl.GET_POPULAR_MOVIES
         })
     }, [])
 
     return (
         <div className={styles.wrapper}>
+            <p className={styles.title}>Get a list of movies ordered by popularity</p>
             <div className={styles.headerElements}>
                 <Radio.Group
                     defaultValue="c"
@@ -111,4 +111,4 @@ const TopRated = () => {
     )
 }
 
-export default TopRated
+export default PopularMovies

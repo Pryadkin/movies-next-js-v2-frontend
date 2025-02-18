@@ -1,13 +1,13 @@
 import {useSelector} from "react-redux"
 
+import styles from './PopularPeople.module.scss'
+
 import {useFetchPopular} from "@/hooks/useFetchPopular"
 import {setModelContent} from "@/redux/reducers"
 import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {useAppDispatch} from "@/redux/store"
 
-import styles from './Popular.module.scss'
-
-const Popular = () => {
+const PopularPeople = () => {
     const dispatch = useAppDispatch()
     const lang = useSelector(getSelectLanguage)
     const {
@@ -38,4 +38,4 @@ const Popular = () => {
     )
 }
 
-export default Popular
+export default PopularPeople

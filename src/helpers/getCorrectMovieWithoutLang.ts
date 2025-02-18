@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 
+import {getPictureUrlByShortUrl} from './getPictureUrlByShortUrl'
+
 import {
     ICorrectMovieWithoutLang,
     IResponseSearchMovieResult,
@@ -8,7 +10,6 @@ import {
 } from '@/api/apiTypes/requestMovies'
 import {TLanguage} from '@/types'
 
-import {getPictureUrlByShortUrl} from './getPictureUrlByShortUrl'
 
 const dateFormat = 'YYYY-MM-DD:hh-mm-ss A'
 

@@ -19,7 +19,6 @@ import {
     requestSetTag,
     requestGenres,
     requestPopular,
-    requestTopRated,
     requestCredits,
     requestArtistDetails,
     requestArtistCombinedCredits,
@@ -29,6 +28,7 @@ import {
     requestPerson,
     requestProfilePersons,
     requestMovieIds,
+    requestCollection,
 } from './requests/index'
 
 export const API = {
@@ -56,10 +56,10 @@ export const API = {
     requestDeleteMovieTags,
     requestGenres,
     requestPopular,
-    requestTopRated,
     requestCredits,
     requestArtistDetails,
     requestArtistCombinedCredits,
     requestProfilePersons,
     requestMovieIds,
+    requestCollection
 }
