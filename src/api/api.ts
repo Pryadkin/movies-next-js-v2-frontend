@@ -29,6 +29,11 @@ import {
     requestProfilePersons,
     requestMovieIds,
     requestCollection,
+    requestProfileMovieByName,
+    requestSaveMoviesCollection,
+    requestGetCollectionsName,
+    requestCollectionByName,
+    requestSaveMovieToCollection,
 } from './requests/index'
 
 export const API = {
@@ -61,5 +66,10 @@ export const API = {
     requestArtistCombinedCredits,
     requestProfilePersons,
     requestMovieIds,
-    requestCollection
+    requestCollection,
+    requestProfileMovieByName,
+    requestSaveMoviesCollection,
+    requestGetCollectionsName,
+    requestCollectionByName,
+    requestSaveMovieToCollection
 }

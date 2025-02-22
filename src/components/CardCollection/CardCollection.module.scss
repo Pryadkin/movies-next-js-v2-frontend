@@ -1,0 +1,193 @@
+.cardsWrapper {
+  position: relative;
+  margin: 10px;
+
+  //rotate
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+
+  &:hover button{
+    opacity: 1;
+  }
+
+  &:hover .background{
+    opacity: 0.2;
+  }
+}
+
+.rotate {
+  transform: rotateY( 180deg ) ;
+  transition: transform 0.5s;
+}
+
+.card, .emptyCard {
+  display: flex;
+  width: 220px;
+  height: 360px;
+  border-radius: 8px;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.07);
+  }
+}
+
+.emptyCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid burlywood;
+  background-color: white;
+
+  p {
+    font-size: 18px;
+    font-style: italic;
+  }
+
+  &:hover {
+    transform: scale(1);
+
+    .addMovie {
+      display: flex;
+    }
+  }
+}
+
+.addMovie {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 50%;
+  transform: translateX(50%);
+  color:rgb(59, 173, 128);
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(75, 150, 225);
+  }
+}
+
+.front {
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.content {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.front,
+.back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  border-radius: 5px;
+  backface-visibility: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.back {
+  background: #2a81ab;
+  // background: #247b84;
+  color: white;
+  transform: rotateY( 180deg );
+
+  .backTitle {
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+.image {
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.title {
+  margin: 0;
+  margin-top: 5px;
+}
+
+.ditailsLink {
+  text-transform: uppercase;
+  font-size: 20px;
+  color:coral;
+  margin-bottom: 10px;
+}
+
+.btn {
+  margin-bottom: 10px;
+}
+
+.tvLabel {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  background: #76b490;
+  padding: 10px;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+}
+
+// TODO:
+.details {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: rgb(81, 239, 176);
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.5);
+  padding: 5px;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.remove {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: rgb(81, 239, 176);
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.5);
+  padding: 5px;
+}
+
+.oldMovie {
+  background-color: #ffe3b9;
+}
+// .details {
+//   position: absolute;
+//   top: 45px;
+//   right: -39px;
+//   border-radius: 5px 5px 0px 0px;
+//   color: rgb(81, 239, 176);
+//   font-size: 15px;
+//   font-weight: bold;
+//   transform: rotate(90deg);
+//   background-color: rgba(0, 0, 0, 0.5);
+//   padding: 3px 8px 1px 8px;
+
+//   &:hover {
+//     color: white;
+//   }
+// }

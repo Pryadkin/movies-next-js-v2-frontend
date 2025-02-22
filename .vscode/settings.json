@@ -1,6 +1,7 @@
 {
   // "workbench.colorTheme": "Default Dark+",
-  "workbench.colorTheme": "Noctis Minimus",
+  // "workbench.colorTheme": "Noctis Minimus",
+  "workbench.colorTheme": "Dracula Theme",
 	// "workbench.colorTheme": "Default Light Modern",
   "workbench.startupEditor": "none",
 

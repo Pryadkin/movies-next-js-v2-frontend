@@ -24,6 +24,7 @@ export const enum RequestUrl {
 
     // profile movies
     GET_PROFILE_MOVIES = '/profile/get_movies',
+    GET_PROFILE_MOVIE_BY_NAME = '/profile/get_movie_by_name',
     ADD_PROFILE_MOVIE = '/profile/add_movie',
     UPDATE_PROFILE_MOVIE = '/profile/update_movie',
     DELETE_PROFILE_MOVIE = '/profile/delete_movie',
@@ -34,6 +35,11 @@ export const enum RequestUrl {
     GET_PROFILE_PERSONS = '/profile/get_persons',
     ADD_PROFILE_PERSON = '/profile/add_person',
     DELETE_PROFILE_PERSON = '/profile/delete_person',
+
+    SAVE_MOVIE_COLLECTION = '/profile/set_movies_collection',
+    GET_COLLECTIONS_NAME = '/profile/get_collections_name',
+    GET_COLLECTION_BY_NAME = '/profile/get_collection_by_name',
+    SET_MOVIE_TO_COLLECTION = '/profile/set_movie_to_collection',
 
     // movie tags
     GET_MOVIE_TAGS = '/movie_tags/get_movie_tags',

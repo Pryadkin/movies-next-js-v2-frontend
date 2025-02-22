@@ -16,6 +16,7 @@ import styles from './Layout.module.scss'
 
 import {useFetchMovieTags} from '@/hooks/useFetchMovieTags'
 import {useFetchMovieTree} from '@/hooks/useFetchMovieTree'
+import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 import {
     getIsDrawerMovieTagsOpen,
     setIsAddMovieModalOpen,
@@ -62,6 +63,7 @@ const Layout: React.FC<Props> = ({
     const isAddPersonModalOpen = useSelector(getIsAddPersonModalOpen)
     const selectMovie = useSelector(getSelectMovie)
     const selectPerson = useSelector(getSelectPerson)
+    const {mutationSave} = useSaveProfileMovie()
 
     const [drawerMovieTreeTitle] = useState<string>('Movie tree')
     const [isDrawerMovieTreeOpen, setIsDrawerMovieTreeOpen] = useState<DrawerProps['open']>(false)
@@ -152,6 +154,7 @@ const Layout: React.FC<Props> = ({
                 <ModelAddMovie
                     movie={selectMovie}
                     isModalOpen={isAddMovieModalOpen}
+                    getMovieWithLang={mov => mutationSave.mutate(mov)}
                     onModalCancel={() => dispatch(setIsAddMovieModalOpen(false))}
                 />
             )}

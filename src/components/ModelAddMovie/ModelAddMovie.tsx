@@ -13,7 +13,6 @@ import {ICorrectMovieWithLang, ICorrectMovieWithoutLang, TMovie} from '@/api/api
 import {isMovieWithoutLang} from '@/helpers'
 import {getCorrectMovieWithLang} from '@/helpers/getCorrectMovieWithLang'
 import {useFetchMulti} from '@/hooks/useFetchMulti'
-import {useSaveProfileMovie} from '@/hooks/useSaveProfileMovie'
 
 import styles from './ModelAddMovie.module.scss'
 
@@ -37,12 +36,14 @@ enum Text {
 interface Props {
     movie: TMovie,
     isModalOpen: boolean,
+    getMovieWithLang: (movie: ICorrectMovieWithLang) => void,
     onModalCancel: () => void,
 }
 
 export const ModelAddMovie = ({
     movie,
     isModalOpen,
+    getMovieWithLang,
     onModalCancel,
 }: Props) => {
     const dispatch = useAppDispatch()
@@ -50,7 +51,6 @@ export const ModelAddMovie = ({
     const lang = useSelector(getSelectLanguage)
     const movieType = useSelector(getSelectMovieType)
     const anotherLang = lang === Text.EN ? Text.RU : Text.EN
-    const {mutationSave} = useSaveProfileMovie()
     const {mutationMovieFetch} = useFetchMulti(anotherLang)
     const {data: anotherLangMovie} = mutationMovieFetch
     const isLoading = mutationMovieFetch.isLoading
@@ -141,7 +141,7 @@ export const ModelAddMovie = ({
         && isMovieWithoutLang(movie)
         && handleAddAnotherLangMovieClick(movie, anotherLangMovieState)
 
-        movieWithLang && mutationSave.mutate(movieWithLang)
+        movieWithLang && getMovieWithLang(movieWithLang)
         onModalCancel()
     }
 
