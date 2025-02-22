@@ -21,11 +21,13 @@ import { ModelAddCollection } from "@/components/ModelAddCollection"
 import { useSaveMovieToCollection } from "@/hooks/useSaveMovieToCollection"
 
 const MovieCollection = () => {
+    const [collectionName, setCollectionName] = useState('');
+    const {collection} = useFetchCollectionByName(collectionName)
     const {collectionsName} = useFetchCollectionsName()
-    const [collectionNameSelect, setCollectionNameSelect] = useState<{value: string, label: string}[]>([])
-    // const collectionNameSelect = collectionsName
-    //     ? collectionsName.map(collect => ({ value: collect, label: collect }))
-    //     : []
+    const [collectionNameSelect, setCollectionNameSelect] = useState<{value: string, label: string}[]>([{
+        value: collectionName,
+        label: collectionName
+    }])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isCollectModalOpen, setIsCollectModalOpen] = useState(false)
     const [isModalSetLanguage, setIsModalSetLanguage] = useState(false)
@@ -35,8 +37,7 @@ const MovieCollection = () => {
     const {saveCollection} = useSaveMoviesCollection()
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
-    const {collection, getCollectionByName} = useFetchCollectionByName()
-    const {saveMovieToCollection} = useSaveMovieToCollection()
+    const {saveMovieToCollection} = useSaveMovieToCollection(collectionName)
     const seatchData = mutationMovieFetch.data
     const [selectMovieName, setSelectMovieName] = useState('')
 
@@ -72,10 +73,7 @@ const MovieCollection = () => {
 
     const handleCardClick = (movie: ICorrectMovieWithLang | ICorrectMovieWithoutLang) => {
         if ((movie as ICorrectMovieWithLang).title_en) {
-            collection && saveMovieToCollection({
-                movie: movie as ICorrectMovieWithLang,
-                collectionName: collection?.name
-            })
+            collection && saveMovieToCollection(movie as ICorrectMovieWithLang)
             setIsModalOpen(false)
         } else {
             setMovieWithouLang(movie as ICorrectMovieWithoutLang)
@@ -96,15 +94,12 @@ const MovieCollection = () => {
     }
 
     const handleGetMovieWithLang = (movie: ICorrectMovieWithLang) => {
-        collection && saveMovieToCollection({
-            movie: movie,
-            collectionName: collection?.name
-        })
+        collection && saveMovieToCollection(movie as ICorrectMovieWithLang)
         setIsModalOpen(false)
     }
 
     const handlerCollectNameClick = (collectionName: string) => {
-        getCollectionByName(collectionName)
+        setCollectionName(collectionName)
     }
 
     const handleAddCardClick = (name: string) => {
@@ -123,6 +118,7 @@ const MovieCollection = () => {
             <div className={styles.collectionWrapper}>
                 <Select
                     style={{ width: 120 }}
+                    value={collectionName}
                     onChange={handlerCollectNameClick}
                     options={collectionNameSelect}
                 />

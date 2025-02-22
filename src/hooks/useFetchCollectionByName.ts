@@ -1,22 +1,26 @@
-import {useMutation} from "@tanstack/react-query"
+import { API } from '@/api';
+import { RequestUrl } from '@/api/requestUrlList';
+import { useQuery } from '@tanstack/react-query';
 
-import {API} from "@/api"
-import { RequestUrl } from "@/api/requestUrlList"
+export const useFetchCollectionByName = (collectionName: string) => {
+    console.log('collectionName', collectionName)
+    const fetchCollectionByName = async () => {
+        if (!collectionName) {
+            return null
+        }
 
-export const useFetchCollectionByName = () => {
-    const fetchCollectionByName = async (collectionName: string) => {
-        const res = await API.requestCollectionByName(collectionName)
-
+        const res = await API.requestCollectionByName(collectionName);
         if (res) {
             return res.data
         }
-    }
+        return null;
+    };
 
-    const {data, error, isLoading, mutate, isSuccess} = useMutation({
-        mutationKey: [RequestUrl.GET_COLLECTION_BY_NAME],
-        mutationFn: fetchCollectionByName,
-    })
+    const { data, error, isLoading, isSuccess } = useQuery({
+        queryKey: [RequestUrl.GET_COLLECTION_BY_NAME, collectionName],
+        queryFn: fetchCollectionByName,
+        enabled: !!collectionName,
+    });
 
-
-    return {collection: data, getCollectionByName: mutate, error, isLoading, isSuccess}
-}
+    return { collection: data, error, isLoading, isSuccess };
+};
