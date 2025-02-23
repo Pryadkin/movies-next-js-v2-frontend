@@ -5,17 +5,16 @@ import {ICollectionMovies} from '@/pages/movie-collection/types'
 
 import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
-import {ICorrectMovieWithLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestEditMovieCollection = async (updateCollection: ICollectionMovies):Promise<AxiosResponse<ICorrectMovieWithLang[]> | undefined> => {
+export const requestEditMovieCollection = async (updateCollection: ICollectionMovies):Promise<AxiosResponse<ICollectionMovies> | undefined> => {
     try {
         const response = await APIInstance.post(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.EDIT_MOVIE_COLLECTION}`, updateCollection
         )
 
         successMessage('movies collection update successfully')
-        return (response as AxiosResponse<ICorrectMovieWithLang[]>)
+        return (response as AxiosResponse<ICollectionMovies>)
 
     } catch (error) {
         if (axios.isAxiosError(error))  {

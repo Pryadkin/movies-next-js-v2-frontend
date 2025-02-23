@@ -14,7 +14,7 @@ export const useEditMoviesCollection = (collectionName: string) => {
             return res.data
         }
 
-        return []
+        return undefined
     }
 
     const {mutate, data} = useMutation({
@@ -31,5 +31,5 @@ export const useEditMoviesCollection = (collectionName: string) => {
 
     })
 
-    return {editCollection: mutate, moviesCollection: data}
+    return {editCollection: mutate, moviesEditCollection: data}
 }

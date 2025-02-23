@@ -36,8 +36,8 @@ const MovieCollection = () => {
     const [movieWithouLang, setMovieWithouLang] = useState<ICorrectMovieWithoutLang>()
     const [modelMovies, setModelMovies] = useState<(ICorrectMovieWithLang | ICorrectMovieWithoutLang)[]>([])
     const {profileMovie, getMovieByName, isLoading} = useFetchProfileMovieByName()
-    const {saveCollection} = useSaveMoviesCollection()
-    const {editCollection} = useEditMoviesCollection(collectionName)
+    const {saveCollection, moviesSaveCollection, isSaveCollectionSuccess} = useSaveMoviesCollection()
+    const {editCollection, moviesEditCollection} = useEditMoviesCollection(collectionName)
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
     const seatchData = mutationMovieFetch.data
@@ -52,6 +52,14 @@ const MovieCollection = () => {
             setCollectionNameSelect([])
         }
     }, [collectionsName])
+
+    useEffect(() => {
+        if (moviesSaveCollection) setCollectionName(moviesSaveCollection.name)
+    }, [isSaveCollectionSuccess, moviesSaveCollection])
+
+    useEffect(() => {
+        if (moviesEditCollection) setCollectionName(moviesEditCollection.name)
+    }, [moviesEditCollection])
 
     useEffect(() => {
         const isEmptyArr = Array.isArray(profileMovie) && profileMovie.length === 0
@@ -98,7 +106,7 @@ const MovieCollection = () => {
         }
     }
 
-    const handleModalFormSave = (val: ICollectionMovies) => {
+    const handleCollectionSave = (val: ICollectionMovies) => {
         const collectionMovies: ICollectionMovies = {
             id: val.id,
             name: val.name,
@@ -248,7 +256,7 @@ const MovieCollection = () => {
             <ModelAddCollection
                 collection={collection}
                 isModalOpen={isCollectModalOpen}
-                onModalSave={handleModalFormSave}
+                onModalSave={handleCollectionSave}
                 onModalEdit={handleModalFormEdit}
                 onModalCancel={() => setIsCollectModalOpen(null)}
             />

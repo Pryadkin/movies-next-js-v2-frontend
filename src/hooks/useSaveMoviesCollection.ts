@@ -14,10 +14,10 @@ export const useSaveMoviesCollection = () => {
             return res.data
         }
 
-        return []
+        return undefined
     }
 
-    const {mutate, data} = useMutation({
+    const {mutate, data, isSuccess} = useMutation({
         mutationKey: [RequestUrl.SAVE_MOVIE_COLLECTION],
         mutationFn: saveMoviesCollection,
         onSuccess: () => {
@@ -26,5 +26,5 @@ export const useSaveMoviesCollection = () => {
 
     })
 
-    return {saveCollection: mutate, moviesCollection: data}
+    return {saveCollection: mutate, moviesSaveCollection: data, isSaveCollectionSuccess: isSuccess}
 }

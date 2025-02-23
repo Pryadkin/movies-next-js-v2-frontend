@@ -5,19 +5,18 @@ import {ICollectionMovies} from '@/pages/movie-collection/types'
 
 import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
-import {ICorrectMovieWithLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
 export const requestSaveMoviesCollection = async (
     collectionMovies: ICollectionMovies,
-):Promise<AxiosResponse<ICorrectMovieWithLang[]> | undefined> => {
+):Promise<AxiosResponse<ICollectionMovies> | undefined> => {
     try {
         const response = await APIInstance.post(
             `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.SAVE_MOVIE_COLLECTION}`, collectionMovies
         )
 
         successMessage('movies collection save successfully')
-        return (response as AxiosResponse<ICorrectMovieWithLang[]>)
+        return (response as AxiosResponse<ICollectionMovies>)
 
     } catch (error) {
         if (axios.isAxiosError(error))  {
