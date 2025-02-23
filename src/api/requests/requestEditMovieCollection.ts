@@ -1,24 +1,21 @@
 import axios, {AxiosResponse} from 'axios'
 
 import {errorMessage, successMessage} from '@/notification'
+import {ICollectionMovies} from '@/pages/movie-collection/types'
 
 import {APIInstance} from '../apiInstance'
 import {IErrorResponse} from '../apiTypes'
 import {ICorrectMovieWithLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
-export const requestSaveMovieToCollection = async (
-    movie: ICorrectMovieWithLang,
-    collectionName: string
-):Promise<AxiosResponse<ICorrectMovieWithLang> | undefined> => {
+export const requestEditMovieCollection = async (updateCollection: ICollectionMovies):Promise<AxiosResponse<ICorrectMovieWithLang[]> | undefined> => {
     try {
         const response = await APIInstance.post(
-            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.SET_MOVIE_TO_COLLECTION}`,
-            {movie, collectionName}
+            `${RequestUrl.BASE_URL_LOCAL}${RequestUrl.EDIT_MOVIE_COLLECTION}`, updateCollection
         )
 
-        successMessage('movies collection save successfully')
-        return (response as AxiosResponse<ICorrectMovieWithLang>)
+        successMessage('movies collection update successfully')
+        return (response as AxiosResponse<ICorrectMovieWithLang[]>)
 
     } catch (error) {
         if (axios.isAxiosError(error))  {

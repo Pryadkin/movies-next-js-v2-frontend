@@ -17,9 +17,12 @@
 
 .collectionWrapper {
   display: flex;
-  flex-direction: column;
   width: fit-content;
-  margin: 20px;
+  margin: 20px 10px;
+
+  button {
+    margin-left: 10px;
+  }
 }
 
 .collectionItem {

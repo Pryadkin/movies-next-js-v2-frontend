@@ -1,12 +1,13 @@
 import {ICorrectMovieWithLang} from "@/api/apiTypes/requestMovies"
 
-export interface ICollectionForm {
+export interface ICollectionMovies {
+    id: string,
     name: string,
     description: string,
     rating: number,
-    movieList: string[]
-}
-
-export interface ICollectionMovies extends ICollectionForm {
-    movies: (ICorrectMovieWithLang | null)[];
+    movieList: {
+        id: number,
+        name: string,
+        movie: ICorrectMovieWithLang | null,
+    }[]
 }

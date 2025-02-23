@@ -13,27 +13,32 @@ import styles from './CardCollection.module.scss'
 import {setModelContent, setSelectMovie} from '@/redux/reducers'
 import {getSelectLanguage} from '@/redux/selectors/layoutSelectors'
 import {useAppDispatch} from '@/redux/store'
+import { Input, Popconfirm } from 'antd'
+import { CardEmpty } from './CardEmpty'
 
 export const CardCollection = ({
     movie,
     width,
     height,
     movieName,
-    onAddCardClick,
+    onAddMovieToCard,
+    onDeleteMovieFromCard,
+    onRenameCard,
+    onDeleteCard,
     onCardClick,
-    onCardDelete
 }: {
     movie: ICorrectMovieWithoutLang | ICorrectMovieWithLang | null,
     width: number,
     height: number,
     movieName?: string,
-    onAddCardClick?: () => void
+    onAddMovieToCard?: () => void
+    onDeleteMovieFromCard?: () => void
+    onRenameCard?: (val: string) => void
+    onDeleteCard?: () => void
     onCardClick?: (val: ICorrectMovieWithLang) => void
-    onCardDelete?: (movieId: number) => void
 }) => {
     const router = useRouter()
     const cardRef = useRef<HTMLDivElement>(null)
-    const [isMouseOver, setIsMouseOver] = useState(false)
 
     const {movieIdsData} = useFetchMovieIds()
     const isOldMovie = router.pathname !== '/profile-movies' ? movie && movieIdsData?.includes(movie.id) : false
@@ -86,25 +91,27 @@ export const CardCollection = ({
                     data-title={getTitle(title)}
                     className={clsx(styles.front, isOldMovie && styles.oldMovie)}
                 >
-                    {isMouseOver && (
-                        <>
-                            <div
-                                className={styles.details}
-                                onClick={handleDetailsClick(movie)}
-                            >
-                                DETAILS
-                            </div>
-                            <div
-                                className={styles.remove}
-                                onClick={e => {
-                                    e.stopPropagation()
-                                    onCardDelete && onCardDelete(movie.id)
-                                }}
-                            >
-                                <CloseCircleOutlined rev={undefined} />
-                            </div>
-                        </>
-                    )}
+                    <div
+                        className={styles.details}
+                        onClick={handleDetailsClick(movie)}
+                    >
+                        DETAILS
+                    </div>
+
+                    <Popconfirm
+                        title="Delete the movie"
+                        description="Are you sure to delete this Movie?"
+                        onConfirm={() => onDeleteMovieFromCard && onDeleteMovieFromCard()}
+                        onCancel={() => {}}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <div
+                            className={styles.remove}
+                        >
+                            <CloseCircleOutlined rev={undefined} />
+                        </div>
+                    </Popconfirm>
 
                     {movie?.settings?.isTv && (
                         <div className={styles.tvLabel}>TV</div>
@@ -124,8 +131,6 @@ export const CardCollection = ({
                     <p className={styles.title}>
                         {movie.release_date}
                     </p>
-
-
                 </div>
             </>
         )
@@ -140,8 +145,6 @@ export const CardCollection = ({
                 styles.cardsWrapper
             )}
             onClick={handleCardClick}
-            onMouseOver={() => setIsMouseOver(true)}
-            onMouseLeave={() => setIsMouseOver(false)}
         >
             <div className={styles.card} data-index={movie.id}>
                 <div className={styles.content} data-index={movie.id}>
@@ -150,25 +153,13 @@ export const CardCollection = ({
             </div>
         </div>
     )
+
     return (
-        <div
-            key={Math.random()}
-            ref={cardRef}
-            className={clsx(
-                styles.cardsWrapper
-            )}
-            onMouseOver={() => setIsMouseOver(true)}
-            onMouseLeave={() => setIsMouseOver(false)}
-        >
-            <div className={styles.emptyCard}>
-                <p>{movieName}</p>
-                <div
-                className={styles.addMovie}
-                onClick={onAddCardClick}
-                >
-                    Add movie
-                </div>
-            </div>
-        </div>
+        <CardEmpty
+            movieName={movieName}
+            onAddMovieToCard={() => onAddMovieToCard && onAddMovieToCard()}
+            onRenameCard={(val: string) => onRenameCard && onRenameCard(val)}
+            onDeleteCard={() => onDeleteCard && onDeleteCard()}
+        />
     )
 }

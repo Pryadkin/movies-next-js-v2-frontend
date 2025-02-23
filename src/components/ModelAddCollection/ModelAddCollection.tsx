@@ -1,15 +1,16 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 
 import {
     Input,
     Modal,
     Button,
-    Space,
     Typography,
 } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 
-import {ICollectionForm} from '@/pages/movie-collection/types'
+import uuid4 from "uuid4";
+
+import {ICollectionMovies} from '@/pages/movie-collection/types'
 
 import styles from './ModelAddCollection.module.scss'
 
@@ -21,27 +22,56 @@ enum Text {
 }
 
 interface Props {
-    isModalOpen: boolean,
-    onModalSave: (val: ICollectionForm) => void,
+    isModalOpen: 'create' | 'edit' | null,
+    collection?: ICollectionMovies | null,
+    onModalSave: (val: ICollectionMovies) => void,
+    onModalEdit: (val: ICollectionMovies) => void,
     onModalCancel: () => void,
 }
 
 export const ModelAddCollection = ({
     isModalOpen,
+    collection,
     onModalSave,
+    onModalEdit,
     onModalCancel,
 }: Props) => {
+    const isEdit = isModalOpen && isModalOpen === 'edit'
+
     const [inputCollectNameValue, setInputCollectNameValue] = useState<string>('')
+    const [textareaMovieList, setTextareaMovieList] = useState<string>('')
     const [inputCollectDescValue, setInputCollectDescValue] = useState<string>('')
     const [inputCollectRatingValue, setInputCollectRatingValue] = useState<number>(0)
-    const [textareaMovieList, setTextareaMovieList] = useState<string>('')
 
-    const handleSaveClick = () => {
+    useEffect(() => {
+        if (isEdit && collection) {
+            const movieNames = collection.movieList.map(item => item.name)
+
+            setInputCollectNameValue(collection.name)
+            setTextareaMovieList(movieNames.join(','))
+            setInputCollectDescValue(collection.description)
+            setInputCollectRatingValue(collection.rating)
+        } else {
+            setInputCollectNameValue('')
+            setTextareaMovieList('')
+            setInputCollectDescValue('')
+            setInputCollectRatingValue(0)
+        }
+    }, [collection, isEdit])
+
+    const handleCreateClick = () => {
         const movieList = textareaMovieList.split(',')
-            .map(movie => movie.trim())
-            .filter(movie => movie.length > 0);
+        .map(mov => {
+            return {
+                id: Math.floor(100000 + Math.random() * 900000),
+                name: mov.trim(),
+                movie: null,
+            }
+        })
+        .filter(movie => movie.name.length > 0)
 
         const collectionName = {
+            id: uuid4(),
             name: inputCollectNameValue,
             description: inputCollectDescValue,
             rating: inputCollectRatingValue,
@@ -49,6 +79,19 @@ export const ModelAddCollection = ({
         }
         onModalSave(collectionName)
         onModalCancel()
+    }
+
+    const handleEditClick = () => {
+        if (collection) {
+            const collectionName = {
+                ...collection,
+                name: inputCollectNameValue,
+                description: inputCollectDescValue,
+                rating: inputCollectRatingValue,
+            }
+            onModalEdit(collectionName)
+            onModalCancel()
+        }
     }
 
     const handleMovieNameChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,7 +112,7 @@ export const ModelAddCollection = ({
                     {Text.TITLE}
                 </Typography.Title>
             }
-            open={isModalOpen}
+            open={!!isModalOpen}
             onCancel={onModalCancel}
             footer={[]}
         >
@@ -81,13 +124,15 @@ export const ModelAddCollection = ({
                     onChange={e => setInputCollectNameValue(e.target.value)}
                 />
 
-                <TextArea
-                    className={styles.elem}
-                    placeholder={"Названия фильмов через запятую"}
-                    value={textareaMovieList}
-                    onChange={handleMovieNameChange}
-                    rows={10}
-                />
+                {isModalOpen === 'create' && (
+                    <TextArea
+                        className={styles.elem}
+                        placeholder={"Названия фильмов через запятую"}
+                        value={textareaMovieList}
+                        onChange={handleMovieNameChange}
+                        rows={10}
+                    />
+                )}
 
                 <TextArea
                     className={styles.elem}
@@ -102,9 +147,15 @@ export const ModelAddCollection = ({
                     value={inputCollectRatingValue}
                     onChange={e => setInputCollectRatingValue(+e.target.value)}
                     type="number"
+                    min={0}
+                    max={10}
                 />
 
-                <Button type="primary" onClick={handleSaveClick}>Сохранить</Button>
+                {isModalOpen === 'create' ? (
+                    <Button type="primary" onClick={handleCreateClick}>Сохранить</Button>
+                ) : (
+                    <Button type="primary" onClick={handleEditClick}>Редактировать</Button>
+                )}
             </div>
         </Modal>
     )

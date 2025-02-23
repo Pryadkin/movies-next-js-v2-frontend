@@ -34,6 +34,17 @@
   }
 }
 
+.card {
+  &:hover {
+    .details {
+      display: flex;
+    }
+    .remove {
+      display: flex;
+    }
+  }
+}
+
 .emptyCard {
   display: flex;
   align-items: center;
@@ -49,13 +60,13 @@
   &:hover {
     transform: scale(1);
 
-    .addMovie {
+    .addMovie, .renameCard, .deleteCard {
       display: flex;
     }
   }
 }
 
-.addMovie {
+.addMovie, .renameCard, .cancelRenameCard, .deleteCard {
   display: none;
   position: absolute;
   top: 20px;
@@ -67,6 +78,26 @@
   &:hover {
     color: rgb(75, 150, 225);
   }
+}
+
+.renameWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.renameCard {
+  top: 50px;
+}
+
+.deleteCard {
+  top: 80px;
+}
+
+.cancelRenameCard {
+  display: flex;
+  justify-content: center;
+  top: 200px;
+  width: 100%;
 }
 
 .front {
@@ -147,6 +178,7 @@
 
 // TODO:
 .details {
+  display: none;
   position: absolute;
   top: 15px;
   right: 15px;
@@ -155,6 +187,7 @@
   font-weight: bold;
   background-color: rgba(0,0,0,0.5);
   padding: 5px;
+  cursor: pointer;
 
   &:hover {
     color: white;
@@ -162,6 +195,7 @@
 }
 
 .remove {
+  display: none;
   position: absolute;
   top: 15px;
   left: 15px;

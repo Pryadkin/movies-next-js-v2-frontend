@@ -16,9 +16,9 @@ import {useFetchProfileMovieByName} from "@/hooks/useFetchProfileMovieByName"
 import {useSaveMoviesCollection} from "@/hooks/useSaveMoviesCollection"
 import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 
-import {ICollectionForm, ICollectionMovies} from "./types"
+import {ICollectionMovies} from "./types"
 import { ModelAddCollection } from "@/components/ModelAddCollection"
-import { useSaveMovieToCollection } from "@/hooks/useSaveMovieToCollection"
+import { useEditMoviesCollection } from "@/hooks/useEditMoviesCollection"
 
 const MovieCollection = () => {
     const [collectionName, setCollectionName] = useState('');
@@ -29,23 +29,25 @@ const MovieCollection = () => {
         label: collectionName
     }])
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [isCollectModalOpen, setIsCollectModalOpen] = useState(false)
+    const [isCollectModalOpen, setIsCollectModalOpen] = useState<'create' | 'edit' | null>(null)
     const [isModalSetLanguage, setIsModalSetLanguage] = useState(false)
     const [movieWithouLang, setMovieWithouLang] = useState<ICorrectMovieWithoutLang>()
     const [modelMovies, setModelMovies] = useState<ICorrectMovieWithLang[]>([])
     const {profileMovie, getMovieByName, isLoading} = useFetchProfileMovieByName()
     const {saveCollection} = useSaveMoviesCollection()
+    const {editCollection} = useEditMoviesCollection(collectionName)
     const lang = useSelector(getSelectLanguage)
     const {mutationMovieFetch} = useFetchMulti(lang)
-    const {saveMovieToCollection} = useSaveMovieToCollection(collectionName)
     const seatchData = mutationMovieFetch.data
     const [selectMovieName, setSelectMovieName] = useState('')
+    const [movieCardId, setMovieCardId] = useState<number>()
 
     useEffect(() => {
-        console.log('collectionsName', collectionsName)
         if (collectionsName) {
             const collectionSelect= collectionsName.map(collect => ({ value: collect, label: collect }))
             setCollectionNameSelect(collectionSelect)
+        } else {
+            setCollectionNameSelect([])
         }
     }, [collectionsName])
 
@@ -66,14 +68,27 @@ const MovieCollection = () => {
         seatchData && setModelMovies(seatchData)
     }, [seatchData])
 
-    const handleCardDelete = (movieId: number) => {
-        // const filteredMovie = collectMovies.filter(mov => mov.id !== movieId)
-        // setCollectMovies(filteredMovie)
-    }
-
     const handleCardClick = (movie: ICorrectMovieWithLang | ICorrectMovieWithoutLang) => {
-        if ((movie as ICorrectMovieWithLang).title_en) {
-            collection && saveMovieToCollection(movie as ICorrectMovieWithLang)
+        const movieWithLang = (movie as ICorrectMovieWithLang).title_en && movie as ICorrectMovieWithLang
+
+        if (movieWithLang) {
+            if (!collection) return
+            const movieList = collection.movieList.map(item => {
+                if (item.id === movieCardId) {
+                    return {
+                        ...item,
+                        movie: movieWithLang
+                    }
+                }
+
+                return item
+            })
+
+            const updateCollection = {
+                ...collection,
+                movieList
+            }
+            updateCollection && editCollection(updateCollection)
             setIsModalOpen(false)
         } else {
             setMovieWithouLang(movie as ICorrectMovieWithoutLang)
@@ -81,20 +96,32 @@ const MovieCollection = () => {
         }
     }
 
-    const handleModalFormSave = (val: ICollectionForm) => {
-        const collectMovieIds: ICollectionMovies = {
+    const handleModalFormSave = (val: ICollectionMovies) => {
+        const collectionMovies: ICollectionMovies = {
+            id: val.id,
             name: val.name,
             description: val.description,
             rating: val.rating,
             movieList: val.movieList,
-            movies: []
         }
 
-        saveCollection(collectMovieIds)
+        saveCollection(collectionMovies)
+    }
+
+    const handleModalFormEdit = (val: ICollectionMovies) => {
+        const updateCollect: ICollectionMovies = {
+            id: val.id,
+            name: val.name,
+            description: val.description,
+            rating: val.rating,
+            movieList: val.movieList,
+        }
+
+        editCollection(updateCollect)
     }
 
     const handleGetMovieWithLang = (movie: ICorrectMovieWithLang) => {
-        collection && saveMovieToCollection(movie as ICorrectMovieWithLang)
+        handleCardClick(movie)
         setIsModalOpen(false)
     }
 
@@ -102,17 +129,69 @@ const MovieCollection = () => {
         setCollectionName(collectionName)
     }
 
-    const handleAddCardClick = (name: string) => {
-        console.log('name', name)
+    const handleAddMovieToCardClick = (name: string, id: number) => {
         getMovieByName(name)
         setSelectMovieName(name)
         setIsModalOpen(true)
+        setMovieCardId(id)
+    }
+
+    const handleDeleteMovieFromCard = (cardId: number) => () => {
+        if (!collection) return
+
+        const updateCollection = {
+            ...collection,
+            movieList: collection.movieList.map(item => item.id === cardId ? { ...item, movie: null } : item)
+        }
+
+        editCollection(updateCollection)
+    }
+
+    const handleDeleteCard = (cardId: number) => () => {
+        if (!collection) return
+
+        const updateCollection = {
+            ...collection,
+            movieList: collection.movieList.filter(item => item.id !== cardId)
+        }
+
+        editCollection(updateCollection)
+    }
+
+    const handleRenameCardClick = (id: number) => (name: string) => {
+        if (!collection) return
+
+        const updateCollection = {
+            ...collection,
+            movieList: collection.movieList.map(item => item.id === id ? { ...item, name } : item)
+        }
+
+        editCollection(updateCollection)
+    }
+
+    const handleAddCardClick = () => {
+        if (!collection) return
+
+        const updateCollection = {
+            ...collection,
+            movieList: [
+                {
+                    name: `new card ${Math.floor(1000 + Math.random() * 9000)}`,
+                    id: Math.floor(100000 + Math.random() * 900000),
+                    movie: null
+                },
+                ...collection.movieList
+            ]
+        }
+
+        editCollection(updateCollection)
     }
 
     return (
         <div>
             <div>
-                <Button onClick={() => setIsCollectModalOpen(true)}>Сохранить коллекцию</Button>
+                <Button onClick={() => setIsCollectModalOpen('create')}>Добавить коллекцию</Button>
+                <Button onClick={() => setIsCollectModalOpen('edit')}>Редактировать коллекцию</Button>
             </div>
 
             <div className={styles.collectionWrapper}>
@@ -122,32 +201,33 @@ const MovieCollection = () => {
                     onChange={handlerCollectNameClick}
                     options={collectionNameSelect}
                 />
+
+                <Button onClick={handleAddCardClick}>Добавить карточку</Button>
             </div>
 
             {collection
                 ? (
                     <div className={styles.wrapper}>
-                        {collection.movies.map((movie, index) => {
-                            const movieName = collection.movieList[index]
-
-                            if (!movie) return (
+                        {collection.movieList.map((item) => {
+                            if (!item.movie) return (
                                 <CardCollection
-                                    key={index}
-                                    movieName={movieName}
-                                    movie={movie}
+                                    key={item.id}
+                                    movieName={item.name}
+                                    movie={item.movie}
                                     width={200}
                                     height={300}
-                                    onAddCardClick={() => handleAddCardClick(movieName)}
-                                    onCardDelete={handleCardDelete}
+                                    onAddMovieToCard={() => handleAddMovieToCardClick(item.name, item.id)}
+                                    onRenameCard={handleRenameCardClick(item.id)}
+                                    onDeleteCard={handleDeleteCard(item.id)}
                                 />
                             )
                             return (
                                 <CardCollection
-                                    key={index}
-                                    movie={movie}
+                                    key={item.id}
+                                    movie={item.movie}
                                     width={200}
                                     height={300}
-                                    onCardDelete={handleCardDelete}
+                                    onDeleteMovieFromCard={handleDeleteMovieFromCard(item.id)}
                                 />
                             )
                         })}
@@ -158,9 +238,11 @@ const MovieCollection = () => {
                 )}
 
             <ModelAddCollection
+                collection={collection}
                 isModalOpen={isCollectModalOpen}
                 onModalSave={handleModalFormSave}
-                onModalCancel={() => setIsCollectModalOpen(false)}
+                onModalEdit={handleModalFormEdit}
+                onModalCancel={() => setIsCollectModalOpen(null)}
             />
 
             <Modal

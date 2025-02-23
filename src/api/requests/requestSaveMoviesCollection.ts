@@ -9,7 +9,7 @@ import {ICorrectMovieWithLang} from '../apiTypes/requestMovies'
 import {RequestUrl} from '../requestUrlList'
 
 export const requestSaveMoviesCollection = async (
-    collectionMovies: ICollectionMovies
+    collectionMovies: ICollectionMovies,
 ):Promise<AxiosResponse<ICorrectMovieWithLang[]> | undefined> => {
     try {
         const response = await APIInstance.post(
