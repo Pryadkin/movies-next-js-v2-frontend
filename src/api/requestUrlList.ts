@@ -38,6 +38,7 @@ export const enum RequestUrl {
 
     SAVE_MOVIE_COLLECTION = '/profile/set_movies_collection',
     EDIT_MOVIE_COLLECTION = '/profile/edit_movie_collection',
+    DELETE_MOVIE_COLLECTION = '/profile/delete_movies_collection',
     GET_COLLECTIONS_NAME = '/profile/get_collections_name',
     GET_COLLECTION_BY_NAME = '/profile/get_collection_by_name',
     SET_MOVIE_TO_COLLECTION = '/profile/set_movie_to_collection',

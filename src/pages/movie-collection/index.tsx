@@ -19,10 +19,12 @@ import {getSelectLanguage} from "@/redux/selectors/layoutSelectors"
 import {ICollectionMovies} from "./types"
 import { ModelAddCollection } from "@/components/ModelAddCollection"
 import { useEditMoviesCollection } from "@/hooks/useEditMoviesCollection"
+import { useDeleteMoviesCollection } from "@/hooks/useDeleteMoviesCollection"
 
 const MovieCollection = () => {
     const [collectionName, setCollectionName] = useState('');
     const {collection} = useFetchCollectionByName(collectionName)
+    const {deleteCollection} = useDeleteMoviesCollection(collectionName)
     const {collectionsName} = useFetchCollectionsName()
     const [collectionNameSelect, setCollectionNameSelect] = useState<{value: string, label: string}[]>([{
         value: collectionName,
@@ -32,7 +34,7 @@ const MovieCollection = () => {
     const [isCollectModalOpen, setIsCollectModalOpen] = useState<'create' | 'edit' | null>(null)
     const [isModalSetLanguage, setIsModalSetLanguage] = useState(false)
     const [movieWithouLang, setMovieWithouLang] = useState<ICorrectMovieWithoutLang>()
-    const [modelMovies, setModelMovies] = useState<ICorrectMovieWithLang[]>([])
+    const [modelMovies, setModelMovies] = useState<(ICorrectMovieWithLang | ICorrectMovieWithoutLang)[]>([])
     const {profileMovie, getMovieByName, isLoading} = useFetchProfileMovieByName()
     const {saveCollection} = useSaveMoviesCollection()
     const {editCollection} = useEditMoviesCollection(collectionName)
@@ -187,11 +189,17 @@ const MovieCollection = () => {
         editCollection(updateCollection)
     }
 
+    const handleDeleteCollection = () => {
+        collection && deleteCollection(collection.id)
+        setCollectionName('')
+    }
+
     return (
         <div>
-            <div>
+            <div className={styles.collectionButtonWrapper}>
                 <Button onClick={() => setIsCollectModalOpen('create')}>Добавить коллекцию</Button>
                 <Button onClick={() => setIsCollectModalOpen('edit')}>Редактировать коллекцию</Button>
+                <Button onClick={handleDeleteCollection}>Удалить коллекцию</Button>
             </div>
 
             <div className={styles.collectionWrapper}>

@@ -34,6 +34,7 @@ import {
     requestGetCollectionsName,
     requestCollectionByName,
     requestEditMovieCollection,
+    requestDeleteMoviesCollection,
 } from './requests/index'
 
 export const API = {
@@ -71,5 +72,6 @@ export const API = {
     requestSaveMoviesCollection,
     requestGetCollectionsName,
     requestCollectionByName,
-    requestEditMovieCollection
+    requestEditMovieCollection,
+    requestDeleteMoviesCollection
 }
