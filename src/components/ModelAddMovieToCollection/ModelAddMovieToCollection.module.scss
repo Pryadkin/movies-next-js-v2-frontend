@@ -1,0 +1,23 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.modalSearchSwitchBtn {
+    position: absolute;
+    top: 20px;
+    left: 400px;
+}
+
+.modalSearchBtn {
+    position: absolute;
+    top: 20px;
+    left: 860px;
+}
+
+.input {
+    width: 300px;
+    position: absolute;
+    top: 20px;
+    left: 550px;
+}

@@ -25,6 +25,7 @@
 
 .collectionWrapper {
   display: flex;
+  align-items: center;
   width: fit-content;
   margin: 20px 10px;
 
@@ -46,4 +47,10 @@
   width: 100%;
   min-height: 100px;
   margin-bottom: 10px;
+}
+
+.movieCount {
+  margin-left: 20px;
+  font-size: 20px;
+  color: rgba(191, 137, 0, 0.886);
 }

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import {useSelector} from "react-redux"
 
-import {Button, Modal, Select, Typography} from "antd"
+import {Button, Popconfirm, Select, Typography} from "antd"
 
 import {ICorrectMovieWithLang, ICorrectMovieWithoutLang} from "@/api/apiTypes/requestMovies"
 import {CardCollection} from "@/components/CardCollection"
@@ -20,6 +20,9 @@ import {ICollectionMovies} from "./types"
 import { ModelAddCollection } from "@/components/ModelAddCollection"
 import { useEditMoviesCollection } from "@/hooks/useEditMoviesCollection"
 import { useDeleteMoviesCollection } from "@/hooks/useDeleteMoviesCollection"
+import { ModelAddMovieToCollection } from "@/components/ModelAddMovieToCollection"
+
+const { Text } = Typography
 
 const MovieCollection = () => {
     const [collectionName, setCollectionName] = useState('');
@@ -30,7 +33,7 @@ const MovieCollection = () => {
         value: collectionName,
         label: collectionName
     }])
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalAddMovieOpen, setIsModalAddMovieOpen] = useState(false)
     const [isCollectModalOpen, setIsCollectModalOpen] = useState<'create' | 'edit' | null>(null)
     const [isModalSetLanguage, setIsModalSetLanguage] = useState(false)
     const [movieWithouLang, setMovieWithouLang] = useState<ICorrectMovieWithoutLang>()
@@ -99,7 +102,7 @@ const MovieCollection = () => {
                 movieList
             }
             updateCollection && editCollection(updateCollection)
-            setIsModalOpen(false)
+            setIsModalAddMovieOpen(false)
         } else {
             setMovieWithouLang(movie as ICorrectMovieWithoutLang)
             setIsModalSetLanguage(true)
@@ -132,7 +135,7 @@ const MovieCollection = () => {
 
     const handleGetMovieWithLang = (movie: ICorrectMovieWithLang) => {
         handleCardClick(movie)
-        setIsModalOpen(false)
+        setIsModalAddMovieOpen(false)
     }
 
     const handlerCollectNameClick = (collectionName: string) => {
@@ -142,7 +145,7 @@ const MovieCollection = () => {
     const handleAddMovieToCardClick = (name: string, id: number) => {
         getMovieByName(name)
         setSelectMovieName(name)
-        setIsModalOpen(true)
+        setIsModalAddMovieOpen(true)
         setMovieCardId(id)
     }
 
@@ -207,18 +210,30 @@ const MovieCollection = () => {
             <div className={styles.collectionButtonWrapper}>
                 <Button onClick={() => setIsCollectModalOpen('create')}>Добавить коллекцию</Button>
                 <Button onClick={() => setIsCollectModalOpen('edit')}>Редактировать коллекцию</Button>
-                <Button onClick={handleDeleteCollection}>Удалить коллекцию</Button>
+                <Popconfirm
+                        title="Delete the collection"
+                        description="Are you sure to delete this collection?"
+                        onConfirm={handleDeleteCollection}
+                        onCancel={() => {}}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                    <Button>Удалить коллекцию</Button>
+                </Popconfirm>
             </div>
 
             <div className={styles.collectionWrapper}>
                 <Select
-                    style={{ width: 120 }}
+                    style={{ width: 350 }}
                     value={collectionName}
                     onChange={handlerCollectNameClick}
                     options={collectionNameSelect}
                 />
 
                 <Button onClick={handleAddCardClick}>Добавить карточку</Button>
+                {collection?.movieList?.length && (
+                    <Text className={styles.movieCount} keyboard>{`${collection.movieList.length} шт`}</Text>
+                )}
             </div>
 
             {collection
@@ -261,45 +276,13 @@ const MovieCollection = () => {
                 onModalCancel={() => setIsCollectModalOpen(null)}
             />
 
-            <Modal
-                width={'100%'}
-                className={styles.modalContainer}
-                title={
-                    <Typography.Title
-                        level={3}
-                        style={{margin: 0}}
-                    >
-                        {"Выберите нужный фильм"}
-                    </Typography.Title>
-                }
-                open={isModalOpen}
-                onCancel={() => {setIsModalOpen(false)}}
-                footer={[]}
-            >
-                <div>
-                    {}
-                </div>
-                <div>{}</div>
-                {modelMovies
-                    ? (
-                        <div className={styles.wrapper}>
-                            {modelMovies.map(movie => {
-                                return (
-                                    <CardCollection
-                                        key={movie.id}
-                                        movie={movie}
-                                        width={200}
-                                        height={300}
-                                        onCardClick={handleCardClick}
-                                    />
-                                )
-                            })}
-                        </div>
-                    )
-                    : (
-                        <h2>The movies is not found</h2>
-                    )}
-            </Modal>
+            <ModelAddMovieToCollection
+                isModalOpen={isModalAddMovieOpen}
+                movies={modelMovies}
+                movieName={selectMovieName}
+                onModalCancel={() => setIsModalAddMovieOpen(false)}
+                onMovieCheck={handleCardClick}
+            />
 
             {movieWithouLang && (
                 <ModelAddMovie

@@ -1,0 +1,1 @@
+export {ModelAddMovieToCollection} from './ModelAddMovieToCollection'
