@@ -13,12 +13,13 @@ const Header: FC = () => {
     const navigation = [
         {id: 1, title: 'Profile', path: '/profile-movies'},
         {id: 2, title: 'Search movies', path: '/search/movies'},
-        {id: 2, title: 'Search persons', path: '/search/persons'},
-        {id: 3, title: 'Popular people', path: '/popular-people'},
-        {id: 4, title: 'Top Rated', path: '/top-rated'},
-        {id: 4, title: 'Now Playing', path: '/now-playing'},
-        {id: 4, title: 'Popular', path: '/popular-movies'},
-        {id: 5, title: 'Movie Collection', path: '/movie-collection'},
+        {id: 3, title: 'Search persons', path: '/search/persons'},
+        {id: 4, title: 'Popular people', path: '/popular-people'},
+        {id: 5, title: 'Top Rated', path: '/top-rated'},
+        {id: 6, title: 'Now Playing', path: '/now-playing'},
+        {id: 7, title: 'Popular', path: '/popular-movies'},
+        {id: 8, title: 'Movie Collection', path: '/movie-collection'},
+        {id: 9, title: 'Upcoming', path: '/upcoming'},
     ]
 
     return (

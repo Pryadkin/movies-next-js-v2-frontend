@@ -12,6 +12,7 @@ export const enum RequestUrl {
     GET_TOP_RATED = '/top_rated',
     GET_NOW_PLAYING = '/now_playing',
     GET_POPULAR_MOVIES= '/popular',
+    GET_UPCOMING_MOVIES= '/upcoming',
 
     // Popular
     GET_POPULAR = '/person/popular',
